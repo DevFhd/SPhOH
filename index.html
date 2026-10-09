@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SPhOH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root{
+  --bg:#ffffff;
+  --band:#f3f5f4;
+  --surface:#ffffff;
+  --fg:#14201b;
+  --muted:#55655e;
+  --line:#dfe5e2;
+  --accent:#0d7a4b;
+  --accent-ink:#ffffff;
+  --accent-soft:#e1f3ea;
+  --focus:#0d7a4b;
+
+  --kin-bg:#fde8e6; --kin-fg:#a9261b;
+  --mech-bg:#e3edfd; --mech-fg:#1d4aa8;
+  --math-bg:#f3e8ff; --math-fg:#6b21a8;
+  --elec-bg:#fcf0cf; --elec-fg:#7d5200;
+  --therm-bg:#fbe3ef; --therm-fg:#9b2058;
+  --opt-bg:#ece6fb; --opt-fg:#5530b0;
+
+  --font-display:'Bricolage Grotesque','IBM Plex Sans Arabic',system-ui,sans-serif;
+  --font-body:'IBM Plex Sans Arabic',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1512; --band:#141d19; --surface:#18221e; --fg:#e8f0ec; --muted:#9fb0a8; --line:#2a3832;
+    --accent:#3fcf90; --accent-ink:#06150e; --accent-soft:#17352a; --focus:#3fcf90;
+    --kin-bg:#3b1f1d; --kin-fg:#ff9f96;
+    --mech-bg:#1c2b4a; --mech-fg:#9dbcff;
+    --math-bg:#3b1d54; --math-fg:#d8b4fe;
+    --elec-bg:#3a2d10; --elec-fg:#f2c868;
+    --therm-bg:#3b1c2c; --therm-fg:#ff9cc7;
+    --opt-bg:#2a2250; --opt-fg:#c0aeff;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1512; --band:#141d19; --surface:#18221e; --fg:#e8f0ec; --muted:#9fb0a8; --line:#2a3832;
+  --accent:#3fcf90; --accent-ink:#06150e; --accent-soft:#17352a; --focus:#3fcf90;
+  --kin-bg:#3b1f1d; --kin-fg:#ff9f96;
+  --mech-bg:#1c2b4a; --mech-fg:#9dbcff;
+  --math-bg:#3b1d54; --math-fg:#d8b4fe;
+  --elec-bg:#3a2d10; --elec-fg:#f2c868;
+  --therm-bg:#3b1c2c; --therm-fg:#ff9cc7;
+  --opt-bg:#2a2250; --opt-fg:#c0aeff;
+  color-scheme:dark;
+}
+
+html{scroll-behavior:smooth}
+body.site{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.7;margin:0;overflow-x:hidden}
+.wrap{max-width:1120px;margin-inline:auto;padding-inline:20px}
+section.block{padding-block:72px;scroll-margin-top:96px}
+section.band{background:var(--band)}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:500}
+[dir="rtl"] .eyebrow{letter-spacing:0;font-family:var(--font-body);font-size:13px;font-weight:600}
+h1.display,h2.h2,h3.h3{font-family:var(--font-display);text-wrap:balance;margin:0;letter-spacing:-.02em;line-height:1.12}
+h1.display{font-size:clamp(2.2rem,5.4vw,3.8rem);font-weight:800}
+h2.h2{font-size:clamp(1.7rem,3.4vw,2.4rem);font-weight:700}
+h3.h3{font-size:1.15rem;font-weight:700;letter-spacing:-.01em;line-height:1.3}
+[dir="rtl"] h1.display,[dir="rtl"] h2.h2,[dir="rtl"] h3.h3{letter-spacing:0;line-height:1.35}
+p.lead{color:var(--muted);font-size:1.075rem;max-width:60ch;margin:0}
+
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:6px}
+
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-row{display:flex;align-items:center;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;padding-block:12px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:800;font-size:1.35rem;letter-spacing:-.02em;color:var(--fg);text-decoration:none;direction:ltr}
+.logo svg{color:var(--accent)}
+.links{display:flex;gap:4px;order:3;width:100%;overflow-x:auto;scrollbar-width:none}
+.links::-webkit-scrollbar{display:none}
+@media (min-width:760px){.links{order:0;width:auto;overflow:visible}}
+.links a{padding:8px 14px;border-radius:999px;color:var(--muted);text-decoration:none;font-weight:500;font-size:.95rem;white-space:nowrap}
+.links a:hover{color:var(--fg);background:var(--band)}
+.links a.active{color:var(--accent);background:var(--accent-soft)}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface);cursor:pointer;font-family:var(--font-mono);font-size:13px;color:var(--muted)}
+.lang span{padding:5px 12px;border-radius:999px;line-height:1.2}
+.lang span.on{background:var(--accent);color:var(--accent-ink);font-weight:500}
+
+.hero{padding-block:64px 80px}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:48px;align-items:center}
+@media (min-width:900px){.hero-grid{grid-template-columns:1.05fr .95fr}}
+.hero-grid>*{min-width:0}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid transparent;border-radius:10px;padding:12px 20px;font-family:var(--font-body);font-weight:600;font-size:.95rem;cursor:pointer;text-decoration:none;line-height:1.2;transition:transform .15s,background .15s,border-color .15s}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{transform:translateY(-1px)}
+.btn-ghost{background:var(--surface);border-color:var(--line);color:var(--fg)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-sm{padding:8px 14px;font-size:.88rem;border-radius:8px}
+[dir="rtl"] .arrow{transform:scaleX(-1)}
+.sketch{border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:18px 18px 12px}
+.sketch svg{width:100%;height:auto;display:block}
+.sketch .cap{font-family:var(--font-mono);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;direction:ltr;padding-top:8px}
+
+.about-grid{display:grid;gap:40px;grid-template-columns:1fr;margin-top:32px}
+@media (min-width:860px){.about-grid{grid-template-columns:1.1fr .9fr}}
+.about-grid>*{min-width:0}
+.pillars{display:grid;gap:18px;margin-top:28px}
+.pillar{display:flex;gap:16px}
+.pillar b{font-family:var(--font-display);display:block;font-size:1.05rem;line-height:1.3}
+.pillar span{color:var(--muted);font-size:.95rem}
+.pillar i{flex:none;width:36px;height:36px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-style:normal;font-family:var(--font-mono);font-weight:500;font-size:14px;margin-top:2px}
+.team{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px}
+.team p{margin:12px 0 0;color:var(--muted)}
+.vision{margin-top:20px;padding-top:20px;border-top:1px solid var(--line);color:var(--fg);font-weight:500}
+
+.count{color:var(--muted);font-size:.9rem;margin-bottom:28px;font-variant-numeric:tabular-nums}
+
+.topic-group{margin-bottom:48px}
+.topic-title{font-size:1.5rem;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--line);color:var(--accent);display:flex;align-items:center;gap:10px}
+
+.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr))}
+.card{display:flex;flex-direction:column;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;min-width:0;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card p{margin:0;color:var(--muted);font-size:.95rem;flex:1}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;gap:6px;border-radius:6px;padding:3px 10px;font-size:.78rem;font-weight:600;line-height:1.5}
+.tag[data-topic="kin"]{background:var(--kin-bg);color:var(--kin-fg)}
+.tag[data-topic="mech"]{background:var(--mech-bg);color:var(--mech-fg)}
+.tag[data-topic="math"]{background:var(--math-bg);color:var(--math-fg)}
+.tag[data-topic="elec"]{background:var(--elec-bg);color:var(--elec-fg)}
+.tag[data-topic="therm"]{background:var(--therm-bg);color:var(--therm-fg)}
+.tag[data-topic="opt"]{background:var(--opt-bg);color:var(--opt-fg)}
+.tag.lvl{background:transparent;border:1px solid var(--line);color:var(--muted)}
+.tag.lvl[data-lvl="3"]{border-color:var(--accent);color:var(--accent)}
+.pips{display:inline-flex;gap:3px;direction:ltr}
+.pips b{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.25}
+.pips b.on{opacity:1}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
+.empty{padding:48px 16px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}
+
+.contact-grid{display:grid;gap:40px;grid-template-columns:1fr;margin-top:32px}
+@media (min-width:860px){.contact-grid{grid-template-columns:.8fr 1.2fr}}
+.contact-grid>*{min-width:0}
+form.form{display:grid;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px}
+.field{display:grid;gap:6px}
+.field label{font-weight:600;font-size:.9rem}
+.field input,.field textarea{width:100%;box-sizing:border-box;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:inherit;line-height:1.5}
+.field textarea{min-height:140px;resize:vertical}
+.field input:focus,.field textarea:focus{border-color:var(--accent)}
+.field .err{color:var(--kin-fg);font-size:.85rem;min-height:1em}
+.status{font-size:.95rem;color:var(--muted);min-height:1.5em}
+.status.ok{color:var(--accent)}
+footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.9rem}
+.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+.toast{position:fixed;inset-inline:16px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:70;margin-inline:auto;width:fit-content;max-width:100%;background:var(--fg);color:var(--bg);padding:12px 18px;border-radius:12px;font-size:.92rem;box-sizing:border-box}
+.toast[hidden]{display:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+</style>
+</head>
+
+<body class="site">
+<header class="nav">
+  <div class="wrap nav-row">
+    <a class="logo" href="#home" data-go="home" aria-label="SPhOH">
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <ellipse cx="16" cy="16" rx="13" ry="5.5" stroke="currentColor" stroke-width="1.8"/>
+        <ellipse cx="16" cy="16" rx="13" ry="5.5" stroke="currentColor" stroke-width="1.8" transform="rotate(60 16 16)"/>
+        <ellipse cx="16" cy="16" rx="13" ry="5.5" stroke="currentColor" stroke-width="1.8" transform="rotate(120 16 16)"/>
+        <circle cx="16" cy="16" r="2.6" fill="currentColor"/>
+      </svg>
+      <span>SPhOH</span>
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="#home" data-go="home" data-i18n="nav_home"></a>
+      <a href="#about" data-go="about" data-i18n="nav_about"></a>
+      <a href="#files" data-go="files" data-i18n="nav_files"></a>
+      <a href="#contact" data-go="contact" data-i18n="nav_contact"></a>
+    </nav>
+    <button class="lang" id="langBtn" type="button" aria-label="Switch language / تبديل اللغة"><span data-l="ar">AR</span><span data-l="en">EN</span></button>
+  </div>
+</header>
+
+<main>
+<section class="block hero" id="home">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow" data-i18n="hero_eyebrow"></div>
+      <h1 class="display" style="margin-top:16px" data-i18n="hero_title"></h1>
+      <p class="lead" style="margin-top:20px" data-i18n="hero_desc"></p>
+      <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn btn-primary" href="#files" data-go="files"><span data-i18n="hero_cta"></span>
+          <svg class="arrow" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="sketch" aria-hidden="true">
+      <svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--line)" stroke-width="0.5" opacity="0.6" />
+          </pattern>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--muted)" />
+          </marker>
+          <marker id="vec-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 2 L 10 5 L 0 8 z" fill="var(--kin-fg)" />
+          </marker>
+          <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+
+        <rect width="100%" height="100%" fill="url(#grid)" rx="8" />
+        <line x1="20" y1="220" x2="420" y2="220" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)" />
+        <line x1="40" y1="240" x2="40" y2="20" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)" />
+        <text x="415" y="240" fill="var(--muted)" font-family="var(--font-mono)" font-size="12">x</text>
+        <text x="20" y="30" fill="var(--muted)" font-family="var(--font-mono)" font-size="12">y</text>
+
+        <path d="M 40 220 Q 220 -100 400 220 Z" fill="url(#fade)" />
+        <path d="M 40 220 Q 220 -100 400 220" stroke="var(--accent)" stroke-width="2.5" fill="none" stroke-linecap="round" />
+
+        <line x1="40" y1="60" x2="220" y2="60" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 4" />
+        <line x1="220" y1="220" x2="220" y2="60" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 4" />
+        <path d="M 40 235 L 400 235" stroke="var(--muted)" stroke-width="1" />
+        <line x1="40" y1="230" x2="40" y2="240" stroke="var(--muted)" stroke-width="1" />
+        <line x1="400" y1="230" x2="400" y2="240" stroke="var(--muted)" stroke-width="1" />
+        <text x="220" y="250" fill="var(--fg)" font-family="var(--font-mono)" font-size="13" text-anchor="middle">R</text>
+        <text x="20" y="65" fill="var(--fg)" font-family="var(--font-mono)" font-size="13">H</text>
+
+        <path d="M 75 220 A 35 35 0 0 0 58 188" stroke="var(--fg)" stroke-width="1.5" fill="none" />
+        <text x="82" y="210" fill="var(--fg)" font-family="var(--font-mono)" font-size="14">θ</text>
+        <line x1="40" y1="220" x2="100" y2="220" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="3 3" />
+        <line x1="100" y1="220" x2="100" y2="120" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="3 3" />
+        <line x1="40" y1="220" x2="100" y2="113.3" stroke="var(--kin-fg)" stroke-width="2.5" marker-end="url(#vec-arrow)" />
+        <text x="105" y="105" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="14" font-weight="bold">v₀</text>
+
+        <circle cx="130" cy="100" r="4" fill="var(--accent)" />
+        <line x1="130" y1="100" x2="184" y2="52" stroke="var(--kin-fg)" stroke-width="2" marker-end="url(#vec-arrow)" />
+        <text x="190" y="48" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="12">v₁</text>
+
+        <circle cx="220" cy="60" r="4" fill="var(--accent)" />
+        <line x1="220" y1="60" x2="274" y2="60" stroke="var(--kin-fg)" stroke-width="2" marker-end="url(#vec-arrow)" />
+        <text x="280" y="65" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="12">v_x</text>
+
+        <circle cx="310" cy="100" r="4" fill="var(--accent)" />
+        <line x1="310" y1="100" x2="364" y2="148" stroke="var(--kin-fg)" stroke-width="2" marker-end="url(#vec-arrow)" />
+
+        <circle cx="40" cy="220" r="4" fill="var(--accent)" />
+        <circle cx="400" cy="220" r="4" fill="var(--accent)" />
+      </svg>
+      <div class="cap" style="justify-content: space-around;">
+        <span>R = v₀² sin 2θ / g</span>
+        <span>H = v₀² sin²θ / 2g</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block band" id="about">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="about_eyebrow"></div>
+    <h2 class="h2" style="margin-top:12px" data-i18n="about_title"></h2>
+    <div class="about-grid">
+      <div>
+        <p class="lead" data-i18n="about_desc"></p>
+        <div class="pillars">
+          <div class="pillar"><i>I</i><div><b data-i18n="p1_t"></b><span data-i18n="p1_d"></span></div></div>
+          <div class="pillar"><i>II</i><div><b data-i18n="p2_t"></b><span data-i18n="p2_d"></span></div></div>
+          <div class="pillar"><i>III</i><div><b data-i18n="p3_t"></b><span data-i18n="p3_d"></span></div></div>
+        </div>
+      </div>
+      <aside class="team">
+        <h3 class="h3" data-i18n="team_title"></h3>
+        <p data-i18n="team_desc"></p>
+        <p class="vision" data-i18n="team_vision"></p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="files">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="files_eyebrow"></div>
+    <h2 class="h2" style="margin-top:12px" data-i18n="files_title"></h2>
+    <div class="count" id="count" aria-live="polite" style="margin-top: 20px;"></div>
+    <div id="sectionsContainer"></div>
+    <div class="empty" id="empty" hidden data-i18n="empty"></div>
+  </div>
+</section>
+
+<section class="block band" id="contact">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="contact_eyebrow"></div>
+    <h2 class="h2" style="margin-top:12px" data-i18n="contact_title"></h2>
+    <div class="contact-grid">
+      <p class="lead" data-i18n="contact_desc"></p>
+      <form class="form" id="form" novalidate>
+        <div class="field"><label for="name" data-i18n="c_name"></label><input id="name" name="name" type="text" autocomplete="name"><div class="err" id="e_name"></div></div>
+        <div class="field"><label for="email" data-i18n="c_email"></label><input id="email" name="email" type="email" autocomplete="email" dir="ltr"><div class="err" id="e_email"></div></div>
+        <div class="field"><label for="message" data-i18n="c_msg"></label><textarea id="message" name="message"></textarea><div class="err" id="e_message"></div></div>
+        <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+          <button class="btn btn-primary" type="submit" data-i18n="c_send"></button>
+          <span class="status" id="status" aria-live="polite"></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot"><div class="wrap"><span>© 2026 SPhOH</span><span data-i18n="foot"></span></div></footer>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function(){
+var TOPICS={
+  kin:{en:'Kinematics',ar:'الحركة'},
+  mech:{en:'Mechanics',ar:'الميكانيكا'},
+  math:{en:'Mathematics',ar:'الرياضيات'},
+  elec:{en:'Electricity',ar:'الكهرباء'},
+  therm:{en:'Thermodynamics',ar:'الديناميكا الحرارية'},
+  opt:{en:'Optics',ar:'البصريات'}
+};
+var LEVELS={
+  1:{en:'Level I',ar:'المستوى الأول'},
+  2:{en:'Level II',ar:'المستوى الثاني'},
+  3:{en:'Challenge',ar:'تحدٍّ'}
+};
+
+var UI={
+ en:{nav_home:'Home',nav_about:'About Us',nav_files:'Files',nav_contact:'Contact',
+ hero_eyebrow:'Saudi Physics Olympiad Hub',
+ hero_title:'Solve harder problems. Think like a physicist.',
+ hero_desc:'SPhOH is a training hub for Saudi students preparing for the National Science and Mathematics Olympiad (NSMO) and the International Physics Olympiad (IPhO). Download and preview problem sets.',
+ hero_cta:'Browse problem sets',
+ about_eyebrow:'About Us',about_title:'Built for deliberate practice',
+ about_desc:'SPhOH is a training resource for advanced physics competitions. Every set is designed around deliberate practice: working on problems just beyond your current level.',
+ p1_t:'Graded difficulty',p1_d:'Each problem set is marked Level I, Level II or Challenge, so you can climb at your own pace.',
+ p2_t:'Olympiad Focus',p2_d:'Topics and styles follow what students meet in NSMO selection and IPhO preparation.',
+ p3_t:'Structured Content',p3_d:'Problems carefully compiled and formatted for straightforward studying and reference.',
+ team_title:'The SPhOH Team',
+ team_desc:'The SPhOH Team writes, checks and organizes every problem set on the hub, with the goal of making serious physics practice easy to find in Arabic and English.',
+ team_vision:'Our vision: every capable student in Saudi Arabia has the practice material to compete at the highest level.',
+ files_eyebrow:'Files',files_title:'Files & Problem Sets',
+ empty:'No problem sets found.',
+ btn_preview:'👁️ Preview PDF',btn_download:'📥 Download PDF',
+ pdf_toast:'The PDF for this set has not been attached yet.',
+ n_sets:function(n){return n+(n===1?' problem set':' problem sets');},
+ contact_eyebrow:'Contact',contact_title:'Get in touch',
+ contact_desc:'Found a mistake, want to suggest a topic, or interested in contributing problems? Write to the SPhOH Team.',
+ c_name:'Name',c_email:'Email',c_msg:'Message',c_send:'Send message',
+ e_name:'Please enter your name.',e_email:'Please enter a valid email address.',e_msg:'Please write a message.',
+ c_ok:'Your message is complete, but sending is not connected on this page yet.',
+ foot:'Deliberate practice for physics olympiads'},
+ ar:{nav_home:'الرئيسية',nav_about:'من نحن',nav_files:'الملفات',nav_contact:'تواصل',
+ hero_eyebrow:'مركز السعودية لأولمبياد الفيزياء',
+ hero_title:'حلّ مسائل أصعب. فكّر كفيزيائي.',
+ hero_desc:'SPhOH منصة تدريب للطلاب السعوديين المستعدين للأولمبياد الوطني للعلوم والرياضيات (NSMO) وأولمبياد الفيزياء الدولي (IPhO). تصفح وعاين وحمّل مجموعات المسائل.',
+ hero_cta:'تصفّح مجموعات المسائل',
+ about_eyebrow:'من نحن',about_title:'منصة قائمة على التدريب المقصود',
+ about_desc:'SPhOH مورد تدريبي لمسابقات الفيزياء المتقدمة. صُممت كل مجموعة على مبدأ التدريب المقصود: العمل على مسائل أعلى قليلاً من مستواك الحالي.',
+ p1_t:'مستويات متدرجة',p1_d:'كل مجموعة مسائل مصنفة: المستوى الأول أو الثاني أو تحدٍّ، لتتقدم بالسرعة التي تناسبك.',
+ p2_t:'تركيز على الأولمبياد',p2_d:'المواضيع والأساليب تتبع ما يواجهه الطلاب في ترشيحات NSMO والاستعداد لـ IPhO.',
+ p3_t:'محتوى منظم',p3_d:'مسائل مجمعة ومنسقة بعناية لتسهيل الدراسة والمراجعة.',
+ team_title:'فريق SPhOH',
+ team_desc:'يكتب فريق SPhOH كل مجموعة مسائل في المنصة ويراجعها وينظمها، بهدف أن يجد الطالب تدريباً جاداً في الفيزياء باللغتين العربية والإنجليزية.',
+ team_vision:'رؤيتنا: أن يملك كل طالب سعودي موهوب مادة التدريب التي تمكّنه من المنافسة على أعلى مستوى.',
+ files_eyebrow:'الملفات',files_title:'الملفات ومجموعات المسائل',
+ empty:'لا توجد مجموعات مسائل حالياً.',
+ btn_preview:'👁️ معاينة PDF',btn_download:'📥 تحميل PDF',
+ pdf_toast:'لم يُرفق ملف PDF لهذه المجموعة بعد.',
+ n_sets:function(n){return n+' '+(n===1?'مجموعة':(n===2?'مجموعتان':(n<=10?'مجموعات':'مجموعة')));},
+ contact_eyebrow:'تواصل',contact_title:'تواصل معنا',
+ contact_desc:'وجدت خطأً، أو تريد اقتراح موضوع، أو ترغب في المساهمة بمسائل؟ اكتب إلى فريق SPhOH.',
+ c_name:'الاسم',c_email:'البريد الإلكتروني',c_msg:'الرسالة',c_send:'إرسال الرسالة',
+ e_name:'يرجى إدخال اسمك.',e_email:'يرجى إدخال بريد إلكتروني صحيح.',e_msg:'يرجى كتابة رسالة.',
+ c_ok:'رسالتك مكتملة، لكن الإرسال غير مفعّل في هذه الصفحة بعد.',
+ foot:'تدريب مقصود لأولمبياد الفيزياء'}
+};
+
+var P=[
+{id:1,t:'kin',l:2,
+ pdfUrl:'KiniI (3).pdf',
+ title:{en:'Kinematics I Problem Set',ar:'مجموعة مسائل الكينماتيكا (الحركة)'},
+ desc:{en:'1D & 2D Kinematics, graphical analysis, free fall, and projectile motion problems.',ar:'مسائل الحركة في بعد وبعدين، التحليل البياني، السقوط الحر والمقذوفات.'}},
+
+{id:2,t:'mech',l:2,
+ pdfUrl:'Vectors (3).pdf',
+ title:{en:'Vectors Problem Set',ar:'مجموعة مسائل المتجهات'},
+ desc:{en:'Vector components, 3D unit vectors, dot products, cross products, and torque.',ar:'مركبات المتجهات، متجه الوحدة في 3D، الضرب القياسي، الضرب الاتجاهي، والعزم.'}},
+
+{id:3,t:'mech',l:2,
+ pdfUrl:'Fluids_I (3).pdf',
+ title:{en:'Fluids Problem Set',ar:'مجموعة مسائل ميكانيكا الموائع'},
+ desc:{en:'Hydrostatic pressure, Pascal\'s principle, buoyancy, and Archimedes\' principle.',ar:'الضغط الهيدروستاتيكي، مبدأ باسكال، قوة الطفو، ومبدأ أرخميدس.'}},
+
+{id:4,t:'math',l:1,
+ pdfUrl:'UnitCandA.pdf',
+ title:{en:'Units Conversion & Dimensional Analysis',ar:'تحويل الوحدات والتحليل البعدي'},
+ desc:{en:'Mastering nested prefixes, conversion factors, dimensional homogeneity, and SI/CGS units.',ar:'إتقان البادئات، معامل التحويل، تجانس الأبعاد، وتحويل الوحدات الأساسية.'}},
+
+{id:5,t:'math',l:1,
+ pdfUrl:'Trig_I (5).pdf',
+ title:{en:'Trigonometry I Problem Set',ar:'مجموعة مسائل حساب المثلثات I'},
+ desc:{en:'Trigonometric identities, right triangles, special ratios, and physics vector applications.',ar:'المطابقات المثلثية، المثلث قائم الزاوية، النسب الخاصة، وتطبيقات المتجهات بالفيزياء.'}},
+
+{id:6,t:'math',l:2,
+ pdfUrl:'AlgebraI (3).pdf',
+ title:{en:'Algebra I Problem Set',ar:'مجموعة مسائل الجبر I'},
+ desc:{en:'40 progressive problems: linear/quadratic equations, system derivations, and physics approximations.',ar:'40 مسألة متدرجة: معادلات خطية وتربيعية، اشتقاقات النظام، والتقريبات الفيزيائية.'}}
+];
+
+var lang='ar';
+try{var s=localStorage.getItem('sphoh-lang');if(s==='en'||s==='ar')lang=s;}catch(e){}
+
+var $=function(s,r){return (r||document).querySelector(s);};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+function tt(k){return UI[lang][k];}
+
+function applyLang(){
+  var root=document.documentElement;
+  root.lang=lang;root.dir=lang==='ar'?'rtl':'ltr';
+  $$('[data-i18n]').forEach(function(el){var v=tt(el.getAttribute('data-i18n'));if(typeof v==='string')el.textContent=v;});
+  $$('#langBtn span').forEach(function(sp){sp.classList.toggle('on',sp.getAttribute('data-l')===lang);});
+  renderGrid();
+  $('#status').textContent='';$('#status').className='status';
+  ['name','email','message'].forEach(function(k){$('#e_'+k).textContent='';});
+}
+
+function tags(p){
+  var pips='';for(var i=1;i<=3;i++)pips+='<b'+(i<=p.l?' class="on"':'')+'></b>';
+  return '<span class="tag" data-topic="'+p.t+'">'+TOPICS[p.t][lang]+'</span><span class="tag lvl" data-lvl="'+p.l+'"><span class="pips">'+pips+'</span>'+LEVELS[p.l][lang]+'</span>';
+}
+
+function renderGrid(){
+  var list=P;
+  $('#count').textContent=tt('n_sets')(list.length);
+  $('#empty').hidden=list.length>0;
+
+  var container=$('#sectionsContainer');
+  container.innerHTML='';
+
+  if(list.length===0) return;
+
+  var grouped={};
+  list.forEach(function(p){
+    if(!grouped[p.t]) grouped[p.t]=[];
+    grouped[p.t].push(p);
+  });
+
+  Object.keys(grouped).forEach(function(topicKey){
+    var groupEl=document.createElement('div');
+    groupEl.className='topic-group';
+
+    var titleText=TOPICS[topicKey]?TOPICS[topicKey][lang]:topicKey;
+    var html='<h3 class="topic-title"><span>'+titleText+'</span></h3>';
+    html+='<div class="grid">';
+
+    grouped[topicKey].forEach(function(p){
+      var pdfPath=p.pdfUrl||null;
+      
+      html+='<article class="card">'+
+        '<div class="tags">'+tags(p)+'</div>'+
+        '<h3 class="h3">'+p.title[lang]+'</h3>'+
+        '<p>'+p.desc[lang]+'</p>'+
+        '<div class="actions">';
+      
+      if(pdfPath){
+        html+='<a href="'+pdfPath+'" target="_blank" class="btn btn-primary btn-sm">'+tt('btn_preview')+'</a>'+
+              '<a href="'+pdfPath+'" download class="btn btn-ghost btn-sm">'+tt('btn_download')+'</a>';
+      } else {
+        html+='<button type="button" class="btn btn-ghost btn-sm" data-pdf="'+p.id+'">'+tt('btn_preview')+'</button>';
+      }
+
+      html+='</div></article>';
+    });
+
+    html+='</div>';
+    groupEl.innerHTML=html;
+    container.appendChild(groupEl);
+  });
+}
+
+var toastT;
+function toast(msg){var t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true;},3200);}
+
+function go(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+
+document.addEventListener('click',function(e){
+  var a=e.target.closest('[data-go]');
+  if(a){e.preventDefault();go(a.getAttribute('data-go'));return;}
+  var d=e.target.closest('[data-pdf]');
+  if(d){toast(tt('pdf_toast'));return;}
+});
+
+$('#langBtn').addEventListener('click',function(){
+  lang=lang==='ar'?'en':'ar';
+  try{localStorage.setItem('sphoh-lang',lang);}catch(e){}
+  applyLang();
+});
+
+/* contact form */
+$('#form').addEventListener('submit',function(e){
+  e.preventDefault();
+  var n=$('#name').value.trim(),m=$('#email').value.trim(),g=$('#message').value.trim(),ok=true;
+  var re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  $('#e_name').textContent=n?'':tt('e_name');if(!n)ok=false;
+  $('#e_email').textContent=re.test(m)?'':tt('e_email');if(!re.test(m))ok=false;
+  $('#e_message').textContent=g?'':tt('e_msg');if(!g)ok=false;
+  var st=$('#status');
+  if(ok){st.textContent=tt('c_ok');st.className='status ok';}else{st.textContent='';st.className='status';}
+});
+
+/* active nav link */
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(en){if(en.isIntersecting){var id=en.target.id;$$('.links a').forEach(function(a){a.classList.toggle('active',a.getAttribute('data-go')===id);});}});
+  },{rootMargin:'-45% 0px -50% 0px'});
+  ['home','about','files','contact'].forEach(function(id){io.observe(document.getElementById(id));});
+}
+
+applyLang();
+})();
+</script>
+</body>
+</html>
