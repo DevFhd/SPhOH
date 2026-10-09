@@ -164,6 +164,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
 .empty{padding:48px 16px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}
 
+/* FAQ Styles */
+.faq-list{display:grid;gap:16px;margin-top:32px}
+.faq-item{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .15s}
+.faq-item:hover{border-color:var(--accent)}
+.faq-question{width:100%;text-align:inherit;padding:20px 24px;background:none;border:none;font:inherit;font-weight:600;font-size:1.05rem;color:var(--fg);display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer}
+.faq-icon{transition:transform .2s ease;font-size:1.2rem;color:var(--accent)}
+.faq-item[open] .faq-icon{transform:rotate(45deg)}
+.faq-answer{padding:0 24px 20px;color:var(--muted);font-size:.98rem;line-height:1.6}
+
 .contact-grid{display:grid;gap:40px;grid-template-columns:1fr;margin-top:32px}
 @media (min-width:860px){.contact-grid{grid-template-columns:.8fr 1.2fr}}
 .contact-grid>*{min-width:0}
@@ -207,6 +216,7 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
       <a href="#home" data-go="home" data-i18n="nav_home"></a>
       <a href="#about" data-go="about" data-i18n="nav_about"></a>
       <a href="#files" data-go="files" data-i18n="nav_files"></a>
+      <a href="#faq" data-go="faq" data-i18n="nav_faq"></a>
       <a href="#contact" data-go="contact" data-i18n="nav_contact"></a>
     </nav>
     <div class="nav-controls">
@@ -284,7 +294,8 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
 
         <circle cx="310" cy="100" r="4" fill="var(--accent)" />
         <line x1="310" y1="100" x2="364" y2="148" stroke="var(--kin-fg)" stroke-width="2" marker-end="url(#vec-arrow)" />
-        <text x="370" y="20" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="12">v₁</text>
+        <text x="370" y="165" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="12">v₂</text>
+        
         <circle cx="40" cy="220" r="4" fill="var(--accent)" />
         <circle cx="400" cy="220" r="4" fill="var(--accent)" />
       </svg>
@@ -316,27 +327,27 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
         <div class="team-members">
           <div class="member-item">
             <span class="member-name">Fahad Alhajji</span>
-            <span class="member-role">CEO</span>
+            <span class="member-role">CEO, Problem Writer, Developer</span>
           </div>
           <div class="member-item">
             <span class="member-name">Ridha Alkhamis</span>
-            <span class="member-role">Problems Revisor</span>
+            <span class="member-role">Lead Problem Writer</span>
           </div>
           <div class="member-item">
             <span class="member-name">Mohammed Linga</span>
-            <span class="member-role">Developer & Problems Writer</span>
+            <span class="member-role">Problem Writer, Developer</span>
           </div>
           <div class="member-item">
             <span class="member-name">Hassan Alabdullah</span>
-            <span class="member-role">Problems Writer</span>
+            <span class="member-role">Problem Writer, Developer</span>
           </div>
           <div class="member-item">
             <span class="member-name">Amjed Qadi</span>
-            <span class="member-role">Problems Writer</span>
+            <span class="member-role">Problem Writer</span>
           </div>
           <div class="member-item">
             <span class="member-name">Abdullah Alnazer</span>
-            <span class="member-role">Problems Writer</span>
+            <span class="member-role">Problem Writer</span>
           </div>
         </div>
 
@@ -356,7 +367,15 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
   </div>
 </section>
 
-<section class="block band" id="contact">
+<section class="block band" id="faq">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="faq_eyebrow"></div>
+    <h2 class="h2" style="margin-top:12px" data-i18n="faq_title"></h2>
+    <div class="faq-list" id="faqContainer"></div>
+  </div>
+</section>
+
+<section class="block" id="contact">
   <div class="wrap">
     <div class="eyebrow" data-i18n="contact_eyebrow"></div>
     <h2 class="h2" style="margin-top:12px" data-i18n="contact_title"></h2>
@@ -407,8 +426,27 @@ var LEVELS={
   3:{en:'Challenge',ar:'تحدٍّ'}
 };
 
+var FAQS=[
+  {
+    q:{en:'What is SPhOH?', ar:'ما هو مركز SPhOH؟'},
+    a:{en:'SPhOH (Physics Olympiad Hub) is a specialized training platform providing high-quality problem sets and resources for students preparing for national and international physics olympiads.', ar:'SPhOH هو مركز تدريبي متخصص يقدم مجموعات مسائل وموارد عالية الجودة للطلاب المستعدين للأولمبيادات الوطنية والدولية للفيزياء.'}
+  },
+  {
+    q:{en:'Are all problem sets free to download?', ar:'هل جميع مجموعات المسائل مجانية للتحميل؟'},
+    a:{en:'Yes, all our PDFs and resources are completely free for students, teachers, and physics enthusiasts worldwide.', ar:'نعم، جميع ملفات PDF والموارد المتاحة مجانية تماماً للطلاب والمعلمين وشغوفي الفيزياء حول العالم.'}
+  },
+  {
+    q:{en:'What do the difficulty levels mean?', ar:'ماذا تعني مستويات الصعوبة المحددة للمسائل؟'},
+    a:{en:'Level I focuses on foundational principles and introductory competition problems. Level II targets national team selections and advanced topics. Challenge level covers international-level problems (IPhO/APhO style).', ar:'المستوى الأول يركز على المبادئ الأساسية ومسائل المسابقات التمهيدية. المستوى الثاني يستهدف ترشيحات المنتخبات الوطنية. مستوى التحدي يغطي مسائل بمستوى الأولمبياد الدولي (IPhO/APhO).'}
+  },
+  {
+    q:{en:'How can I contribute or report errors?', ar:'كيف يمكنني المساهمة أو الإبلاغ عن خطأ في المسائل؟'},
+    a:{en:'You can contact our team directly through the contact form or submit feedback via our Google Form link in the contact section.', ar:'يمكنك التواصل مع فريقنا مباشرة من خلال نموذج التواصل أو تقديم الملاحظات من خلال رابط نموذج Google المتاح في قسم التواصل.'}
+  }
+];
+
 var UI={
- en:{nav_home:'Home',nav_about:'About Us',nav_files:'Files',nav_contact:'Contact',
+ en:{nav_home:'Home',nav_about:'About Us',nav_files:'Files',nav_faq:'FAQ',nav_contact:'Contact',
  hero_eyebrow:'Physics Olympiad Hub',
  hero_title:'Solve harder problems. Think like a physicist.',
  hero_desc:'SPhOH is an open global training hub for physics enthusiasts and students preparing for national and international physics olympiads (IPhO, APhO, EuPhO, and National Selections). Download and preview curated problem sets.',
@@ -422,6 +460,7 @@ var UI={
  team_desc:'The SPhOH Team writes, checks, and organizes every problem set on the hub, with the goal of making serious physics practice accessible in both Arabic and English.',
  team_vision:'Our vision: every capable physics student worldwide has access to high-quality practice material to compete at the highest level.',
  files_eyebrow:'Files',files_title:'Files & Problem Sets',
+ faq_eyebrow:'FAQ',faq_title:'Frequently Asked Questions',
  empty:'No problem sets found.',
  btn_preview:'👁️ Preview PDF',btn_download:'📥 Download PDF',
  pdf_toast:'The PDF for this set has not been attached yet.',
@@ -435,7 +474,7 @@ var UI={
  e_name:'Please enter your name.',e_email:'Please enter a valid email address.',e_msg:'Please write a message.',
  c_ok:'Your message is complete, but sending is not connected on this page yet.',
  foot:'Deliberate practice for physics olympiads'},
- ar:{nav_home:'الرئيسية',nav_about:'من نحن',nav_files:'الملفات',nav_contact:'تواصل',
+ ar:{nav_home:'الرئيسية',nav_about:'من نحن',nav_files:'الملفات',nav_faq:'الأسئلة الشائعة',nav_contact:'تواصل',
  hero_eyebrow:'مركز أولمبياد الفيزياء',
  hero_title:'حلّ مسائل أصعب. فكّر كفيزيائي.',
  hero_desc:'SPhOH منصة تدريب عالمية مفتوحة للطلاب والمهتمين المستعدين للأولمبيادات الوطنية والدولية للفيزياء (IPhO, APhO, EuPhO والترشيحات الوطنية). تصفح وعاين وحمّل مجموعات المسائل المتقدمة.',
@@ -449,6 +488,7 @@ var UI={
  team_desc:'يكتب فريق SPhOH كل مجموعة مسائل في المنصة ويراجعها وينظمها، بهدف جعل التدريب الجاد في الفيزياء متاحاً باللغتين العربية والإنجليزية.',
  team_vision:'رؤيتنا: أن يملك كل طالب شغوف بالفيزياء حول العالم مادة التدريب التي تمكّنه من المنافسة على أعلى مستوى.',
  files_eyebrow:'الملفات',files_title:'الملفات ومجموعات المسائل',
+ faq_eyebrow:'الأسئلة الشائعة',faq_title:'الأسئلة المتكررة والمعلومات العامة',
  empty:'لا توجد مجموعات مسائل حالياً.',
  btn_preview:'👁️ معاينة PDF',btn_download:'📥 تحميل PDF',
  pdf_toast:'لم يُرفق ملف PDF لهذه المجموعة بعد.',
@@ -466,32 +506,32 @@ var UI={
 
 var P=[
 {id:1,t:'mech',l:2,
- pdfUrl:'KiniI (3).pdf',
+ pdfUrl:{en:'KiniI (3).pdf', ar:'KiniI_ar.pdf'},
  title:{en:'Kinematics I Problem Set',ar:'مجموعة مسائل الكينماتيكا (الحركة)'},
  desc:{en:'1D & 2D Kinematics, graphical analysis, free fall, and projectile motion problems.',ar:'مسائل الحركة في بعد وبعدين، التحليل البياني، السقوط الحر والمقذوفات.'}},
 
 {id:2,t:'math',l:2,
- pdfUrl:'Vectors (5).pdf',
+ pdfUrl:{en:'Vectors (5).pdf', ar:'Vectors_ar.pdf'},
  title:{en:'Vectors Problem Set',ar:'مجموعة مسائل المتجهات'},
  desc:{en:'Vector components, 3D unit vectors, dot products, cross products, and torque.',ar:'مركبات المتجهات، متجه الوحدة في 3D، الضرب القياسي، الضرب الاتجاهي، والعزم.'}},
 
 {id:3,t:'mech',l:2,
- pdfUrl:'Fluids_I (4).pdf',
+ pdfUrl:{en:'Fluids_I (4).pdf', ar:'Fluids_I_ar.pdf'},
  title:{en:'Fluids Problem Set',ar:'مجموعة مسائل ميكانيكا الموائع'},
  desc:{en:'Hydrostatic pressure, Pascal\'s principle, buoyancy, and Archimedes\' principle.',ar:'الضغط الهيدروستاتيكي، مبدأ باسكال، قوة الطفو، ومبدأ أرخميدس.'}},
 
 {id:4,t:'math',l:1,
- pdfUrl:'UnitCandA.pdf',
+ pdfUrl:{en:'UnitCandA.pdf', ar:'UnitCandA_ar.pdf'},
  title:{en:'Units Conversion & Dimensional Analysis',ar:'تحويل الوحدات والتحليل البعدي'},
  desc:{en:'Mastering nested prefixes, conversion factors, dimensional homogeneity, and SI/CGS units.',ar:'إتقان البادئات، معامل التحويل، تجانس الأبعاد، وتحويل الوحدات الأساسية.'}},
 
 {id:5,t:'math',l:1,
- pdfUrl:'Trig_I (6).pdf',
+ pdfUrl:{en:'Trig_I (6).pdf', ar:'Trig_I_ar.pdf'},
  title:{en:'Trigonometry I Problem Set',ar:'مجموعة مسائل حساب المثلثات I'},
  desc:{en:'Trigonometric identities, right triangles, special ratios, and physics vector applications.',ar:'المطابقات المثلثية، المثلث قائم الزاوية، النسب الخاصة، وتطبيقات المتجهات بالفيزياء.'}},
 
 {id:6,t:'math',l:2,
- pdfUrl:'AlgebraI (4).pdf',
+ pdfUrl:{en:'AlgebraI (4).pdf', ar:'AlgebraI_ar.pdf'},
  title:{en:'Algebra I Problem Set',ar:'مجموعة مسائل الجبر I'},
  desc:{en:'40 progressive problems: linear/quadratic equations, system derivations, and physics approximations.',ar:'40 مسألة متدرجة: معادلات خطية وتربيعية، اشتقاقات النظام، والتقريبات الفيزيائية.'}}
 ];
@@ -527,6 +567,7 @@ function applyLang(){
   $$('[data-i18n]').forEach(function(el){var v=tt(el.getAttribute('data-i18n'));if(typeof v==='string')el.textContent=v;});
   $$('#langBtn span').forEach(function(sp){sp.classList.toggle('on',sp.getAttribute('data-l')===lang);});
   renderGrid();
+  renderFAQ();
   
   var statusEl=$('#status');
   if(statusEl){statusEl.textContent='';statusEl.className='status';}
@@ -566,7 +607,7 @@ function renderGrid(){
     html+='<div class="grid">';
 
     grouped[topicKey].forEach(function(p){
-      var pdfPath=p.pdfUrl||null;
+      var pdfPath=(typeof p.pdfUrl==='object' ? p.pdfUrl[lang] : p.pdfUrl) || null;
       
       html+='<article class="card">'+
         '<div class="tags">'+tags(p)+'</div>'+
@@ -590,6 +631,28 @@ function renderGrid(){
   });
 }
 
+function renderFAQ(){
+  var container=$('#faqContainer');
+  if(!container) return;
+  container.innerHTML='';
+
+  FAQS.forEach(function(faq, index){
+    var item=document.createElement('div');
+    item.className='faq-item';
+    
+    var html='<button type="button" class="faq-question" aria-expanded="false" data-faq="'+index+'">'+
+      '<span>'+faq.q[lang]+'</span>'+
+      '<span class="faq-icon">+</span>'+
+    '</button>'+
+    '<div class="faq-answer" hidden>'+
+      '<p style="margin:0;">'+faq.a[lang]+'</p>'+
+    '</div>';
+    
+    item.innerHTML=html;
+    container.appendChild(item);
+  });
+}
+
 var toastT;
 function toast(msg){var t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true;},3200);}
 
@@ -600,6 +663,22 @@ document.addEventListener('click',function(e){
   if(a){e.preventDefault();go(a.getAttribute('data-go'));return;}
   var d=e.target.closest('[data-pdf]');
   if(d){toast(tt('pdf_toast'));return;}
+  
+  var faqBtn=e.target.closest('[data-faq]');
+  if(faqBtn){
+    var item=faqBtn.closest('.faq-item');
+    var ans=item.querySelector('.faq-answer');
+    var isOpen=item.hasAttribute('open');
+    if(isOpen){
+      item.removeAttribute('open');
+      ans.hidden=true;
+      faqBtn.setAttribute('aria-expanded','false');
+    } else {
+      item.setAttribute('open','');
+      ans.hidden=false;
+      faqBtn.setAttribute('aria-expanded','true');
+    }
+  }
 });
 
 $('#langBtn').addEventListener('click',function(){
@@ -637,7 +716,7 @@ if('IntersectionObserver' in window){
   var io=new IntersectionObserver(function(es){
     es.forEach(function(en){if(en.isIntersecting){var id=en.target.id;$$('.links a').forEach(function(a){a.classList.toggle('active',a.getAttribute('data-go')===id);});}});
   },{rootMargin:'-45% 0px -50% 0px'});
-  ['home','about','files','contact'].forEach(function(id){
+  ['home','about','files','faq','contact'].forEach(function(id){
     var el=document.getElementById(id);
     if(el) io.observe(el);
   });
