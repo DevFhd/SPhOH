@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>SPhOH</title>
+<meta name="description" content="SPhOH - Physics Olympiad Hub: A training resource and problem repository for advanced physics competitions and international olympiads.">
+<title>SPhOH - Physics Olympiad Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 :root{
@@ -32,6 +33,7 @@
   --font-body:'IBM Plex Sans Arabic',system-ui,-apple-system,'Segoe UI',sans-serif;
   --font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
 }
+
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#0e1512; --band:#141d19; --surface:#18221e; --fg:#e8f0ec; --muted:#9fb0a8; --line:#2a3832;
@@ -45,6 +47,7 @@
     color-scheme:dark;
   }
 }
+
 :root[data-theme="dark"]{
   --bg:#0e1512; --band:#141d19; --surface:#18221e; --fg:#e8f0ec; --muted:#9fb0a8; --line:#2a3832;
   --accent:#3fcf90; --accent-ink:#06150e; --accent-soft:#17352a; --focus:#3fcf90;
@@ -55,6 +58,18 @@
   --therm-bg:#3b1c2c; --therm-fg:#ff9cc7;
   --opt-bg:#2a2250; --opt-fg:#c0aeff;
   color-scheme:dark;
+}
+
+:root[data-theme="light"]{
+  --bg:#ffffff; --band:#f3f5f4; --surface:#ffffff; --fg:#14201b; --muted:#55655e; --line:#dfe5e2;
+  --accent:#0d7a4b; --accent-ink:#ffffff; --accent-soft:#e1f3ea; --focus:#0d7a4b;
+  --kin-bg:#fde8e6; --kin-fg:#a9261b;
+  --mech-bg:#e3edfd; --mech-fg:#1d4aa8;
+  --math-bg:#f3e8ff; --math-fg:#6b21a8;
+  --elec-bg:#fcf0cf; --elec-fg:#7d5200;
+  --therm-bg:#fbe3ef; --therm-fg:#9b2058;
+  --opt-bg:#ece6fb; --opt-fg:#5530b0;
+  color-scheme:light;
 }
 
 html{scroll-behavior:smooth}
@@ -73,7 +88,7 @@ p.lead{color:var(--muted);font-size:1.075rem;max-width:60ch;margin:0}
 
 a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:6px}
 
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{position:sticky;top:0;top:env(safe-area-inset-top,0px);z-index:40;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .nav-row{display:flex;align-items:center;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;padding-block:12px}
 .logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:800;font-size:1.35rem;letter-spacing:-.02em;color:var(--fg);text-decoration:none;direction:ltr}
 .logo svg{color:var(--accent)}
@@ -83,7 +98,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 .links a{padding:8px 14px;border-radius:999px;color:var(--muted);text-decoration:none;font-weight:500;font-size:.95rem;white-space:nowrap}
 .links a:hover{color:var(--fg);background:var(--band)}
 .links a.active{color:var(--accent);background:var(--accent-soft)}
-.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface);cursor:pointer;font-family:var(--font-mono);font-size:13px;color:var(--muted)}
+
+.nav-controls{display:flex;align-items:center;gap:8px}
+.theme-btn,.lang{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer;color:var(--muted);transition:background .15s,color .15s,border-color .15s}
+.theme-btn{padding:6px 12px;font-size:14px;gap:6px}
+.theme-btn:hover,.lang:hover{border-color:var(--accent);color:var(--fg)}
+.lang{padding:3px;font-family:var(--font-mono);font-size:13px}
 .lang span{padding:5px 12px;border-radius:999px;line-height:1.2}
 .lang span.on{background:var(--accent);color:var(--accent-ink);font-weight:500}
 
@@ -110,8 +130,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 .pillar b{font-family:var(--font-display);display:block;font-size:1.05rem;line-height:1.3}
 .pillar span{color:var(--muted);font-size:.95rem}
 .pillar i{flex:none;width:36px;height:36px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-style:normal;font-family:var(--font-mono);font-weight:500;font-size:14px;margin-top:2px}
+
 .team{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px}
 .team p{margin:12px 0 0;color:var(--muted)}
+.team-members{display:grid;gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
+.member-item{display:flex;justify-content:space-between;align-items:center;font-size:.92rem;gap:12px}
+.member-name{font-weight:600;color:var(--fg)}
+.member-role{font-family:var(--font-mono);font-size:.82rem;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:6px;white-space:nowrap}
 .vision{margin-top:20px;padding-top:20px;border-top:1px solid var(--line);color:var(--fg);font-weight:500}
 
 .count{color:var(--muted);font-size:.9rem;margin-bottom:28px;font-variant-numeric:tabular-nums}
@@ -151,6 +176,12 @@ form.form{display:grid;gap:18px;background:var(--surface);border:1px solid var(-
 .field .err{color:var(--kin-fg);font-size:.85rem;min-height:1em}
 .status{font-size:.95rem;color:var(--muted);min-height:1.5em}
 .status.ok{color:var(--accent)}
+
+.feedback-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.feedback-card div{max-width:500px}
+.feedback-card h3{margin:0 0 6px;font-size:1.1rem;color:var(--fg)}
+.feedback-card p{margin:0;font-size:.92rem;color:var(--muted)}
+
 footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.9rem}
 .foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
@@ -178,7 +209,13 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
       <a href="#files" data-go="files" data-i18n="nav_files"></a>
       <a href="#contact" data-go="contact" data-i18n="nav_contact"></a>
     </nav>
-    <button class="lang" id="langBtn" type="button" aria-label="Switch language / تبديل اللغة"><span data-l="ar">AR</span><span data-l="en">EN</span></button>
+    <div class="nav-controls">
+      <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle Theme">
+        <span id="themeIcon">🌙</span>
+        <span id="themeText" class="font-mono text-xs">Dark</span>
+      </button>
+      <button class="lang" id="langBtn" type="button" aria-label="Switch language / تبديل اللغة"><span data-l="ar">AR</span><span data-l="en">EN</span></button>
+    </div>
   </div>
 </header>
 
@@ -275,6 +312,34 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
       <aside class="team">
         <h3 class="h3" data-i18n="team_title"></h3>
         <p data-i18n="team_desc"></p>
+        
+        <div class="team-members">
+          <div class="member-item">
+            <span class="member-name">Fahad Alhajji</span>
+            <span class="member-role">CEO</span>
+          </div>
+          <div class="member-item">
+            <span class="member-name">Ridha Alkhamis</span>
+            <span class="member-role">Problems Revisor</span>
+          </div>
+          <div class="member-item">
+            <span class="member-name">Mohammed Linga</span>
+            <span class="member-role">Developer & Problems Writer</span>
+          </div>
+          <div class="member-item">
+            <span class="member-name">Hassan Alabdullah</span>
+            <span class="member-role">Problems Writer</span>
+          </div>
+          <div class="member-item">
+            <span class="member-name">Amjed Qadi</span>
+            <span class="member-role">Problems Writer</span>
+          </div>
+          <div class="member-item">
+            <span class="member-name">Abdullah Alnazer</span>
+            <span class="member-role">Problems Writer</span>
+          </div>
+        </div>
+
         <p class="vision" data-i18n="team_vision"></p>
       </aside>
     </div>
@@ -295,17 +360,28 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
   <div class="wrap">
     <div class="eyebrow" data-i18n="contact_eyebrow"></div>
     <h2 class="h2" style="margin-top:12px" data-i18n="contact_title"></h2>
-    <div class="contact-grid">
-      <p class="lead" data-i18n="contact_desc"></p>
-      <form class="form" id="form" novalidate>
-        <div class="field"><label for="name" data-i18n="c_name"></label><input id="name" name="name" type="text" autocomplete="name"><div class="err" id="e_name"></div></div>
-        <div class="field"><label for="email" data-i18n="c_email"></label><input id="email" name="email" type="email" autocomplete="email" dir="ltr"><div class="err" id="e_email"></div></div>
-        <div class="field"><label for="message" data-i18n="c_msg"></label><textarea id="message" name="message"></textarea><div class="err" id="e_message"></div></div>
-        <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
-          <button class="btn btn-primary" type="submit" data-i18n="c_send"></button>
-          <span class="status" id="status" aria-live="polite"></span>
+    
+    <div style="margin-top:32px;">
+      <div class="feedback-card">
+        <div>
+          <h3 data-i18n="fb_title">Have feedback or suggestions?</h3>
+          <p data-i18n="fb_desc">Help us improve SPhOH by filling out our quick Google Form.</p>
         </div>
-      </form>
+        <a href="https://forms.gle/5dETrhbTAqVMkgGv7" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" data-i18n="fb_btn">Fill Feedback Form ↗</a>
+      </div>
+
+      <div class="contact-grid" style="margin-top:0;">
+        <p class="lead" data-i18n="contact_desc"></p>
+        <form class="form" id="form" novalidate>
+          <div class="field"><label for="name" data-i18n="c_name"></label><input id="name" name="name" type="text" autocomplete="name"><div class="err" id="e_name"></div></div>
+          <div class="field"><label for="email" data-i18n="c_email"></label><input id="email" name="email" type="email" autocomplete="email" dir="ltr"><div class="err" id="e_email"></div></div>
+          <div class="field"><label for="message" data-i18n="c_msg"></label><textarea id="message" name="message"></textarea><div class="err" id="e_message"></div></div>
+          <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+            <button class="btn btn-primary" type="submit" data-i18n="c_send"></button>
+            <span class="status" id="status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </section>
@@ -333,18 +409,18 @@ var LEVELS={
 
 var UI={
  en:{nav_home:'Home',nav_about:'About Us',nav_files:'Files',nav_contact:'Contact',
- hero_eyebrow:'Saudi Physics Olympiad Hub',
+ hero_eyebrow:'Physics Olympiad Hub',
  hero_title:'Solve harder problems. Think like a physicist.',
- hero_desc:'SPhOH is a training hub for Saudi students preparing for the National Science and Mathematics Olympiad (NSMO) and the International Physics Olympiad (IPhO). Download and preview problem sets.',
+ hero_desc:'SPhOH is an open global training hub for physics enthusiasts and students preparing for national and international physics olympiads (IPhO, APhO, EuPhO, and National Selections). Download and preview curated problem sets.',
  hero_cta:'Browse problem sets',
  about_eyebrow:'About Us',about_title:'Built for deliberate practice',
- about_desc:'SPhOH is a training resource for advanced physics competitions. Every set is designed around deliberate practice: working on problems just beyond your current level.',
+ about_desc:'SPhOH is a dedicated training hub for advanced physics competitions worldwide. Every set is designed around deliberate practice: working on problems just beyond your current level.',
  p1_t:'Graded difficulty',p1_d:'Each problem set is marked Level I, Level II or Challenge, so you can climb at your own pace.',
- p2_t:'Olympiad Focus',p2_d:'Topics and styles follow what students meet in NSMO selection and IPhO preparation.',
+ p2_t:'Olympiad Focus',p2_d:'Topics and styles mirror what students meet in national team selection and International Physics Olympiad preparation.',
  p3_t:'Structured Content',p3_d:'Problems carefully compiled and formatted for straightforward studying and reference.',
- team_title:'The SPhOH Team',
- team_desc:'The SPhOH Team writes, checks and organizes every problem set on the hub, with the goal of making serious physics practice easy to find in Arabic and English.',
- team_vision:'Our vision: every capable student in Saudi Arabia has the practice material to compete at the highest level.',
+ team_title:'The SPhOH Founders & Team',
+ team_desc:'The SPhOH Team writes, checks, and organizes every problem set on the hub, with the goal of making serious physics practice accessible in both Arabic and English.',
+ team_vision:'Our vision: every capable physics student worldwide has access to high-quality practice material to compete at the highest level.',
  files_eyebrow:'Files',files_title:'Files & Problem Sets',
  empty:'No problem sets found.',
  btn_preview:'👁️ Preview PDF',btn_download:'📥 Download PDF',
@@ -352,23 +428,26 @@ var UI={
  n_sets:function(n){return n+(n===1?' problem set':' problem sets');},
  contact_eyebrow:'Contact',contact_title:'Get in touch',
  contact_desc:'Found a mistake, want to suggest a topic, or interested in contributing problems? Write to the SPhOH Team.',
+ fb_title:'Have feedback or suggestions?',
+ fb_desc:'Help us improve SPhOH by filling out our feedback form.',
+ fb_btn:'Open Feedback Form ↗',
  c_name:'Name',c_email:'Email',c_msg:'Message',c_send:'Send message',
  e_name:'Please enter your name.',e_email:'Please enter a valid email address.',e_msg:'Please write a message.',
  c_ok:'Your message is complete, but sending is not connected on this page yet.',
  foot:'Deliberate practice for physics olympiads'},
  ar:{nav_home:'الرئيسية',nav_about:'من نحن',nav_files:'الملفات',nav_contact:'تواصل',
- hero_eyebrow:'مركز الأولمبياد السعودي للفيزياء',
+ hero_eyebrow:'مركز أولمبياد الفيزياء',
  hero_title:'حلّ مسائل أصعب. فكّر كفيزيائي.',
- hero_desc:'SPhOH منصة تدريب للطلاب السعوديين المستعدين للأولمبياد الوطني للعلوم والرياضيات (NSMO) وأولمبياد الفيزياء الدولي (IPhO). تصفح وعاين وحمّل مجموعات المسائل.',
+ hero_desc:'SPhOH منصة تدريب عالمية مفتوحة للطلاب والمهتمين المستعدين للأولمبيادات الوطنية والدولية للفيزياء (IPhO, APhO, EuPhO والترشيحات الوطنية). تصفح وعاين وحمّل مجموعات المسائل المتقدمة.',
  hero_cta:'تصفّح مجموعات المسائل',
  about_eyebrow:'من نحن',about_title:'منصة قائمة على التدريب المقصود',
  about_desc:'SPhOH مورد تدريبي لمسابقات الفيزياء المتقدمة. صُممت كل مجموعة على مبدأ التدريب المقصود: العمل على مسائل أعلى قليلاً من مستواك الحالي.',
  p1_t:'مستويات متدرجة',p1_d:'كل مجموعة مسائل مصنفة: المستوى الأول أو الثاني أو تحدٍّ، لتتقدم بالسرعة التي تناسبك.',
- p2_t:'تركيز على الأولمبياد',p2_d:'المواضيع والأساليب تتبع ما يواجهه الطلاب في ترشيحات NSMO والاستعداد لـ IPhO.',
+ p2_t:'تركيز على الأولمبياد',p2_d:'المواضيع والأساليب تتبع ما يواجهه الطلاب في ترشيحات المنتخبات الوطنية والاستعداد لأولمبياد الفيزياء الدولي.',
  p3_t:'محتوى منظم',p3_d:'مسائل مجمعة ومنسقة بعناية لتسهيل الدراسة والمراجعة.',
- team_title:'فريق SPhOH',
- team_desc:'يكتب فريق SPhOH كل مجموعة مسائل في المنصة ويراجعها وينظمها، بهدف أن يجد الطالب تدريباً جاداً في الفيزياء باللغتين العربية والإنجليزية.',
- team_vision:'رؤيتنا: أن يملك كل طالب سعودي موهوب مادة التدريب التي تمكّنه من المنافسة على أعلى مستوى.',
+ team_title:'مؤسسو وفريق SPhOH',
+ team_desc:'يكتب فريق SPhOH كل مجموعة مسائل في المنصة ويراجعها وينظمها، بهدف جعل التدريب الجاد في الفيزياء متاحاً باللغتين العربية والإنجليزية.',
+ team_vision:'رؤيتنا: أن يملك كل طالب شغوف بالفيزياء حول العالم مادة التدريب التي تمكّنه من المنافسة على أعلى مستوى.',
  files_eyebrow:'الملفات',files_title:'الملفات ومجموعات المسائل',
  empty:'لا توجد مجموعات مسائل حالياً.',
  btn_preview:'👁️ معاينة PDF',btn_download:'📥 تحميل PDF',
@@ -376,6 +455,9 @@ var UI={
  n_sets:function(n){return n+' '+(n===1?'مجموعة':(n===2?'مجموعتان':(n<=10?'مجموعات':'مجموعة')));},
  contact_eyebrow:'تواصل',contact_title:'تواصل معنا',
  contact_desc:'وجدت خطأً، أو تريد اقتراح موضوع، أو ترغب في المساهمة بمسائل؟ اكتب إلى فريق SPhOH.',
+ fb_title:'لديك ملاحظات أو اقتراحات؟',
+ fb_desc:'ساعدنا في تطوير منصة SPhOH من خلال تعبئة نموذج الملاحظات.',
+ fb_btn:'تعبئة نموذج الملاحظات ↗',
  c_name:'الاسم',c_email:'البريد الإلكتروني',c_msg:'الرسالة',c_send:'إرسال الرسالة',
  e_name:'يرجى إدخال اسمك.',e_email:'يرجى إدخال بريد إلكتروني صحيح.',e_msg:'يرجى كتابة رسالة.',
  c_ok:'رسالتك مكتملة، لكن الإرسال غير مفعّل في هذه الصفحة بعد.',
@@ -417,9 +499,27 @@ var P=[
 var lang='ar';
 try{var s=localStorage.getItem('sphoh-lang');if(s==='en'||s==='ar')lang=s;}catch(e){}
 
+var theme='auto';
+try{var th=localStorage.getItem('sphoh-theme');if(th==='light'||th==='dark')theme=th;}catch(e){}
+
 var $=function(s,r){return (r||document).querySelector(s);};
 var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
 function tt(k){return UI[lang][k];}
+
+function applyTheme(){
+  var root=document.documentElement;
+  if(theme==='auto'){
+    root.removeAttribute('data-theme');
+    var isDark=window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    $('#themeIcon').textContent=isDark?'🌙':'☀️';
+    $('#themeText').textContent=isDark?'Dark':'Light';
+  } else {
+    root.setAttribute('data-theme',theme);
+    var isDark=theme==='dark';
+    $('#themeIcon').textContent=isDark?'🌙':'☀️';
+    $('#themeText').textContent=isDark?'Dark':'Light';
+  }
+}
 
 function applyLang(){
   var root=document.documentElement;
@@ -427,8 +527,13 @@ function applyLang(){
   $$('[data-i18n]').forEach(function(el){var v=tt(el.getAttribute('data-i18n'));if(typeof v==='string')el.textContent=v;});
   $$('#langBtn span').forEach(function(sp){sp.classList.toggle('on',sp.getAttribute('data-l')===lang);});
   renderGrid();
-  $('#status').textContent='';$('#status').className='status';
-  ['name','email','message'].forEach(function(k){$('#e_'+k).textContent='';});
+  
+  var statusEl=$('#status');
+  if(statusEl){statusEl.textContent='';statusEl.className='status';}
+  ['name','email','message'].forEach(function(k){
+    var el=$('#e_'+k);
+    if(el) el.textContent='';
+  });
 }
 
 function tags(p){
@@ -503,6 +608,18 @@ $('#langBtn').addEventListener('click',function(){
   applyLang();
 });
 
+$('#themeBtn').addEventListener('click',function(){
+  var isDark;
+  if(theme==='auto'){
+    isDark=window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  } else {
+    isDark=theme==='dark';
+  }
+  theme=isDark?'light':'dark';
+  try{localStorage.setItem('sphoh-theme',theme);}catch(e){}
+  applyTheme();
+});
+
 /* contact form */
 $('#form').addEventListener('submit',function(e){
   e.preventDefault();
@@ -520,9 +637,13 @@ if('IntersectionObserver' in window){
   var io=new IntersectionObserver(function(es){
     es.forEach(function(en){if(en.isIntersecting){var id=en.target.id;$$('.links a').forEach(function(a){a.classList.toggle('active',a.getAttribute('data-go')===id);});}});
   },{rootMargin:'-45% 0px -50% 0px'});
-  ['home','about','files','contact'].forEach(function(id){io.observe(document.getElementById(id));});
+  ['home','about','files','contact'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) io.observe(el);
+  });
 }
 
+applyTheme();
 applyLang();
 })();
 </script>
