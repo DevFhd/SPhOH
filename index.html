@@ -1027,8 +1027,8 @@ var FAQS=[
       ar:'كيف يمكنني المساهمة أو الإبلاغ عن خطأ في المسائل؟'
     },
     a:{
-      en:'You can contact our team directly through the contact form or submit feedback via our Google Form link in the contact section. You can also follow our Telegram channel for updates.',
-      ar:'يمكنك التواصل مع فريقنا مباشرة من خلال نموذج التواصل أو تقديم الملاحظات عبر نموذج Google في قسم التواصل. ويمكنك أيضاً متابعة قناة تيليجرام للاطلاع على التحديثات.'
+      en:'You can submit feedback through our Google Form in the contact section. You can also follow our Telegram channel for updates.',
+      ar:'يمكنك إرسال ملاحظاتك عبر نموذج Google في قسم التواصل، كما يمكنك متابعة قناة تيليجرام للاطلاع على التحديثات.'
     }
   },
   {
@@ -1598,37 +1598,6 @@ $('#themeBtn').addEventListener('click',function(){
   applyTheme();
 });
 
-/* Contact form validation */
-
-$('#form').addEventListener('submit',function(e){
-  e.preventDefault();
-
-  var n=$('#name').value.trim();
-  var email=$('#email').value.trim();
-  var message=$('#message').value.trim();
-  var ok=true;
-
-  var re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  $('#e_name').textContent=n?'':tt('e_name');
-  if(!n)ok=false;
-
-  $('#e_email').textContent=re.test(email)?'':tt('e_email');
-  if(!re.test(email))ok=false;
-
-  $('#e_message').textContent=message?'':tt('e_msg');
-  if(!message)ok=false;
-
-  var status=$('#status');
-
-  if(ok){
-    status.textContent=tt('c_ok');
-    status.className='status ok';
-  }else{
-    status.textContent='';
-    status.className='status';
-  }
-});
 
 /* Active navigation link */
 
