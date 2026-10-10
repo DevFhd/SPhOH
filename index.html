@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
 <script src="https://cdn.tailwindcss.com"></script>
+
 <style>
 :root{
   --bg:#ffffff;
@@ -141,6 +142,33 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 
 .count{color:var(--muted);font-size:.9rem;margin-bottom:28px;font-variant-numeric:tabular-nums}
 
+/* Translation notice */
+.translation-notice{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  margin-top:24px;
+  margin-bottom:24px;
+  padding:16px 18px;
+  background:var(--accent-soft);
+  border:1px solid var(--line);
+  border-inline-start:4px solid var(--accent);
+  border-radius:12px;
+  color:var(--fg);
+}
+
+.translation-notice .notice-icon{
+  flex:none;
+  font-size:1.1rem;
+  line-height:1.7;
+}
+
+.translation-notice p{
+  margin:0;
+  font-size:.95rem;
+  line-height:1.8;
+}
+
 .topic-group{margin-bottom:48px}
 .topic-title{font-size:1.5rem;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--line);color:var(--accent);display:flex;align-items:center;gap:10px}
 
@@ -201,6 +229,7 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
 </head>
 
 <body class="site">
+
 <header class="nav">
   <div class="wrap nav-row">
     <a class="logo" href="#home" data-go="home" aria-label="SPhOH">
@@ -212,6 +241,7 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
       </svg>
       <span>SPhOH</span>
     </a>
+
     <nav class="links" aria-label="Main">
       <a href="#home" data-go="home" data-i18n="nav_home"></a>
       <a href="#about" data-go="about" data-i18n="nav_about"></a>
@@ -219,41 +249,55 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
       <a href="#faq" data-go="faq" data-i18n="nav_faq"></a>
       <a href="#contact" data-go="contact" data-i18n="nav_contact"></a>
     </nav>
+
     <div class="nav-controls">
       <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle Theme">
         <span id="themeIcon">🌙</span>
         <span id="themeText" class="font-mono text-xs">Dark</span>
       </button>
-      <button class="lang" id="langBtn" type="button" aria-label="Switch language / تبديل اللغة"><span data-l="ar">AR</span><span data-l="en">EN</span></button>
+
+      <button class="lang" id="langBtn" type="button" aria-label="Switch language / تبديل اللغة">
+        <span data-l="ar">AR</span>
+        <span data-l="en">EN</span>
+      </button>
     </div>
   </div>
 </header>
 
 <main>
+
 <section class="block hero" id="home">
   <div class="wrap hero-grid">
     <div>
       <div class="eyebrow" data-i18n="hero_eyebrow"></div>
       <h1 class="display" style="margin-top:16px" data-i18n="hero_title"></h1>
       <p class="lead" style="margin-top:20px" data-i18n="hero_desc"></p>
+
       <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap">
-        <a class="btn btn-primary" href="#files" data-go="files"><span data-i18n="hero_cta"></span>
-          <svg class="arrow" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <a class="btn btn-primary" href="#files" data-go="files">
+          <span data-i18n="hero_cta"></span>
+          <svg class="arrow" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </a>
       </div>
     </div>
+
     <div class="sketch" aria-hidden="true">
       <svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
             <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--line)" stroke-width="0.5" opacity="0.6" />
           </pattern>
+
           <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--muted)" />
           </marker>
+
           <marker id="vec-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M 0 2 L 10 5 L 0 8 z" fill="var(--kin-fg)" />
           </marker>
+
           <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.15"/>
             <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
@@ -295,10 +339,11 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
         <circle cx="310" cy="100" r="4" fill="var(--accent)" />
         <line x1="310" y1="100" x2="364" y2="148" stroke="var(--kin-fg)" stroke-width="2" marker-end="url(#vec-arrow)" />
         <text x="370" y="165" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="12">v₂</text>
-        
+
         <circle cx="40" cy="220" r="4" fill="var(--accent)" />
         <circle cx="400" cy="220" r="4" fill="var(--accent)" />
       </svg>
+
       <div class="cap" style="justify-content: space-around;">
         <span>R = v₀² sin 2θ / g</span>
         <span>H = v₀² sin²θ / 2g</span>
@@ -311,19 +356,31 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
   <div class="wrap">
     <div class="eyebrow" data-i18n="about_eyebrow"></div>
     <h2 class="h2" style="margin-top:12px" data-i18n="about_title"></h2>
+
     <div class="about-grid">
       <div>
         <p class="lead" data-i18n="about_desc"></p>
+
         <div class="pillars">
-          <div class="pillar"><i>I</i><div><b data-i18n="p1_t"></b><span data-i18n="p1_d"></span></div></div>
-          <div class="pillar"><i>II</i><div><b data-i18n="p2_t"></b><span data-i18n="p2_d"></span></div></div>
-          <div class="pillar"><i>III</i><div><b data-i18n="p3_t"></b><span data-i18n="p3_d"></span></div></div>
+          <div class="pillar">
+            <i>I</i>
+            <div><b data-i18n="p1_t"></b><span data-i18n="p1_d"></span></div>
+          </div>
+          <div class="pillar">
+            <i>II</i>
+            <div><b data-i18n="p2_t"></b><span data-i18n="p2_d"></span></div>
+          </div>
+          <div class="pillar">
+            <i>III</i>
+            <div><b data-i18n="p3_t"></b><span data-i18n="p3_d"></span></div>
+          </div>
         </div>
       </div>
+
       <aside class="team">
         <h3 class="h3" data-i18n="team_title"></h3>
         <p data-i18n="team_desc"></p>
-        
+
         <div class="team-members">
           <div class="member-item">
             <span class="member-name">Fahad Alhajji</span>
@@ -361,7 +418,14 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
   <div class="wrap">
     <div class="eyebrow" data-i18n="files_eyebrow"></div>
     <h2 class="h2" style="margin-top:12px" data-i18n="files_title"></h2>
-    <div class="count" id="count" aria-live="polite" style="margin-top: 20px;"></div>
+
+    <!-- Arabic translation notice -->
+    <div class="translation-notice" role="note">
+      <span class="notice-icon" aria-hidden="true">ℹ️</span>
+      <p data-i18n="translation_notice"></p>
+    </div>
+
+    <div class="count" id="count" aria-live="polite" style="margin-top:20px;"></div>
     <div id="sectionsContainer"></div>
     <div class="empty" id="empty" hidden data-i18n="empty"></div>
   </div>
@@ -379,7 +443,7 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
   <div class="wrap">
     <div class="eyebrow" data-i18n="contact_eyebrow"></div>
     <h2 class="h2" style="margin-top:12px" data-i18n="contact_title"></h2>
-    
+
     <div style="margin-top:32px;">
       <div class="feedback-card">
         <div>
@@ -391,10 +455,26 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
 
       <div class="contact-grid" style="margin-top:0;">
         <p class="lead" data-i18n="contact_desc"></p>
+
         <form class="form" id="form" novalidate>
-          <div class="field"><label for="name" data-i18n="c_name"></label><input id="name" name="name" type="text" autocomplete="name"><div class="err" id="e_name"></div></div>
-          <div class="field"><label for="email" data-i18n="c_email"></label><input id="email" name="email" type="email" autocomplete="email" dir="ltr"><div class="err" id="e_email"></div></div>
-          <div class="field"><label for="message" data-i18n="c_msg"></label><textarea id="message" name="message"></textarea><div class="err" id="e_message"></div></div>
+          <div class="field">
+            <label for="name" data-i18n="c_name"></label>
+            <input id="name" name="name" type="text" autocomplete="name">
+            <div class="err" id="e_name"></div>
+          </div>
+
+          <div class="field">
+            <label for="email" data-i18n="c_email"></label>
+            <input id="email" name="email" type="email" autocomplete="email" dir="ltr">
+            <div class="err" id="e_email"></div>
+          </div>
+
+          <div class="field">
+            <label for="message" data-i18n="c_msg"></label>
+            <textarea id="message" name="message"></textarea>
+            <div class="err" id="e_message"></div>
+          </div>
+
           <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
             <button class="btn btn-primary" type="submit" data-i18n="c_send"></button>
             <span class="status" id="status" aria-live="polite"></span>
@@ -404,14 +484,21 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
     </div>
   </div>
 </section>
+
 </main>
 
-<footer class="foot"><div class="wrap"><span>© 2026 SPhOH</span><span data-i18n="foot"></span></div></footer>
+<footer class="foot">
+  <div class="wrap">
+    <span>© 2026 SPhOH</span>
+    <span data-i18n="foot"></span>
+  </div>
+</footer>
 
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script>
 (function(){
+
 var TOPICS={
   kin:{en:'Kinematics',ar:'الحركة'},
   mech:{en:'Mechanics',ar:'الميكانيكا'},
@@ -420,6 +507,7 @@ var TOPICS={
   therm:{en:'Thermodynamics',ar:'الديناميكا الحرارية'},
   opt:{en:'Optics',ar:'البصريات'}
 };
+
 var LEVELS={
   1:{en:'Level I',ar:'المستوى الأول'},
   2:{en:'Level II',ar:'المستوى الثاني'},
@@ -428,135 +516,301 @@ var LEVELS={
 
 var FAQS=[
   {
-    q:{en:'What is SPhOH?', ar:'ما هو SPhOH؟'},
-    a:{en:'SPhOH (Physics Olympiad Hub) is a specialized training platform providing high-quality problem sets and resources for students preparing for national and international physics olympiads.', ar:'SPhOH هي منصة تدريبية متخصصة تقدم مجموعات مسائل وموارد عالية الجودة للطلاب المستعدين للأولمبيادات الوطنية والدولية للفيزياء.'}
+    q:{en:'What is SPhOH?',ar:'ما هو SPhOH؟'},
+    a:{
+      en:'SPhOH (Physics Olympiad Hub) is a specialized training platform providing high-quality problem sets and resources for students preparing for national and international physics olympiads.',
+      ar:'SPhOH هي منصة تدريبية متخصصة تقدم مجموعات مسائل وموارد عالية الجودة للطلاب المستعدين للأولمبيادات الوطنية والدولية للفيزياء.'
+    }
   },
   {
-    q:{en:'Are all problem sets free to download?', ar:'هل جميع مجموعات المسائل مجانية للتحميل؟'},
-    a:{en:'Yes, all our PDFs and resources are completely free for students, teachers, and physics enthusiasts worldwide.', ar:'نعم، جميع ملفات PDF والموارد المتاحة مجانية تماماً للطلاب والمعلمين وشغوفي الفيزياء حول العالم.'}
+    q:{en:'Are all problem sets free to download?',ar:'هل جميع مجموعات المسائل مجانية للتحميل؟'},
+    a:{
+      en:'Yes, all our PDFs and resources are completely free for students, teachers, and physics enthusiasts worldwide.',
+      ar:'نعم، جميع ملفات PDF والموارد المتاحة مجانية تماماً للطلاب والمعلمين وشغوفي الفيزياء حول العالم.'
+    }
   },
   {
-    q:{en:'How can I contribute or report errors?', ar:'كيف يمكنني المساهمة أو الإبلاغ عن خطأ في المسائل؟'},
-    a:{en:'You can contact our team directly through the contact form or submit feedback via our Google Form link in the contact section.', ar:'يمكنك التواصل مع فريقنا مباشرة من خلال نموذج التواصل أو تقديم الملاحظات من خلال رابط نموذج Google المتاح في قسم التواصل.'}
+    q:{en:'How can I contribute or report errors?',ar:'كيف يمكنني المساهمة أو الإبلاغ عن خطأ في المسائل؟'},
+    a:{
+      en:'You can contact our team directly through the contact form or submit feedback via our Google Form link in the contact section.',
+      ar:'يمكنك التواصل مع فريقنا مباشرة من خلال نموذج التواصل أو تقديم الملاحظات من خلال رابط نموذج Google المتاح في قسم التواصل.'
+    }
   },
-    {
-    q:{en:'How did you get your problems?', ar:'كيف تكتبون مسائلكم؟'},
-    a:{en:'As Olympiad students, we write most of the problems by ourselves. However, there are some problems have been inspired by famous resources: Irodov, Physics for Scintests and Engineers, Fundamentals of Physics, and previous Olympiad problems.', ar:'كطلاب أولمبياد، نكتب معظم المسائل بأنفسنا. الا ان هناك بعض المسائل المستلهمة من بعض المصادر المشهورة: ايرودوف، الفيزياء للعلماء والمهندسين، اساسيات الفيزياء، ومسائل الاولمبيادات السابقة.'}
+  {
+    q:{en:'How did you get your problems?',ar:'كيف تكتبون مسائلكم؟'},
+    a:{
+      en:'As Olympiad students, we write most of the problems by ourselves. However, some problems have been inspired by famous resources: Irodov, Physics for Scientists and Engineers, Fundamentals of Physics, and previous Olympiad problems.',
+      ar:'كطلاب أولمبياد، نكتب معظم المسائل بأنفسنا. إلا أن هناك بعض المسائل المستلهمة من مصادر مشهورة: إيرودوف، والفيزياء للعلماء والمهندسين، وأساسيات الفيزياء، ومسائل الأولمبيادات السابقة.'
+    }
   }
-
 ];
 
 var UI={
- en:{nav_home:'Home',nav_about:'About Us',nav_files:'Files',nav_faq:'FAQ',nav_contact:'Contact',
- hero_eyebrow:'Physics Olympiad Hub',
- hero_title:'Solve harder problems. Think like a physicist.',
- hero_desc:'SPhOH is an open global training hub for physics enthusiasts and students preparing for national and international physics olympiads (IPhO, APhO, EuPhO, and National Selections). Download and preview curated problem sets.',
- hero_cta:'Browse problem sets',
- about_eyebrow:'About Us',about_title:'Built for deliberate practice',
- about_desc:'SPhOH is a dedicated training hub for advanced physics competitions worldwide. Every set is designed around deliberate practice: working on problems just beyond your current level.',
- p1_t:'Graded difficulty',p1_d:'Each problem set is marked Level I, Level II or Challenge, so you can climb at your own pace.',
- p2_t:'Olympiad Focus',p2_d:'Topics and styles mirror what students meet in national team selection and International Physics Olympiad preparation.',
- p3_t:'Structured Content',p3_d:'Problems carefully compiled and formatted for straightforward studying and reference.',
- team_title:'The SPhOH Founders & Team',
- team_desc:'The SPhOH Team writes, checks, and organizes every problem set on the hub, with the goal of making serious physics practice accessible in both Arabic and English.',
- team_vision:'Our vision: every capable physics student worldwide has access to high-quality practice material to compete at the highest level.',
- files_eyebrow:'Files',files_title:'Files & Problem Sets',
- faq_eyebrow:'FAQ',faq_title:'Frequently Asked Questions',
- empty:'No problem sets found.',
- btn_preview:'👁️ Preview PDF',btn_download:'📥 Download PDF',
- pdf_toast:'The PDF for this set has not been attached yet.',
- n_sets:function(n){return n+(n===1?' problem set':' problem sets');},
- contact_eyebrow:'Contact',contact_title:'Get in touch',
- contact_desc:'Found a mistake, want to suggest a topic, or interested in contributing problems? Write to the SPhOH Team.',
- fb_title:'Have feedback or suggestions?',
- fb_desc:'Help us improve SPhOH by filling out our feedback form.',
- fb_btn:'Open Feedback Form ↗',
- c_name:'Name',c_email:'Email',c_msg:'Message',c_send:'Send message',
- e_name:'Please enter your name.',e_email:'Please enter a valid email address.',e_msg:'Please write a message.',
- c_ok:'Your message is complete, but sending is not connected on this page yet.',
- foot:'Deliberate practice for physics olympiads'},
- ar:{nav_home:'الرئيسية',nav_about:'من نحن',nav_files:'الملفات',nav_faq:'الأسئلة الشائعة',nav_contact:'تواصل',
- hero_eyebrow:'مركز أولمبياد الفيزياء',
- hero_title:'حلّ مسائل أصعب. فكّر كفيزيائي.',
- hero_desc:'SPhOH منصة تدريب عالمية مفتوحة للطلاب والمهتمين المستعدين للأولمبيادات الوطنية والدولية للفيزياء (IPhO, APhO, EuPhO والترشيحات الوطنية). تصفح وعاين وحمّل مجموعات المسائل المتقدمة.',
- hero_cta:'تصفّح مجموعات المسائل',
- about_eyebrow:'من نحن',about_title:'منصة قائمة على التدريب المقصود',
- about_desc:'SPhOH مورد تدريبي لمسابقات الفيزياء المتقدمة. صُممت كل مجموعة على مبدأ التدريب المقصود: العمل على مسائل أعلى قليلاً من مستواك الحالي.',
- p1_t:'مستويات متدرجة',p1_d:'كل مجموعة مسائل مصنفة: المستوى الأول أو الثاني أو تحدٍّ، لتتقدم بالسرعة التي تناسبك.',
- p2_t:'تركيز على الأولمبياد',p2_d:'المواضيع والأساليب تتبع ما يواجهه الطلاب في ترشيحات المنتخبات الوطنية والاستعداد لأولمبياد الفيزياء الدولي.',
- p3_t:'محتوى منظم',p3_d:'مسائل مجمعة ومنسقة بعناية لتسهيل الدراسة والمراجعة.',
- team_title:'مؤسسو وفريق SPhOH',
- team_desc:'يكتب فريق SPhOH كل مجموعة مسائل في المنصة ويراجعها وينظمها، بهدف جعل التدريب الجاد في الفيزياء متاحاً باللغتين العربية والإنجليزية.',
- team_vision:'رؤيتنا: أن يملك كل طالب شغوف بالفيزياء حول العالم مادة التدريب التي تمكّنه من المنافسة على أعلى مستوى.',
- files_eyebrow:'الملفات',files_title:'الملفات ومجموعات المسائل',
- faq_eyebrow:'الأسئلة الشائعة',faq_title:'الأسئلة المتكررة والمعلومات العامة',
- empty:'لا توجد مجموعات مسائل حالياً.',
- btn_preview:'👁️ معاينة PDF',btn_download:'📥 تحميل PDF',
- pdf_toast:'لم يُرفق ملف PDF لهذه المجموعة بعد.',
- n_sets:function(n){return n+' '+(n===1?'مجموعة':(n===2?'مجموعتان':(n<=10?'مجموعات':'مجموعة')));},
- contact_eyebrow:'تواصل',contact_title:'تواصل معنا',
- contact_desc:'وجدت خطأً، أو تريد اقتراح موضوع، أو ترغب في المساهمة بمسائل؟ اكتب إلى فريق SPhOH.',
- fb_title:'لديك ملاحظات أو اقتراحات؟',
- fb_desc:'ساعدنا في تطوير منصة SPhOH من خلال تعبئة نموذج الملاحظات.',
- fb_btn:'تعبئة نموذج الملاحظات ↗',
- c_name:'الاسم',c_email:'البريد الإلكتروني',c_msg:'الرسالة',c_send:'إرسال الرسالة',
- e_name:'يرجى إدخال اسمك.',e_email:'يرجى إدخال بريد إلكتروني صحيح.',e_msg:'يرجى كتابة رسالة.',
- c_ok:'رسالتك مكتملة، لكن الإرسال غير مفعّل في هذه الصفحة بعد.',
- foot:'تدريب مقصود لأولمبياد الفيزياء'}
+  en:{
+    nav_home:'Home',
+    nav_about:'About Us',
+    nav_files:'Files',
+    nav_faq:'FAQ',
+    nav_contact:'Contact',
+
+    hero_eyebrow:'Physics Olympiad Hub',
+    hero_title:'Solve harder problems. Think like a physicist.',
+    hero_desc:'SPhOH is an open global training hub for physics enthusiasts and students preparing for national and international physics olympiads (IPhO, APhO, EuPhO, and National Selections). Download and preview curated problem sets.',
+    hero_cta:'Browse problem sets',
+
+    about_eyebrow:'About Us',
+    about_title:'Built for deliberate practice',
+    about_desc:'SPhOH is a dedicated training hub for advanced physics competitions worldwide. Every set is designed around deliberate practice: working on problems just beyond your current level.',
+
+    p1_t:'Graded difficulty',
+    p1_d:'Each problem set is marked Level I, Level II or Challenge, so you can climb at your own pace.',
+    p2_t:'Olympiad Focus',
+    p2_d:'Topics and styles mirror what students meet in national team selection and International Physics Olympiad preparation.',
+    p3_t:'Structured Content',
+    p3_d:'Problems carefully compiled and formatted for straightforward studying and reference.',
+
+    team_title:'The SPhOH Founders & Team',
+    team_desc:'The SPhOH Team writes, checks, and organizes every problem set on the hub, with the goal of making serious physics practice accessible in both Arabic and English.',
+    team_vision:'Our vision: every capable physics student worldwide has access to high-quality practice material to compete at the highest level.',
+
+    files_eyebrow:'Files',
+    files_title:'Files & Problem Sets',
+
+    translation_notice:'The Arabic versions are still being translated and are under development. To access the English versions, switch the website language to English and download the files as usual.',
+
+    faq_eyebrow:'FAQ',
+    faq_title:'Frequently Asked Questions',
+
+    empty:'No problem sets found.',
+    btn_preview:'👁️ Preview PDF',
+    btn_download:'📥 Download PDF',
+    pdf_toast:'The PDF for this set has not been attached yet.',
+
+    n_sets:function(n){
+      return n+(n===1?' problem set':' problem sets');
+    },
+
+    contact_eyebrow:'Contact',
+    contact_title:'Get in touch',
+    contact_desc:'Found a mistake, want to suggest a topic, or interested in contributing problems? Write to the SPhOH Team.',
+
+    fb_title:'Have feedback or suggestions?',
+    fb_desc:'Help us improve SPhOH by filling out our feedback form.',
+    fb_btn:'Open Feedback Form ↗',
+
+    c_name:'Name',
+    c_email:'Email',
+    c_msg:'Message',
+    c_send:'Send message',
+
+    e_name:'Please enter your name.',
+    e_email:'Please enter a valid email address.',
+    e_msg:'Please write a message.',
+
+    c_ok:'Your message is complete, but sending is not connected on this page yet.',
+    foot:'Deliberate practice for physics olympiads'
+  },
+
+  ar:{
+    nav_home:'الرئيسية',
+    nav_about:'من نحن',
+    nav_files:'الملفات',
+    nav_faq:'الأسئلة الشائعة',
+    nav_contact:'تواصل',
+
+    hero_eyebrow:'مركز أولمبياد الفيزياء',
+    hero_title:'حلّ مسائل أصعب. فكّر كفيزيائي.',
+    hero_desc:'SPhOH منصة تدريب عالمية مفتوحة للطلاب والمهتمين المستعدين للأولمبيادات الوطنية والدولية للفيزياء (IPhO, APhO, EuPhO والترشيحات الوطنية). تصفح وعاين وحمّل مجموعات المسائل المتقدمة.',
+    hero_cta:'تصفّح مجموعات المسائل',
+
+    about_eyebrow:'من نحن',
+    about_title:'منصة قائمة على التدريب المقصود',
+    about_desc:'SPhOH مورد تدريبي لمسابقات الفيزياء المتقدمة. صُممت كل مجموعة على مبدأ التدريب المقصود: العمل على مسائل أعلى قليلاً من مستواك الحالي.',
+
+    p1_t:'مستويات متدرجة',
+    p1_d:'كل مجموعة مسائل مصنفة: المستوى الأول أو الثاني أو تحدٍّ، لتتقدم بالسرعة التي تناسبك.',
+    p2_t:'تركيز على الأولمبياد',
+    p2_d:'المواضيع والأساليب تتبع ما يواجهه الطلاب في ترشيحات المنتخبات الوطنية والاستعداد لأولمبياد الفيزياء الدولي.',
+    p3_t:'محتوى منظم',
+    p3_d:'مسائل مجمعة ومنسقة بعناية لتسهيل الدراسة والمراجعة.',
+
+    team_title:'مؤسسو وفريق SPhOH',
+    team_desc:'يكتب فريق SPhOH كل مجموعة مسائل في المنصة ويراجعها وينظمها، بهدف جعل التدريب الجاد في الفيزياء متاحاً باللغتين العربية والإنجليزية.',
+    team_vision:'رؤيتنا: أن يملك كل طالب شغوف بالفيزياء حول العالم مادة التدريب التي تمكّنه من المنافسة على أعلى مستوى.',
+
+    files_eyebrow:'الملفات',
+    files_title:'الملفات ومجموعات المسائل',
+
+    translation_notice:'النسخ العربية لا تزال قيد الترجمة والتطوير. للحصول على النسخ الإنجليزية، غيّر لغة الموقع إلى الإنجليزية وحمّل الملفات كالمعتاد.',
+
+    faq_eyebrow:'الأسئلة الشائعة',
+    faq_title:'الأسئلة المتكررة والمعلومات العامة',
+
+    empty:'لا توجد مجموعات مسائل حالياً.',
+    btn_preview:'👁️ معاينة PDF',
+    btn_download:'📥 تحميل PDF',
+    pdf_toast:'لم يُرفق ملف PDF لهذه المجموعة بعد.',
+
+    n_sets:function(n){
+      return n+' '+(n===1?'مجموعة':(n===2?'مجموعتان':(n<=10?'مجموعات':'مجموعة')));
+    },
+
+    contact_eyebrow:'تواصل',
+    contact_title:'تواصل معنا',
+    contact_desc:'وجدت خطأً، أو تريد اقتراح موضوع، أو ترغب في المساهمة بمسائل؟ اكتب إلى فريق SPhOH.',
+
+    fb_title:'لديك ملاحظات أو اقتراحات؟',
+    fb_desc:'ساعدنا في تطوير منصة SPhOH من خلال تعبئة نموذج الملاحظات.',
+    fb_btn:'تعبئة نموذج الملاحظات ↗',
+
+    c_name:'الاسم',
+    c_email:'البريد الإلكتروني',
+    c_msg:'الرسالة',
+    c_send:'إرسال الرسالة',
+
+    e_name:'يرجى إدخال اسمك.',
+    e_email:'يرجى إدخال بريد إلكتروني صحيح.',
+    e_msg:'يرجى كتابة رسالة.',
+
+    c_ok:'رسالتك مكتملة، لكن الإرسال غير مفعّل في هذه الصفحة بعد.',
+    foot:'تدريب مقصود لأولمبياد الفيزياء'
+  }
 };
 
 var P=[
-{id:1,t:'mech',l:2,
- pdfUrl:{en:'KiniI (3).pdf', ar:'KiniI_ar.pdf'},
- title:{en:'Kinematics I Problem Set',ar:'مجموعة مسائل الكينماتيكا (الحركة)'},
- desc:{en:'1D & 2D Kinematics, graphical analysis, free fall, and projectile motion problems.',ar:'مسائل الحركة في بعد وبعدين، التحليل البياني، السقوط الحر والمقذوفات.'}},
+  {
+    id:1,
+    t:'mech',
+    l:2,
+    pdfUrl:{en:'KiniI (3).pdf',ar:'KiniI_ar.pdf'},
+    title:{
+      en:'Kinematics I Problem Set',
+      ar:'مجموعة مسائل الكينماتيكا (الحركة)'
+    },
+    desc:{
+      en:'1D & 2D Kinematics, graphical analysis, free fall, and projectile motion problems.',
+      ar:'مسائل الحركة في بعد وبعدين، التحليل البياني، السقوط الحر والمقذوفات.'
+    }
+  },
 
-{id:2,t:'math',l:2,
- pdfUrl:{en:'Vectors (5).pdf', ar:'Vectors_ar.pdf'},
- title:{en:'Vectors Problem Set',ar:'مجموعة مسائل المتجهات'},
- desc:{en:'Vector components, 3D unit vectors, dot products, cross products, and torque.',ar:'مركبات المتجهات، متجه الوحدة في 3D، الضرب القياسي، الضرب الاتجاهي، والعزم.'}},
+  {
+    id:2,
+    t:'math',
+    l:2,
+    pdfUrl:{en:'Vectors (5).pdf',ar:'Vectors_ar.pdf'},
+    title:{
+      en:'Vectors Problem Set',
+      ar:'مجموعة مسائل المتجهات'
+    },
+    desc:{
+      en:'Vector components, 3D unit vectors, dot products, cross products, and torque.',
+      ar:'مركبات المتجهات، متجه الوحدة في 3D، الضرب القياسي، الضرب الاتجاهي، والعزم.'
+    }
+  },
 
-{id:3,t:'mech',l:2,
- pdfUrl:{en:'Fluids_I (4).pdf', ar:'Fluids_I_ar.pdf'},
- title:{en:'Fluids Problem Set',ar:'مجموعة مسائل ميكانيكا الموائع'},
- desc:{en:'Hydrostatic pressure, Pascal\'s principle, buoyancy, and Archimedes\' principle.',ar:'الضغط الهيدروستاتيكي، مبدأ باسكال، قوة الطفو، ومبدأ أرخميدس.'}},
+  {
+    id:3,
+    t:'mech',
+    l:2,
+    pdfUrl:{en:'Fluids_I (4).pdf',ar:'Fluids_I_ar.pdf'},
+    title:{
+      en:'Fluids Problem Set',
+      ar:'مجموعة مسائل ميكانيكا الموائع'
+    },
+    desc:{
+      en:'Hydrostatic pressure, Pascal\'s principle, buoyancy, and Archimedes\' principle.',
+      ar:'الضغط الهيدروستاتيكي، مبدأ باسكال، قوة الطفو، ومبدأ أرخميدس.'
+    }
+  },
 
-{id:4,t:'math',l:1,
- pdfUrl:{en:'UnitCandA.pdf', ar:'UnitCandA_ar.pdf'},
- title:{en:'Units Conversion & Dimensional Analysis',ar:'تحويل الوحدات والتحليل البعدي'},
- desc:{en:'Mastering nested prefixes, conversion factors, dimensional homogeneity, and SI/CGS units.',ar:'إتقان البادئات، معامل التحويل، تجانس الأبعاد، وتحويل الوحدات الأساسية.'}},
+  {
+    id:4,
+    t:'math',
+    l:1,
+    pdfUrl:{en:'UnitCandA.pdf',ar:'UnitCandA_ar.pdf'},
+    title:{
+      en:'Units Conversion & Dimensional Analysis',
+      ar:'تحويل الوحدات والتحليل البعدي'
+    },
+    desc:{
+      en:'Mastering nested prefixes, conversion factors, dimensional homogeneity, and SI/CGS units.',
+      ar:'إتقان البادئات، معامل التحويل، تجانس الأبعاد، وتحويل الوحدات الأساسية.'
+    }
+  },
 
-{id:5,t:'math',l:1,
- pdfUrl:{en:'Trig_I (6).pdf', ar:'Trig_I_ar.pdf'},
- title:{en:'Trigonometry I Problem Set',ar:'مجموعة مسائل حساب المثلثات I'},
- desc:{en:'Trigonometric identities, right triangles, special ratios, and physics vector applications.',ar:'المطابقات المثلثية، المثلث قائم الزاوية، النسب الخاصة، وتطبيقات المتجهات بالفيزياء.'}},
+  {
+    id:5,
+    t:'math',
+    l:1,
+    pdfUrl:{en:'Trig_I (6).pdf',ar:'Trig_I_ar.pdf'},
+    title:{
+      en:'Trigonometry I Problem Set',
+      ar:'مجموعة مسائل حساب المثلثات I'
+    },
+    desc:{
+      en:'Trigonometric identities, right triangles, special ratios, and physics vector applications.',
+      ar:'المطابقات المثلثية، المثلث قائم الزاوية، النسب الخاصة، وتطبيقات المتجهات بالفيزياء.'
+    }
+  },
 
-{id:6,t:'math',l:2,
- pdfUrl:{en:'AlgebraI (4).pdf', ar:'AlgebraI_ar.pdf'},
- title:{en:'Algebra I Problem Set',ar:'مجموعة مسائل الجبر I'},
- desc:{en:'40 progressive problems: linear/quadratic equations, system derivations, and physics approximations.',ar:'40 مسألة متدرجة: معادلات خطية وتربيعية، اشتقاقات النظام، والتقريبات الفيزيائية.'}}
+  {
+    id:6,
+    t:'math',
+    l:2,
+    pdfUrl:{en:'AlgebraI (4).pdf',ar:'AlgebraI_ar.pdf'},
+    title:{
+      en:'Algebra I Problem Set',
+      ar:'مجموعة مسائل الجبر I'
+    },
+    desc:{
+      en:'40 progressive problems: linear/quadratic equations, system derivations, and physics approximations.',
+      ar:'40 مسألة متدرجة: معادلات خطية وتربيعية، اشتقاقات النظام، والتقريبات الفيزيائية.'
+    }
+  }
 ];
 
 var lang='ar';
-try{var s=localStorage.getItem('sphoh-lang');if(s==='en'||s==='ar')lang=s;}catch(e){}
+
+try{
+  var s=localStorage.getItem('sphoh-lang');
+  if(s==='en'||s==='ar')lang=s;
+}catch(e){}
 
 var theme='auto';
-try{var th=localStorage.getItem('sphoh-theme');if(th==='light'||th==='dark')theme=th;}catch(e){}
 
-var $=function(s,r){return (r||document).querySelector(s);};
-var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
-function tt(k){return UI[lang][k];}
+try{
+  var th=localStorage.getItem('sphoh-theme');
+  if(th==='light'||th==='dark')theme=th;
+}catch(e){}
+
+var $=function(s,r){
+  return (r||document).querySelector(s);
+};
+
+var $$=function(s,r){
+  return Array.prototype.slice.call((r||document).querySelectorAll(s));
+};
+
+function tt(k){
+  return UI[lang][k];
+}
 
 function applyTheme(){
   var root=document.documentElement;
+
   if(theme==='auto'){
     root.removeAttribute('data-theme');
-    var isDark=window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    var isDark=window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches;
+
     $('#themeIcon').textContent=isDark?'🌙':'☀️';
     $('#themeText').textContent=isDark?'Dark':'Light';
-  } else {
+  }else{
     root.setAttribute('data-theme',theme);
+
     var isDark=theme==='dark';
+
     $('#themeIcon').textContent=isDark?'🌙':'☀️';
     $('#themeText').textContent=isDark?'Dark':'Light';
   }
@@ -564,69 +818,128 @@ function applyTheme(){
 
 function applyLang(){
   var root=document.documentElement;
-  root.lang=lang;root.dir=lang==='ar'?'rtl':'ltr';
-  $$('[data-i18n]').forEach(function(el){var v=tt(el.getAttribute('data-i18n'));if(typeof v==='string')el.textContent=v;});
-  $$('#langBtn span').forEach(function(sp){sp.classList.toggle('on',sp.getAttribute('data-l')===lang);});
+
+  root.lang=lang;
+  root.dir=lang==='ar'?'rtl':'ltr';
+
+  $$('[data-i18n]').forEach(function(el){
+    var v=tt(el.getAttribute('data-i18n'));
+
+    if(typeof v==='string'){
+      el.textContent=v;
+    }
+  });
+
+  $$('#langBtn span').forEach(function(sp){
+    sp.classList.toggle(
+      'on',
+      sp.getAttribute('data-l')===lang
+    );
+  });
+
   renderGrid();
   renderFAQ();
-  
+
   var statusEl=$('#status');
-  if(statusEl){statusEl.textContent='';statusEl.className='status';}
+
+  if(statusEl){
+    statusEl.textContent='';
+    statusEl.className='status';
+  }
+
   ['name','email','message'].forEach(function(k){
     var el=$('#e_'+k);
-    if(el) el.textContent='';
+
+    if(el){
+      el.textContent='';
+    }
   });
 }
 
 function tags(p){
-  var pips='';for(var i=1;i<=3;i++)pips+='<b'+(i<=p.l?' class="on"':'')+'></b>';
-  return '<span class="tag" data-topic="'+p.t+'">'+TOPICS[p.t][lang]+'</span><span class="tag lvl" data-lvl="'+p.l+'"><span class="pips">'+pips+'</span>'+LEVELS[p.l][lang]+'</span>';
+  var pips='';
+
+  for(var i=1;i<=3;i++){
+    pips+='<b'+(i<=p.l?' class="on"':'')+'></b>';
+  }
+
+  return '<span class="tag" data-topic="'+p.t+'">'+
+    TOPICS[p.t][lang]+
+    '</span>'+
+    '<span class="tag lvl" data-lvl="'+p.l+'">'+
+    '<span class="pips">'+pips+'</span>'+
+    LEVELS[p.l][lang]+
+    '</span>';
 }
 
 function renderGrid(){
   var list=P;
+
   $('#count').textContent=tt('n_sets')(list.length);
   $('#empty').hidden=list.length>0;
 
   var container=$('#sectionsContainer');
+
   container.innerHTML='';
 
-  if(list.length===0) return;
+  if(list.length===0)return;
 
   var grouped={};
+
   list.forEach(function(p){
-    if(!grouped[p.t]) grouped[p.t]=[];
+    if(!grouped[p.t]){
+      grouped[p.t]=[];
+    }
+
     grouped[p.t].push(p);
   });
 
   Object.keys(grouped).forEach(function(topicKey){
     var groupEl=document.createElement('div');
+
     groupEl.className='topic-group';
 
-    var titleText=TOPICS[topicKey]?TOPICS[topicKey][lang]:topicKey;
-    var html='<h3 class="topic-title"><span>'+titleText+'</span></h3>';
+    var titleText=TOPICS[topicKey]
+      ?TOPICS[topicKey][lang]
+      :topicKey;
+
+    var html='<h3 class="topic-title"><span>'+
+      titleText+
+      '</span></h3>';
+
     html+='<div class="grid">';
 
     grouped[topicKey].forEach(function(p){
-      var pdfPath=(typeof p.pdfUrl==='object' ? p.pdfUrl[lang] : p.pdfUrl) || null;
-      
+      var pdfPath=(
+        typeof p.pdfUrl==='object'
+          ?p.pdfUrl[lang]
+          :p.pdfUrl
+      )||null;
+
       html+='<article class="card">'+
         '<div class="tags">'+tags(p)+'</div>'+
         '<h3 class="h3">'+p.title[lang]+'</h3>'+
         '<p>'+p.desc[lang]+'</p>'+
         '<div class="actions">';
-      
+
       if(pdfPath){
-        html+='<a href="'+pdfPath+'" target="_blank" class="btn btn-primary btn-sm">'+tt('btn_preview')+'</a>'+
-              '<a href="'+pdfPath+'" download class="btn btn-ghost btn-sm">'+tt('btn_download')+'</a>';
-      } else {
-        html+='<button type="button" class="btn btn-ghost btn-sm" data-pdf="'+p.id+'">'+tt('btn_preview')+'</button>';
+        html+='<a href="'+pdfPath+'" target="_blank" class="btn btn-primary btn-sm">'+
+          tt('btn_preview')+
+          '</a>'+
+          '<a href="'+pdfPath+'" download class="btn btn-ghost btn-sm">'+
+          tt('btn_download')+
+          '</a>';
+      }else{
+        html+='<button type="button" class="btn btn-ghost btn-sm" data-pdf="'+p.id+'">'+
+          tt('btn_preview')+
+          '</button>';
       }
 
       html+='</div></article>';
     });
 
     html+='</div>';
+
     groupEl.innerHTML=html;
     container.appendChild(groupEl);
   });
@@ -634,47 +947,83 @@ function renderGrid(){
 
 function renderFAQ(){
   var container=$('#faqContainer');
-  if(!container) return;
+
+  if(!container)return;
+
   container.innerHTML='';
 
-  FAQS.forEach(function(faq, index){
+  FAQS.forEach(function(faq,index){
     var item=document.createElement('div');
+
     item.className='faq-item';
-    
+
     var html='<button type="button" class="faq-question" aria-expanded="false" data-faq="'+index+'">'+
       '<span>'+faq.q[lang]+'</span>'+
       '<span class="faq-icon">+</span>'+
-    '</button>'+
-    '<div class="faq-answer" hidden>'+
+      '</button>'+
+      '<div class="faq-answer" hidden>'+
       '<p style="margin:0;">'+faq.a[lang]+'</p>'+
-    '</div>';
-    
+      '</div>';
+
     item.innerHTML=html;
     container.appendChild(item);
   });
 }
 
 var toastT;
-function toast(msg){var t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true;},3200);}
 
-function go(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+function toast(msg){
+  var t=$('#toast');
+
+  t.textContent=msg;
+  t.hidden=false;
+
+  clearTimeout(toastT);
+
+  toastT=setTimeout(function(){
+    t.hidden=true;
+  },3200);
+}
+
+function go(id){
+  var el=document.getElementById(id);
+
+  if(el){
+    el.scrollIntoView({
+      behavior:'smooth',
+      block:'start'
+    });
+  }
+}
 
 document.addEventListener('click',function(e){
   var a=e.target.closest('[data-go]');
-  if(a){e.preventDefault();go(a.getAttribute('data-go'));return;}
+
+  if(a){
+    e.preventDefault();
+    go(a.getAttribute('data-go'));
+    return;
+  }
+
   var d=e.target.closest('[data-pdf]');
-  if(d){toast(tt('pdf_toast'));return;}
-  
+
+  if(d){
+    toast(tt('pdf_toast'));
+    return;
+  }
+
   var faqBtn=e.target.closest('[data-faq]');
+
   if(faqBtn){
     var item=faqBtn.closest('.faq-item');
     var ans=item.querySelector('.faq-answer');
     var isOpen=item.hasAttribute('open');
+
     if(isOpen){
       item.removeAttribute('open');
       ans.hidden=true;
       faqBtn.setAttribute('aria-expanded','false');
-    } else {
+    }else{
       item.setAttribute('open','');
       ans.hidden=false;
       faqBtn.setAttribute('aria-expanded','true');
@@ -684,48 +1033,97 @@ document.addEventListener('click',function(e){
 
 $('#langBtn').addEventListener('click',function(){
   lang=lang==='ar'?'en':'ar';
-  try{localStorage.setItem('sphoh-lang',lang);}catch(e){}
+
+  try{
+    localStorage.setItem('sphoh-lang',lang);
+  }catch(e){}
+
   applyLang();
 });
 
 $('#themeBtn').addEventListener('click',function(){
   var isDark;
+
   if(theme==='auto'){
-    isDark=window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  } else {
+    isDark=window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }else{
     isDark=theme==='dark';
   }
+
   theme=isDark?'light':'dark';
-  try{localStorage.setItem('sphoh-theme',theme);}catch(e){}
+
+  try{
+    localStorage.setItem('sphoh-theme',theme);
+  }catch(e){}
+
   applyTheme();
 });
 
-/* contact form */
+/* Contact form */
 $('#form').addEventListener('submit',function(e){
   e.preventDefault();
-  var n=$('#name').value.trim(),m=$('#email').value.trim(),g=$('#message').value.trim(),ok=true;
+
+  var n=$('#name').value.trim();
+  var m=$('#email').value.trim();
+  var g=$('#message').value.trim();
+  var ok=true;
+
   var re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  $('#e_name').textContent=n?'':tt('e_name');if(!n)ok=false;
-  $('#e_email').textContent=re.test(m)?'':tt('e_email');if(!re.test(m))ok=false;
-  $('#e_message').textContent=g?'':tt('e_msg');if(!g)ok=false;
+
+  $('#e_name').textContent=n?'':tt('e_name');
+  if(!n)ok=false;
+
+  $('#e_email').textContent=re.test(m)?'':tt('e_email');
+  if(!re.test(m))ok=false;
+
+  $('#e_message').textContent=g?'':tt('e_msg');
+  if(!g)ok=false;
+
   var st=$('#status');
-  if(ok){st.textContent=tt('c_ok');st.className='status ok';}else{st.textContent='';st.className='status';}
+
+  if(ok){
+    st.textContent=tt('c_ok');
+    st.className='status ok';
+  }else{
+    st.textContent='';
+    st.className='status';
+  }
 });
 
-/* active nav link */
+/* Active navigation link */
 if('IntersectionObserver' in window){
   var io=new IntersectionObserver(function(es){
-    es.forEach(function(en){if(en.isIntersecting){var id=en.target.id;$$('.links a').forEach(function(a){a.classList.toggle('active',a.getAttribute('data-go')===id);});}});
-  },{rootMargin:'-45% 0px -50% 0px'});
+    es.forEach(function(en){
+      if(en.isIntersecting){
+        var id=en.target.id;
+
+        $$('.links a').forEach(function(a){
+          a.classList.toggle(
+            'active',
+            a.getAttribute('data-go')===id
+          );
+        });
+      }
+    });
+  },{
+    rootMargin:'-45% 0px -50% 0px'
+  });
+
   ['home','about','files','faq','contact'].forEach(function(id){
     var el=document.getElementById(id);
-    if(el) io.observe(el);
+
+    if(el){
+      io.observe(el);
+    }
   });
 }
 
 applyTheme();
 applyLang();
+
 })();
 </script>
+
 </body>
 </html>
