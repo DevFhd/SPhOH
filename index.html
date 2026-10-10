@@ -1,19 +1,20 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<!-- Google tag (gtag.js) -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="SPhOH - Physics Olympiad Hub: A training resource and problem repository for advanced physics competitions and international olympiads.">
+<title>SPhOH - Physics Olympiad Hub</title>
+
+<!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-018KWMJE3F"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-018KWMJE3F');
 </script>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="SPhOH - Physics Olympiad Hub: A training resource and problem repository for advanced physics competitions and international olympiads.">
-<title>SPhOH - Physics Olympiad Hub</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
@@ -46,8 +47,10 @@
 
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0e1512; --band:#141d19; --surface:#18221e; --fg:#e8f0ec; --muted:#9fb0a8; --line:#2a3832;
-    --accent:#3fcf90; --accent-ink:#06150e; --accent-soft:#17352a; --focus:#3fcf90;
+    --bg:#0e1512; --band:#141d19; --surface:#18221e;
+    --fg:#e8f0ec; --muted:#9fb0a8; --line:#2a3832;
+    --accent:#3fcf90; --accent-ink:#06150e;
+    --accent-soft:#17352a; --focus:#3fcf90;
     --kin-bg:#3b1f1d; --kin-fg:#ff9f96;
     --mech-bg:#1c2b4a; --mech-fg:#9dbcff;
     --math-bg:#3b1d54; --math-fg:#d8b4fe;
@@ -59,8 +62,10 @@
 }
 
 :root[data-theme="dark"]{
-  --bg:#0e1512; --band:#141d19; --surface:#18221e; --fg:#e8f0ec; --muted:#9fb0a8; --line:#2a3832;
-  --accent:#3fcf90; --accent-ink:#06150e; --accent-soft:#17352a; --focus:#3fcf90;
+  --bg:#0e1512; --band:#141d19; --surface:#18221e;
+  --fg:#e8f0ec; --muted:#9fb0a8; --line:#2a3832;
+  --accent:#3fcf90; --accent-ink:#06150e;
+  --accent-soft:#17352a; --focus:#3fcf90;
   --kin-bg:#3b1f1d; --kin-fg:#ff9f96;
   --mech-bg:#1c2b4a; --mech-fg:#9dbcff;
   --math-bg:#3b1d54; --math-fg:#d8b4fe;
@@ -71,8 +76,10 @@
 }
 
 :root[data-theme="light"]{
-  --bg:#ffffff; --band:#f3f5f4; --surface:#ffffff; --fg:#14201b; --muted:#55655e; --line:#dfe5e2;
-  --accent:#0d7a4b; --accent-ink:#ffffff; --accent-soft:#e1f3ea; --focus:#0d7a4b;
+  --bg:#ffffff; --band:#f3f5f4; --surface:#ffffff;
+  --fg:#14201b; --muted:#55655e; --line:#dfe5e2;
+  --accent:#0d7a4b; --accent-ink:#ffffff;
+  --accent-soft:#e1f3ea; --focus:#0d7a4b;
   --kin-bg:#fde8e6; --kin-fg:#a9261b;
   --mech-bg:#e3edfd; --mech-fg:#1d4aa8;
   --math-bg:#f3e8ff; --math-fg:#6b21a8;
@@ -83,34 +90,143 @@
 }
 
 html{scroll-behavior:smooth}
-body.site{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.7;margin:0;overflow-x:hidden}
+
+body.site{
+  background:var(--bg);
+  color:var(--fg);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.7;
+  margin:0;
+  overflow-x:hidden;
+}
+
 .wrap{max-width:1120px;margin-inline:auto;padding-inline:20px}
 section.block{padding-block:72px;scroll-margin-top:96px}
 section.band{background:var(--band)}
-.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:500}
-[dir="rtl"] .eyebrow{letter-spacing:0;font-family:var(--font-body);font-size:13px;font-weight:600}
-h1.display,h2.h2,h3.h3{font-family:var(--font-display);text-wrap:balance;margin:0;letter-spacing:-.02em;line-height:1.12}
+
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--accent);
+  font-weight:500;
+}
+
+[dir="rtl"] .eyebrow{
+  letter-spacing:0;
+  font-family:var(--font-body);
+  font-size:13px;
+  font-weight:600;
+}
+
+h1.display,h2.h2,h3.h3{
+  font-family:var(--font-display);
+  text-wrap:balance;
+  margin:0;
+  letter-spacing:-.02em;
+  line-height:1.12;
+}
+
 h1.display{font-size:clamp(2.2rem,5.4vw,3.8rem);font-weight:800}
 h2.h2{font-size:clamp(1.7rem,3.4vw,2.4rem);font-weight:700}
 h3.h3{font-size:1.15rem;font-weight:700;letter-spacing:-.01em;line-height:1.3}
-[dir="rtl"] h1.display,[dir="rtl"] h2.h2,[dir="rtl"] h3.h3{letter-spacing:0;line-height:1.35}
+
+[dir="rtl"] h1.display,
+[dir="rtl"] h2.h2,
+[dir="rtl"] h3.h3{
+  letter-spacing:0;
+  line-height:1.35;
+}
+
 p.lead{color:var(--muted);font-size:1.075rem;max-width:60ch;margin:0}
 
-a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:6px}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible{
+  outline:2px solid var(--focus);
+  outline-offset:3px;
+  border-radius:6px;
+}
 
-.nav{position:sticky;top:0;top:env(safe-area-inset-top,0px);z-index:40;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.nav-row{display:flex;align-items:center;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;padding-block:12px}
-.logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:800;font-size:1.35rem;letter-spacing:-.02em;color:var(--fg);text-decoration:none;direction:ltr}
+.nav{
+  position:sticky;
+  top:0;
+  top:env(safe-area-inset-top,0px);
+  z-index:40;
+  background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+
+.nav-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px 24px;
+  flex-wrap:wrap;
+  padding-block:12px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:1.35rem;
+  letter-spacing:-.02em;
+  color:var(--fg);
+  text-decoration:none;
+  direction:ltr;
+}
+
 .logo svg{color:var(--accent)}
-.links{display:flex;gap:4px;order:3;width:100%;overflow-x:auto;scrollbar-width:none}
+
+.links{
+  display:flex;
+  gap:4px;
+  order:3;
+  width:100%;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+
 .links::-webkit-scrollbar{display:none}
-@media (min-width:760px){.links{order:0;width:auto;overflow:visible}}
-.links a{padding:8px 14px;border-radius:999px;color:var(--muted);text-decoration:none;font-weight:500;font-size:.95rem;white-space:nowrap}
+
+@media (min-width:760px){
+  .links{order:0;width:auto;overflow:visible}
+}
+
+.links a{
+  padding:8px 14px;
+  border-radius:999px;
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:500;
+  font-size:.95rem;
+  white-space:nowrap;
+}
+
 .links a:hover{color:var(--fg);background:var(--band)}
 .links a.active{color:var(--accent);background:var(--accent-soft)}
 
 .nav-controls{display:flex;align-items:center;gap:8px}
-.theme-btn,.lang{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer;color:var(--muted);transition:background .15s,color .15s,border-color .15s}
+
+.theme-btn,.lang{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--surface);
+  cursor:pointer;
+  color:var(--muted);
+  transition:background .15s,color .15s,border-color .15s;
+}
+
 .theme-btn{padding:6px 12px;font-size:14px;gap:6px}
 .theme-btn:hover,.lang:hover{border-color:var(--accent);color:var(--fg)}
 .lang{padding:3px;font-family:var(--font-mono);font-size:13px}
@@ -118,40 +234,147 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 .lang span.on{background:var(--accent);color:var(--accent-ink);font-weight:500}
 
 .hero{padding-block:64px 80px}
-.hero-grid{display:grid;grid-template-columns:1fr;gap:48px;align-items:center}
-@media (min-width:900px){.hero-grid{grid-template-columns:1.05fr .95fr}}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:48px;
+  align-items:center;
+}
+
+@media (min-width:900px){
+  .hero-grid{grid-template-columns:1.05fr .95fr}
+}
+
 .hero-grid>*{min-width:0}
-.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid transparent;border-radius:10px;padding:12px 20px;font-family:var(--font-body);font-weight:600;font-size:.95rem;cursor:pointer;text-decoration:none;line-height:1.2;transition:transform .15s,background .15s,border-color .15s}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:1px solid transparent;
+  border-radius:10px;
+  padding:12px 20px;
+  font-family:var(--font-body);
+  font-weight:600;
+  font-size:.95rem;
+  cursor:pointer;
+  text-decoration:none;
+  line-height:1.5;
+  transition:transform .15s,background .15s,border-color .15s;
+}
+
 .btn-primary{background:var(--accent);color:var(--accent-ink)}
 .btn-primary:hover{transform:translateY(-1px)}
 .btn-ghost{background:var(--surface);border-color:var(--line);color:var(--fg)}
 .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
 .btn-sm{padding:8px 14px;font-size:.88rem;border-radius:8px}
 [dir="rtl"] .arrow{transform:scaleX(-1)}
-.sketch{border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:18px 18px 12px}
-.sketch svg{width:100%;height:auto;display:block}
-.sketch .cap{font-family:var(--font-mono);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;direction:ltr;padding-top:8px}
 
-.about-grid{display:grid;gap:40px;grid-template-columns:1fr;margin-top:32px}
-@media (min-width:860px){.about-grid{grid-template-columns:1.1fr .9fr}}
+.sketch{
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:var(--surface);
+  padding:18px 18px 12px;
+}
+
+.sketch svg{width:100%;height:auto;display:block}
+
+.sketch .cap{
+  font-family:var(--font-mono);
+  font-size:13px;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  direction:ltr;
+  padding-top:8px;
+}
+
+.about-grid{
+  display:grid;
+  gap:40px;
+  grid-template-columns:1fr;
+  margin-top:32px;
+}
+
+@media (min-width:860px){
+  .about-grid{grid-template-columns:1.1fr .9fr}
+}
+
 .about-grid>*{min-width:0}
 .pillars{display:grid;gap:18px;margin-top:28px}
 .pillar{display:flex;gap:16px}
 .pillar b{font-family:var(--font-display);display:block;font-size:1.05rem;line-height:1.3}
 .pillar span{color:var(--muted);font-size:.95rem}
-.pillar i{flex:none;width:36px;height:36px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-style:normal;font-family:var(--font-mono);font-weight:500;font-size:14px;margin-top:2px}
 
-.team{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px}
+.pillar i{
+  flex:none;
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  background:var(--accent-soft);
+  color:var(--accent);
+  display:grid;
+  place-items:center;
+  font-style:normal;
+  font-family:var(--font-mono);
+  font-weight:500;
+  font-size:14px;
+  margin-top:2px;
+}
+
+.team{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:28px;
+}
+
 .team p{margin:12px 0 0;color:var(--muted)}
-.team-members{display:grid;gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
-.member-item{display:flex;justify-content:space-between;align-items:center;font-size:.92rem;gap:12px}
+
+.team-members{
+  display:grid;
+  gap:12px;
+  margin-top:20px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+}
+
+.member-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:.92rem;
+  gap:12px;
+}
+
 .member-name{font-weight:600;color:var(--fg)}
-.member-role{font-family:var(--font-mono);font-size:.82rem;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:6px;white-space:nowrap}
-.vision{margin-top:20px;padding-top:20px;border-top:1px solid var(--line);color:var(--fg);font-weight:500}
+
+.member-role{
+  font-family:var(--font-mono);
+  font-size:.82rem;
+  color:var(--accent);
+  background:var(--accent-soft);
+  padding:2px 8px;
+  border-radius:6px;
+  white-space:nowrap;
+}
+
+.vision{
+  margin-top:20px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+  color:var(--fg);
+  font-weight:500;
+}
 
 .count{color:var(--muted);font-size:.9rem;margin-bottom:28px;font-variant-numeric:tabular-nums}
 
 /* Translation notice */
+
 .translation-notice{
   display:flex;
   align-items:flex-start;
@@ -166,27 +389,55 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   color:var(--fg);
 }
 
-.translation-notice .notice-icon{
-  flex:none;
-  font-size:1.1rem;
-  line-height:1.7;
-}
-
-.translation-notice p{
-  margin:0;
-  font-size:.95rem;
-  line-height:1.8;
-}
+.translation-notice .notice-icon{flex:none;font-size:1.1rem;line-height:1.7}
+.translation-notice p{margin:0;font-size:.95rem;line-height:1.8}
 
 .topic-group{margin-bottom:48px}
-.topic-title{font-size:1.5rem;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--line);color:var(--accent);display:flex;align-items:center;gap:10px}
 
-.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr))}
-.card{display:flex;flex-direction:column;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;min-width:0;transition:border-color .15s,transform .15s}
+.topic-title{
+  font-size:1.5rem;
+  margin-bottom:20px;
+  padding-bottom:10px;
+  border-bottom:2px solid var(--line);
+  color:var(--accent);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.grid{
+  display:grid;
+  gap:20px;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));
+}
+
+.card{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:22px;
+  min-width:0;
+  transition:border-color .15s,transform .15s;
+}
+
 .card:hover{border-color:var(--accent);transform:translateY(-2px)}
 .card p{margin:0;color:var(--muted);font-size:.95rem;flex:1}
 .tags{display:flex;gap:8px;flex-wrap:wrap}
-.tag{display:inline-flex;align-items:center;gap:6px;border-radius:6px;padding:3px 10px;font-size:.78rem;font-weight:600;line-height:1.5}
+
+.tag{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border-radius:6px;
+  padding:3px 10px;
+  font-size:.78rem;
+  font-weight:600;
+  line-height:1.5;
+}
+
 .tag[data-topic="kin"]{background:var(--kin-bg);color:var(--kin-fg)}
 .tag[data-topic="mech"]{background:var(--mech-bg);color:var(--mech-fg)}
 .tag[data-topic="math"]{background:var(--math-bg);color:var(--math-fg)}
@@ -201,39 +452,200 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
 .empty{padding:48px 16px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}
 
-/* FAQ Styles */
+/* FAQ */
+
 .faq-list{display:grid;gap:16px;margin-top:32px}
-.faq-item{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .15s}
+
+.faq-item{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  transition:border-color .15s;
+}
+
 .faq-item:hover{border-color:var(--accent)}
-.faq-question{width:100%;text-align:inherit;padding:20px 24px;background:none;border:none;font:inherit;font-weight:600;font-size:1.05rem;color:var(--fg);display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer}
+
+.faq-question{
+  width:100%;
+  text-align:inherit;
+  padding:20px 24px;
+  background:none;
+  border:none;
+  font:inherit;
+  font-weight:600;
+  font-size:1.05rem;
+  color:var(--fg);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  cursor:pointer;
+}
+
 .faq-icon{transition:transform .2s ease;font-size:1.2rem;color:var(--accent)}
 .faq-item[open] .faq-icon{transform:rotate(45deg)}
 .faq-answer{padding:0 24px 20px;color:var(--muted);font-size:.98rem;line-height:1.6}
 
-.contact-grid{display:grid;gap:40px;grid-template-columns:1fr;margin-top:32px}
-@media (min-width:860px){.contact-grid{grid-template-columns:.8fr 1.2fr}}
+/* Contact */
+
+.contact-grid{
+  display:grid;
+  gap:40px;
+  grid-template-columns:1fr;
+  margin-top:32px;
+}
+
+@media (min-width:860px){
+  .contact-grid{grid-template-columns:.8fr 1.2fr}
+}
+
 .contact-grid>*{min-width:0}
-form.form{display:grid;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px}
+
+form.form{
+  display:grid;
+  gap:18px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:28px;
+}
+
 .field{display:grid;gap:6px}
 .field label{font-weight:600;font-size:.9rem}
-.field input,.field textarea{width:100%;box-sizing:border-box;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:inherit;line-height:1.5}
+
+.field input,.field textarea{
+  width:100%;
+  box-sizing:border-box;
+  background:var(--bg);
+  color:var(--fg);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:12px 14px;
+  font:inherit;
+  line-height:1.5;
+}
+
 .field textarea{min-height:140px;resize:vertical}
 .field input:focus,.field textarea:focus{border-color:var(--accent)}
 .field .err{color:var(--kin-fg);font-size:.85rem;min-height:1em}
 .status{font-size:.95rem;color:var(--muted);min-height:1.5em}
 .status.ok{color:var(--accent)}
 
-.feedback-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.feedback-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:24px;
+  margin-bottom:24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
 .feedback-card div{max-width:500px}
 .feedback-card h3{margin:0 0 6px;font-size:1.1rem;color:var(--fg)}
 .feedback-card p{margin:0;font-size:.92rem;color:var(--muted)}
 
-footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.9rem}
-.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+/* Telegram */
 
-.toast{position:fixed;inset-inline:16px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:70;margin-inline:auto;width:fit-content;max-width:100%;background:var(--fg);color:var(--bg);padding:12px 18px;border-radius:12px;font-size:.92rem;box-sizing:border-box}
+.telegram-card{
+  border-color:color-mix(in srgb,#229ED9 35%,var(--line));
+}
+
+.telegram-card .telegram-icon{
+  flex:none;
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:rgba(34,158,217,.12);
+  color:#229ED9;
+}
+
+.telegram-card .telegram-icon svg{
+  width:25px;
+  height:25px;
+  display:block;
+}
+
+.telegram-btn{
+  background:#229ED9;
+  color:#ffffff;
+}
+
+.telegram-btn:hover{
+  background:#168ac1;
+  color:#ffffff;
+  transform:translateY(-1px);
+}
+
+.telegram-link{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  color:var(--accent);
+  text-decoration:none;
+  font-weight:600;
+}
+
+.telegram-link:hover{text-decoration:underline}
+
+footer.foot{
+  border-top:1px solid var(--line);
+  padding-block:28px;
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+.foot .wrap{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.footer-right{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+.toast{
+  position:fixed;
+  inset-inline:16px;
+  bottom:calc(20px + env(safe-area-inset-bottom,0px));
+  z-index:70;
+  margin-inline:auto;
+  width:fit-content;
+  max-width:100%;
+  background:var(--fg);
+  color:var(--bg);
+  padding:12px 18px;
+  border-radius:12px;
+  font-size:.92rem;
+  box-sizing:border-box;
+}
+
 .toast[hidden]{display:none}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+@media (max-width:480px){
+  .feedback-card{padding:20px}
+  .feedback-card .btn{width:100%}
+  .member-item{align-items:flex-start;flex-direction:column;gap:4px}
+  .footer-right{justify-content:flex-start}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none!important;transition:none!important}
+}
 </style>
 </head>
 
@@ -241,6 +653,7 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
 
 <header class="nav">
   <div class="wrap nav-row">
+
     <a class="logo" href="#home" data-go="home" aria-label="SPhOH">
       <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <ellipse cx="16" cy="16" rx="13" ry="5.5" stroke="currentColor" stroke-width="1.8"/>
@@ -270,13 +683,17 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
         <span data-l="en">EN</span>
       </button>
     </div>
+
   </div>
 </header>
 
 <main>
 
+<!-- HOME -->
+
 <section class="block hero" id="home">
   <div class="wrap hero-grid">
+
     <div>
       <div class="eyebrow" data-i18n="hero_eyebrow"></div>
       <h1 class="display" style="margin-top:16px" data-i18n="hero_title"></h1>
@@ -296,15 +713,15 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
       <svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--line)" stroke-width="0.5" opacity="0.6" />
+            <path d="M20 0 L0 0 0 20" fill="none" stroke="var(--line)" stroke-width="0.5" opacity="0.6"/>
           </pattern>
 
           <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--muted)" />
+            <path d="M0 1 L10 5 L0 9 z" fill="var(--muted)"/>
           </marker>
 
           <marker id="vec-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 2 L 10 5 L 0 8 z" fill="var(--kin-fg)" />
+            <path d="M0 2 L10 5 L0 8 z" fill="var(--kin-fg)"/>
           </marker>
 
           <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
@@ -313,53 +730,62 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
           </linearGradient>
         </defs>
 
-        <rect width="100%" height="100%" fill="url(#grid)" rx="8" />
-        <line x1="20" y1="220" x2="420" y2="220" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)" />
-        <line x1="40" y1="240" x2="40" y2="20" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)" />
+        <rect width="100%" height="100%" fill="url(#grid)" rx="8"/>
+
+        <line x1="20" y1="220" x2="420" y2="220" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <line x1="40" y1="240" x2="40" y2="20" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+
         <text x="415" y="240" fill="var(--muted)" font-family="var(--font-mono)" font-size="12">x</text>
         <text x="20" y="30" fill="var(--muted)" font-family="var(--font-mono)" font-size="12">y</text>
 
-        <path d="M 40 220 Q 220 -100 400 220 Z" fill="url(#fade)" />
-        <path d="M 40 220 Q 220 -100 400 220" stroke="var(--accent)" stroke-width="2.5" fill="none" stroke-linecap="round" />
+        <path d="M40 220 Q220 -100 400 220 Z" fill="url(#fade)"/>
+        <path d="M40 220 Q220 -100 400 220" stroke="var(--accent)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
 
-        <line x1="40" y1="60" x2="220" y2="60" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 4" />
-        <line x1="220" y1="220" x2="220" y2="60" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 4" />
-        <path d="M 40 235 L 400 235" stroke="var(--muted)" stroke-width="1" />
-        <line x1="40" y1="230" x2="40" y2="240" stroke="var(--muted)" stroke-width="1" />
-        <line x1="400" y1="230" x2="400" y2="240" stroke="var(--muted)" stroke-width="1" />
+        <line x1="40" y1="60" x2="220" y2="60" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 4"/>
+        <line x1="220" y1="220" x2="220" y2="60" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 4"/>
+
+        <path d="M40 235 L400 235" stroke="var(--muted)" stroke-width="1"/>
+        <line x1="40" y1="230" x2="40" y2="240" stroke="var(--muted)" stroke-width="1"/>
+        <line x1="400" y1="230" x2="400" y2="240" stroke="var(--muted)" stroke-width="1"/>
+
         <text x="220" y="250" fill="var(--fg)" font-family="var(--font-mono)" font-size="13" text-anchor="middle">R</text>
         <text x="20" y="65" fill="var(--fg)" font-family="var(--font-mono)" font-size="13">H</text>
 
-        <path d="M 75 220 A 35 35 0 0 0 58 188" stroke="var(--fg)" stroke-width="1.5" fill="none" />
+        <path d="M75 220 A35 35 0 0 0 58 188" stroke="var(--fg)" stroke-width="1.5" fill="none"/>
         <text x="82" y="210" fill="var(--fg)" font-family="var(--font-mono)" font-size="14">θ</text>
-        <line x1="40" y1="220" x2="100" y2="220" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="3 3" />
-        <line x1="100" y1="220" x2="100" y2="120" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="3 3" />
-        <line x1="40" y1="220" x2="100" y2="113.3" stroke="var(--kin-fg)" stroke-width="2.5" marker-end="url(#vec-arrow)" />
+
+        <line x1="40" y1="220" x2="100" y2="220" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <line x1="100" y1="220" x2="100" y2="120" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <line x1="40" y1="220" x2="100" y2="113.3" stroke="var(--kin-fg)" stroke-width="2.5" marker-end="url(#vec-arrow)"/>
+
         <text x="105" y="105" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="14" font-weight="bold">v₀</text>
 
-        <circle cx="130" cy="100" r="4" fill="var(--accent)" />
-        <line x1="130" y1="100" x2="184" y2="52" stroke="var(--kin-fg)" stroke-width="2" marker-end="url(#vec-arrow)" />
+        <circle cx="130" cy="100" r="4" fill="var(--accent)"/>
+        <line x1="130" y1="100" x2="184" y2="52" stroke="var(--kin-fg)" stroke-width="2" marker-end="url(#vec-arrow)"/>
         <text x="190" y="48" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="12">v₁</text>
 
-        <circle cx="220" cy="60" r="4" fill="var(--accent)" />
-        <line x1="220" y1="60" x2="274" y2="60" stroke="var(--kin-fg)" stroke-width="2" marker-end="url(#vec-arrow)" />
+        <circle cx="220" cy="60" r="4" fill="var(--accent)"/>
+        <line x1="220" y1="60" x2="274" y2="60" stroke="var(--kin-fg)" stroke-width="2" marker-end="url(#vec-arrow)"/>
         <text x="280" y="70" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="12">v₀cosθ</text>
 
-        <circle cx="310" cy="100" r="4" fill="var(--accent)" />
-        <line x1="310" y1="100" x2="364" y2="148" stroke="var(--kin-fg)" stroke-width="2" marker-end="url(#vec-arrow)" />
+        <circle cx="310" cy="100" r="4" fill="var(--accent)"/>
+        <line x1="310" y1="100" x2="364" y2="148" stroke="var(--kin-fg)" stroke-width="2" marker-end="url(#vec-arrow)"/>
         <text x="370" y="165" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="12">v₂</text>
 
-        <circle cx="40" cy="220" r="4" fill="var(--accent)" />
-        <circle cx="400" cy="220" r="4" fill="var(--accent)" />
+        <circle cx="40" cy="220" r="4" fill="var(--accent)"/>
+        <circle cx="400" cy="220" r="4" fill="var(--accent)"/>
       </svg>
 
-      <div class="cap" style="justify-content: space-around;">
+      <div class="cap" style="justify-content:space-around">
         <span>R = v₀² sin 2θ / g</span>
         <span>H = v₀² sin²θ / 2g</span>
       </div>
     </div>
+
   </div>
 </section>
+
+<!-- ABOUT -->
 
 <section class="block band" id="about">
   <div class="wrap">
@@ -373,15 +799,26 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
         <div class="pillars">
           <div class="pillar">
             <i>I</i>
-            <div><b data-i18n="p1_t"></b><span data-i18n="p1_d"></span></div>
+            <div>
+              <b data-i18n="p1_t"></b>
+              <span data-i18n="p1_d"></span>
+            </div>
           </div>
+
           <div class="pillar">
             <i>II</i>
-            <div><b data-i18n="p2_t"></b><span data-i18n="p2_d"></span></div>
+            <div>
+              <b data-i18n="p2_t"></b>
+              <span data-i18n="p2_d"></span>
+            </div>
           </div>
+
           <div class="pillar">
             <i>III</i>
-            <div><b data-i18n="p3_t"></b><span data-i18n="p3_d"></span></div>
+            <div>
+              <b data-i18n="p3_t"></b>
+              <span data-i18n="p3_d"></span>
+            </div>
           </div>
         </div>
       </div>
@@ -395,22 +832,27 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
             <span class="member-name">Fahad Alhajji</span>
             <span class="member-role">CEO, Problem Writer, Developer</span>
           </div>
+
           <div class="member-item">
             <span class="member-name">Ridha Alkhamis</span>
             <span class="member-role">Lead Problem Writer</span>
           </div>
+
           <div class="member-item">
             <span class="member-name">Mohammed Linga</span>
             <span class="member-role">Problem Writer, Developer</span>
           </div>
+
           <div class="member-item">
             <span class="member-name">Hassan Alabdullah</span>
             <span class="member-role">Problem Writer, Developer</span>
           </div>
+
           <div class="member-item">
             <span class="member-name">Amjed Qadi</span>
             <span class="member-role">Problem Writer</span>
           </div>
+
           <div class="member-item">
             <span class="member-name">Abdullah Alnazer</span>
             <span class="member-role">Problem Writer</span>
@@ -423,22 +865,25 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
   </div>
 </section>
 
+<!-- FILES -->
+
 <section class="block" id="files">
   <div class="wrap">
     <div class="eyebrow" data-i18n="files_eyebrow"></div>
     <h2 class="h2" style="margin-top:12px" data-i18n="files_title"></h2>
 
-    <!-- Arabic translation notice -->
     <div class="translation-notice" role="note">
       <span class="notice-icon" aria-hidden="true">ℹ️</span>
       <p data-i18n="translation_notice"></p>
     </div>
 
-    <div class="count" id="count" aria-live="polite" style="margin-top:20px;"></div>
+    <div class="count" id="count" aria-live="polite" style="margin-top:20px"></div>
     <div id="sectionsContainer"></div>
     <div class="empty" id="empty" hidden data-i18n="empty"></div>
   </div>
 </section>
+
+<!-- FAQ -->
 
 <section class="block band" id="faq">
   <div class="wrap">
@@ -448,24 +893,66 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
   </div>
 </section>
 
+<!-- CONTACT -->
+
 <section class="block" id="contact">
   <div class="wrap">
     <div class="eyebrow" data-i18n="contact_eyebrow"></div>
     <h2 class="h2" style="margin-top:12px" data-i18n="contact_title"></h2>
 
-    <div style="margin-top:32px;">
+    <div style="margin-top:32px">
+
+      <!-- Feedback form -->
       <div class="feedback-card">
         <div>
           <h3 data-i18n="fb_title">Have feedback or suggestions?</h3>
-          <p data-i18n="fb_desc">Help us improve SPhOH by filling out our quick Google Form.</p>
+          <p data-i18n="fb_desc">Help us improve SPhOH by filling out our feedback form.</p>
         </div>
-        <a href="https://forms.gle/5dETrhbTAqVMkgGv7" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" data-i18n="fb_btn">Fill Feedback Form ↗</a>
+
+        <a href="https://forms.gle/5dETrhbTAqVMkgGv7"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="btn btn-primary btn-sm"
+           data-i18n="fb_btn">
+          Open Feedback Form ↗
+        </a>
       </div>
 
-      <div class="contact-grid" style="margin-top:0;">
+      <!-- NEW: Telegram channel -->
+      <div class="feedback-card telegram-card">
+
+        <div style="display:flex;align-items:center;gap:14px;max-width:560px">
+
+          <div class="telegram-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21.7 3.4a1.5 1.5 0 0 0-1.6-.2L2.5 10.1c-1.2.5-1.2 1.2-.2 1.5l4.5 1.4 1.7 5.3c.2.6.1.8.7.8.5 0 .7-.2 1-.5l2.2-2.2 4.6 3.4c.9.5 1.5.2 1.7-.8l3-14.2c.3-1.1-.2-1.6-.9-1.4ZM8 12.7l9.8-6.2c.5-.3.9-.1.5.2l-8.1 7.3-.3 3.1L8 12.7Z"/>
+            </svg>
+          </div>
+
+          <div>
+            <h3 data-i18n="telegram_title">Join the SPhOH Telegram Channel</h3>
+            <p data-i18n="telegram_desc">Get updates about new problem sets, resources, and announcements.</p>
+          </div>
+
+        </div>
+
+        <a href="https://t.me/sphoc"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="btn telegram-btn btn-sm"
+           data-i18n="telegram_btn">
+          Join Telegram ↗
+        </a>
+
+      </div>
+
+      <!-- Contact form -->
+      <div class="contact-grid" style="margin-top:0">
+
         <p class="lead" data-i18n="contact_desc"></p>
 
         <form class="form" id="form" novalidate>
+
           <div class="field">
             <label for="name" data-i18n="c_name"></label>
             <input id="name" name="name" type="text" autocomplete="name">
@@ -488,6 +975,7 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
             <button class="btn btn-primary" type="submit" data-i18n="c_send"></button>
             <span class="status" id="status" aria-live="polite"></span>
           </div>
+
         </form>
       </div>
     </div>
@@ -496,10 +984,30 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
 
 </main>
 
+<!-- FOOTER -->
+
 <footer class="foot">
   <div class="wrap">
+
     <span>© 2026 SPhOH</span>
-    <span data-i18n="foot"></span>
+
+    <div class="footer-right">
+      <a class="telegram-link"
+         href="https://t.me/sphoc"
+         target="_blank"
+         rel="noopener noreferrer"
+         aria-label="Join the SPhOH Telegram channel">
+
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21.7 3.4a1.5 1.5 0 0 0-1.6-.2L2.5 10.1c-1.2.5-1.2 1.2-.2 1.5l4.5 1.4 1.7 5.3c.2.6.1.8.7.8.5 0 .7-.2 1-.5l2.2-2.2 4.6 3.4c.9.5 1.5.2 1.7-.8l3-14.2c.3-1.1-.2-1.6-.9-1.4ZM8 12.7l9.8-6.2c.5-.3.9-.1.5.2l-8.1 7.3-.3 3.1L8 12.7Z"/>
+        </svg>
+
+        <span data-i18n="telegram_footer">Telegram Channel</span>
+      </a>
+
+      <span data-i18n="foot"></span>
+    </div>
+
   </div>
 </footer>
 
@@ -507,6 +1015,8 @@ footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--mute
 
 <script>
 (function(){
+
+'use strict';
 
 var TOPICS={
   kin:{en:'Kinematics',ar:'الحركة'},
@@ -525,28 +1035,40 @@ var LEVELS={
 
 var FAQS=[
   {
-    q:{en:'What is SPhOH?',ar:'ما هو SPhOH؟'},
+    q:{
+      en:'What is SPhOH?',
+      ar:'ما هو SPhOH؟'
+    },
     a:{
       en:'SPhOH (Physics Olympiad Hub) is a specialized training platform providing high-quality problem sets and resources for students preparing for national and international physics olympiads.',
       ar:'SPhOH هي منصة تدريبية متخصصة تقدم مجموعات مسائل وموارد عالية الجودة للطلاب المستعدين للأولمبيادات الوطنية والدولية للفيزياء.'
     }
   },
   {
-    q:{en:'Are all problem sets free to download?',ar:'هل جميع مجموعات المسائل مجانية للتحميل؟'},
+    q:{
+      en:'Are all problem sets free to download?',
+      ar:'هل جميع مجموعات المسائل مجانية للتحميل؟'
+    },
     a:{
       en:'Yes, all our PDFs and resources are completely free for students, teachers, and physics enthusiasts worldwide.',
       ar:'نعم، جميع ملفات PDF والموارد المتاحة مجانية تماماً للطلاب والمعلمين وشغوفي الفيزياء حول العالم.'
     }
   },
   {
-    q:{en:'How can I contribute or report errors?',ar:'كيف يمكنني المساهمة أو الإبلاغ عن خطأ في المسائل؟'},
+    q:{
+      en:'How can I contribute or report errors?',
+      ar:'كيف يمكنني المساهمة أو الإبلاغ عن خطأ في المسائل؟'
+    },
     a:{
-      en:'You can contact our team directly through the contact form or submit feedback via our Google Form link in the contact section.',
-      ar:'يمكنك التواصل مع فريقنا مباشرة من خلال نموذج التواصل أو تقديم الملاحظات من خلال رابط نموذج Google المتاح في قسم التواصل.'
+      en:'You can contact our team directly through the contact form or submit feedback via our Google Form link in the contact section. You can also follow our Telegram channel for updates.',
+      ar:'يمكنك التواصل مع فريقنا مباشرة من خلال نموذج التواصل أو تقديم الملاحظات عبر نموذج Google في قسم التواصل. ويمكنك أيضاً متابعة قناة تيليجرام للاطلاع على التحديثات.'
     }
   },
   {
-    q:{en:'How did you get your problems?',ar:'كيف تكتبون مسائلكم؟'},
+    q:{
+      en:'How did you get your problems?',
+      ar:'كيف تكتبون مسائلكم؟'
+    },
     a:{
       en:'As Olympiad students, we write most of the problems by ourselves. However, some problems have been inspired by famous resources: Irodov, Physics for Scientists and Engineers, Fundamentals of Physics, and previous Olympiad problems.',
       ar:'كطلاب أولمبياد، نكتب معظم المسائل بأنفسنا. إلا أن هناك بعض المسائل المستلهمة من مصادر مشهورة: إيرودوف، والفيزياء للعلماء والمهندسين، وأساسيات الفيزياء، ومسائل الأولمبيادات السابقة.'
@@ -607,6 +1129,11 @@ var UI={
     fb_desc:'Help us improve SPhOH by filling out our feedback form.',
     fb_btn:'Open Feedback Form ↗',
 
+    telegram_title:'Join the SPhOH Telegram Channel',
+    telegram_desc:'Get updates about new problem sets, resources, and announcements. Join our Telegram community to stay connected with SPhOH.',
+    telegram_btn:'Join Telegram ↗',
+    telegram_footer:'Telegram Channel',
+
     c_name:'Name',
     c_email:'Email',
     c_msg:'Message',
@@ -644,7 +1171,7 @@ var UI={
     p3_d:'مسائل مجمعة ومنسقة بعناية لتسهيل الدراسة والمراجعة.',
 
     team_title:'مؤسسو وفريق SPhOH',
-    team_desc:'يكتب فريق SPhOH كل مجموعة مسائل في المنصة ويراجعها وينظمها، بهدف جعل التدريب الجاد في الفيزياء متاحاً باللغتين العربية والإنجليزية.',
+    team_desc:'يكتب فريق SPhOH مجموعات المسائل في المنصة ويراجعها وينظمها، بهدف جعل التدريب الجاد في الفيزياء متاحاً باللغتين العربية والإنجليزية.',
     team_vision:'رؤيتنا: أن يملك كل طالب شغوف بالفيزياء حول العالم مادة التدريب التي تمكّنه من المنافسة على أعلى مستوى.',
 
     files_eyebrow:'الملفات',
@@ -672,6 +1199,11 @@ var UI={
     fb_desc:'ساعدنا في تطوير منصة SPhOH من خلال تعبئة نموذج الملاحظات.',
     fb_btn:'تعبئة نموذج الملاحظات ↗',
 
+    telegram_title:'انضم إلى قناة SPhOH على تيليجرام',
+    telegram_desc:'تابعنا للاطلاع على مجموعات المسائل الجديدة والموارد والإعلانات. انضم إلى مجتمعنا على تيليجرام لتبقى على تواصل مع SPhOH.',
+    telegram_btn:'انضم إلى تيليجرام ↗',
+    telegram_footer:'قناة تيليجرام',
+
     c_name:'الاسم',
     c_email:'البريد الإلكتروني',
     c_msg:'الرسالة',
@@ -685,6 +1217,8 @@ var UI={
     foot:'تدريب مقصود لأولمبياد الفيزياء'
   }
 };
+
+/* Problem sets */
 
 var P=[
   {
@@ -778,19 +1312,23 @@ var P=[
   }
 ];
 
+/* Settings */
+
 var lang='ar';
 
 try{
-  var s=localStorage.getItem('sphoh-lang');
-  if(s==='en'||s==='ar')lang=s;
+  var savedLang=localStorage.getItem('sphoh-lang');
+  if(savedLang==='en'||savedLang==='ar')lang=savedLang;
 }catch(e){}
 
 var theme='auto';
 
 try{
-  var th=localStorage.getItem('sphoh-theme');
-  if(th==='light'||th==='dark')theme=th;
+  var savedTheme=localStorage.getItem('sphoh-theme');
+  if(savedTheme==='light'||savedTheme==='dark')theme=savedTheme;
 }catch(e){}
+
+/* Helpers */
 
 var $=function(s,r){
   return (r||document).querySelector(s);
@@ -803,6 +1341,8 @@ var $$=function(s,r){
 function tt(k){
   return UI[lang][k];
 }
+
+/* Theme */
 
 function applyTheme(){
   var root=document.documentElement;
@@ -825,6 +1365,8 @@ function applyTheme(){
   }
 }
 
+/* Language */
+
 function applyLang(){
   var root=document.documentElement;
 
@@ -832,10 +1374,11 @@ function applyLang(){
   root.dir=lang==='ar'?'rtl':'ltr';
 
   $$('[data-i18n]').forEach(function(el){
-    var v=tt(el.getAttribute('data-i18n'));
+    var key=el.getAttribute('data-i18n');
+    var value=tt(key);
 
-    if(typeof v==='string'){
-      el.textContent=v;
+    if(typeof value==='string'){
+      el.textContent=value;
     }
   });
 
@@ -858,12 +1401,11 @@ function applyLang(){
 
   ['name','email','message'].forEach(function(k){
     var el=$('#e_'+k);
-
-    if(el){
-      el.textContent='';
-    }
+    if(el)el.textContent='';
   });
 }
+
+/* Problem set cards */
 
 function tags(p){
   var pips='';
@@ -888,7 +1430,6 @@ function renderGrid(){
   $('#empty').hidden=list.length>0;
 
   var container=$('#sectionsContainer');
-
   container.innerHTML='';
 
   if(list.length===0)return;
@@ -896,16 +1437,12 @@ function renderGrid(){
   var grouped={};
 
   list.forEach(function(p){
-    if(!grouped[p.t]){
-      grouped[p.t]=[];
-    }
-
+    if(!grouped[p.t])grouped[p.t]=[];
     grouped[p.t].push(p);
   });
 
   Object.keys(grouped).forEach(function(topicKey){
     var groupEl=document.createElement('div');
-
     groupEl.className='topic-group';
 
     var titleText=TOPICS[topicKey]
@@ -932,7 +1469,7 @@ function renderGrid(){
         '<div class="actions">';
 
       if(pdfPath){
-        html+='<a href="'+pdfPath+'" target="_blank" class="btn btn-primary btn-sm">'+
+        html+='<a href="'+pdfPath+'" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">'+
           tt('btn_preview')+
           '</a>'+
           '<a href="'+pdfPath+'" download class="btn btn-ghost btn-sm">'+
@@ -954,30 +1491,52 @@ function renderGrid(){
   });
 }
 
+/* FAQ */
+
 function renderFAQ(){
   var container=$('#faqContainer');
-
   if(!container)return;
 
   container.innerHTML='';
 
   FAQS.forEach(function(faq,index){
     var item=document.createElement('div');
-
     item.className='faq-item';
 
-    var html='<button type="button" class="faq-question" aria-expanded="false" data-faq="'+index+'">'+
-      '<span>'+faq.q[lang]+'</span>'+
-      '<span class="faq-icon">+</span>'+
-      '</button>'+
-      '<div class="faq-answer" hidden>'+
-      '<p style="margin:0;">'+faq.a[lang]+'</p>'+
-      '</div>';
+    var question=document.createElement('button');
+    question.type='button';
+    question.className='faq-question';
+    question.setAttribute('aria-expanded','false');
+    question.setAttribute('data-faq',index);
 
-    item.innerHTML=html;
+    var questionText=document.createElement('span');
+    questionText.textContent=faq.q[lang];
+
+    var icon=document.createElement('span');
+    icon.className='faq-icon';
+    icon.textContent='+';
+    icon.setAttribute('aria-hidden','true');
+
+    question.appendChild(questionText);
+    question.appendChild(icon);
+
+    var answer=document.createElement('div');
+    answer.className='faq-answer';
+    answer.hidden=true;
+
+    var answerText=document.createElement('p');
+    answerText.style.margin='0';
+    answerText.textContent=faq.a[lang];
+
+    answer.appendChild(answerText);
+
+    item.appendChild(question);
+    item.appendChild(answer);
     container.appendChild(item);
   });
 }
+
+/* Toast */
 
 var toastT;
 
@@ -994,18 +1553,23 @@ function toast(msg){
   },3200);
 }
 
+/* Navigation */
+
 function go(id){
   var el=document.getElementById(id);
 
   if(el){
     el.scrollIntoView({
-      behavior:'smooth',
+      behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ?'auto'
+        :'smooth',
       block:'start'
     });
   }
 }
 
 document.addEventListener('click',function(e){
+
   var a=e.target.closest('[data-go]');
 
   if(a){
@@ -1026,19 +1590,15 @@ document.addEventListener('click',function(e){
   if(faqBtn){
     var item=faqBtn.closest('.faq-item');
     var ans=item.querySelector('.faq-answer');
-    var isOpen=item.hasAttribute('open');
+    var isOpen=faqBtn.getAttribute('aria-expanded')==='true';
 
-    if(isOpen){
-      item.removeAttribute('open');
-      ans.hidden=true;
-      faqBtn.setAttribute('aria-expanded','false');
-    }else{
-      item.setAttribute('open','');
-      ans.hidden=false;
-      faqBtn.setAttribute('aria-expanded','true');
-    }
+    item.toggleAttribute('open',!isOpen);
+    ans.hidden=isOpen;
+    faqBtn.setAttribute('aria-expanded',String(!isOpen));
   }
 });
+
+/* Language button */
 
 $('#langBtn').addEventListener('click',function(){
   lang=lang==='ar'?'en':'ar';
@@ -1049,6 +1609,8 @@ $('#langBtn').addEventListener('click',function(){
 
   applyLang();
 });
+
+/* Theme button */
 
 $('#themeBtn').addEventListener('click',function(){
   var isDark;
@@ -1069,13 +1631,14 @@ $('#themeBtn').addEventListener('click',function(){
   applyTheme();
 });
 
-/* Contact form */
+/* Contact form validation */
+
 $('#form').addEventListener('submit',function(e){
   e.preventDefault();
 
   var n=$('#name').value.trim();
-  var m=$('#email').value.trim();
-  var g=$('#message').value.trim();
+  var email=$('#email').value.trim();
+  var message=$('#message').value.trim();
   var ok=true;
 
   var re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -1083,29 +1646,30 @@ $('#form').addEventListener('submit',function(e){
   $('#e_name').textContent=n?'':tt('e_name');
   if(!n)ok=false;
 
-  $('#e_email').textContent=re.test(m)?'':tt('e_email');
-  if(!re.test(m))ok=false;
+  $('#e_email').textContent=re.test(email)?'':tt('e_email');
+  if(!re.test(email))ok=false;
 
-  $('#e_message').textContent=g?'':tt('e_msg');
-  if(!g)ok=false;
+  $('#e_message').textContent=message?'':tt('e_msg');
+  if(!message)ok=false;
 
-  var st=$('#status');
+  var status=$('#status');
 
   if(ok){
-    st.textContent=tt('c_ok');
-    st.className='status ok';
+    status.textContent=tt('c_ok');
+    status.className='status ok';
   }else{
-    st.textContent='';
-    st.className='status';
+    status.textContent='';
+    status.className='status';
   }
 });
 
 /* Active navigation link */
+
 if('IntersectionObserver' in window){
-  var io=new IntersectionObserver(function(es){
-    es.forEach(function(en){
-      if(en.isIntersecting){
-        var id=en.target.id;
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var id=entry.target.id;
 
         $$('.links a').forEach(function(a){
           a.classList.toggle(
@@ -1121,12 +1685,11 @@ if('IntersectionObserver' in window){
 
   ['home','about','files','faq','contact'].forEach(function(id){
     var el=document.getElementById(id);
-
-    if(el){
-      io.observe(el);
-    }
+    if(el)io.observe(el);
   });
 }
+
+/* Initialize */
 
 applyTheme();
 applyLang();
