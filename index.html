@@ -35,6 +35,7 @@
 
   --kin-bg:#fde8e6; --kin-fg:#a9261b;
   --mech-bg:#e3edfd; --mech-fg:#1d4aa8;
+  --coll-bg:#e0f2fe; --coll-fg:#075985;
   --math-bg:#f3e8ff; --math-fg:#6b21a8;
   --elec-bg:#fcf0cf; --elec-fg:#7d5200;
   --therm-bg:#fbe3ef; --therm-fg:#9b2058;
@@ -444,6 +445,10 @@ textarea:focus-visible{
 .tag[data-topic="elec"]{background:var(--elec-bg);color:var(--elec-fg)}
 .tag[data-topic="therm"]{background:var(--therm-bg);color:var(--therm-fg)}
 .tag[data-topic="opt"]{background:var(--opt-bg);color:var(--opt-fg)}
+.tag[data-topic="coll"]{
+  background:var(--coll-bg);
+  color:var(--coll-fg);
+}
 .tag.lvl{background:transparent;border:1px solid var(--line);color:var(--muted)}
 .tag.lvl[data-lvl="3"]{border-color:var(--accent);color:var(--accent)}
 .pips{display:inline-flex;gap:3px;direction:ltr}
@@ -989,6 +994,7 @@ var TOPICS={
   kin:{en:'Kinematics',ar:'الحركة'},
   mech:{en:'Mechanics',ar:'الميكانيكا'},
   math:{en:'Mathematics',ar:'الرياضيات'},
+  coll:{en:'Collections',ar:'المجموعات'}
   elec:{en:'Electricity',ar:'الكهرباء'},
   therm:{en:'Thermodynamics',ar:'الديناميكا الحرارية'},
   opt:{en:'Optics',ar:'البصريات'}
@@ -1074,7 +1080,7 @@ var UI={
     files_eyebrow:'Files',
     files_title:'Files & Problem Sets',
 
-    translation_notice:'The Arabic versions are still being translated and are under development. To access the English versions, switch the website language to English and download the files as usual.',
+    translation_notice:'The Arabic versions are still being translated and are under development.',
 
     faq_eyebrow:'FAQ',
     faq_title:'Frequently Asked Questions',
@@ -1144,7 +1150,7 @@ var UI={
     files_eyebrow:'الملفات',
     files_title:'الملفات ومجموعات المسائل',
 
-    translation_notice:'النسخ العربية لا تزال قيد الترجمة والتطوير. للحصول على النسخ الإنجليزية، غيّر لغة الموقع إلى الإنجليزية وحمّل الملفات كالمعتاد.',
+    translation_notice:'النسخ العربية لا تزال قيد الترجمة والتطوير. عند ضغط زر التنزيل او المعاينة ستجد النسخ الانجليزية فقط.',
 
     faq_eyebrow:'الأسئلة الشائعة',
     faq_title:'الأسئلة المتكررة والمعلومات العامة',
@@ -1276,6 +1282,19 @@ var P=[
       en:'40 progressive problems: linear/quadratic equations, system derivations, and physics approximations.',
       ar:'40 مسألة متدرجة: معادلات خطية وتربيعية، اشتقاقات النظام، والتقريبات الفيزيائية.'
     }
+  },
+  {
+    id:6,
+    t='col'
+    1:1,
+    pdfUrl:{en:'NSMO_Collection.pdf',ar:'NSMO_Collection.pdf'},
+    title:{
+      en:'NSMO Collection I',
+      ar:'مجموعة نسمو I'
+    },
+    desc:{
+      en:'67 problems closely related to National Olympiad Topics in Saudi Arabia.',
+      ar:'67 مسألة مرتبطة مباشرة بالمواضيع الخاصة بالمرحلة الأولى من الأولمبياد الوطني للعلوم والرياضيات بالمملكة'
   }
 ];
 
