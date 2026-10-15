@@ -1,0 +1,100 @@
+[
+  {
+    "id": 1,
+    "t": "mech",
+    "l": 2,
+    "file": "Kinematics_I",
+    "title": {
+      "en": "Kinematics I Problem Set",
+      "ar": "مجموعة مسائل الكينماتيكا (الحركة)"
+    },
+    "desc": {
+      "en": "1D & 2D Kinematics, graphical analysis, free fall, and projectile motion problems.",
+      "ar": "مسائل الحركة في بعد وبعدين، التحليل البياني، السقوط الحر والمقذوفات."
+    }
+  },
+  {
+    "id": 2,
+    "t": "math",
+    "l": 2,
+    "file": "Vectors",
+    "title": {
+      "en": "Vectors Problem Set",
+      "ar": "مجموعة مسائل المتجهات"
+    },
+    "desc": {
+      "en": "Vector components, 3D unit vectors, dot products, cross products, and torque.",
+      "ar": "مركبات المتجهات، متجه الوحدة في 3D، الضرب القياسي، الضرب الاتجاهي، والعزم."
+    }
+  },
+  {
+    "id": 3,
+    "t": "mech",
+    "l": 2,
+    "file": "Fluids_I",
+    "title": {
+      "en": "Fluids Problem Set",
+      "ar": "مجموعة مسائل ميكانيكا الموائع"
+    },
+    "desc": {
+      "en": "Hydrostatic pressure, Pascal's principle, buoyancy, and Archimedes' principle.",
+      "ar": "الضغط الهيدروستاتيكي، مبدأ باسكال، قوة الطفو، ومبدأ أرخميدس."
+    }
+  },
+  {
+    "id": 4,
+    "t": "math",
+    "l": 1,
+    "file": "Units_Conversion_&_Dimensional_Analysis",
+    "title": {
+      "en": "Units Conversion & Dimensional Analysis",
+      "ar": "تحويل الوحدات والتحليل البعدي"
+    },
+    "desc": {
+      "en": "Mastering nested prefixes, conversion factors, dimensional homogeneity, and SI/CGS units.",
+      "ar": "إتقان البادئات، معامل التحويل، تجانس الأبعاد، وتحويل الوحدات الأساسية."
+    }
+  },
+  {
+    "id": 5,
+    "t": "math",
+    "l": 1,
+    "file": "Trigonometry_I",
+    "title": {
+      "en": "Trigonometry I Problem Set",
+      "ar": "مجموعة مسائل حساب المثلثات I"
+    },
+    "desc": {
+      "en": "Trigonometric identities, right triangles, special ratios, and physics vector applications.",
+      "ar": "المطابقات المثلثية، المثلث قائم الزاوية، النسب الخاصة، وتطبيقات المتجهات بالفيزياء."
+    }
+  },
+  {
+    "id": 6,
+    "t": "math",
+    "l": 2,
+    "file": "Algebra_I",
+    "title": {
+      "en": "Algebra I Problem Set",
+      "ar": "مجموعة مسائل الجبر I"
+    },
+    "desc": {
+      "en": "40 progressive problems: linear/quadratic equations, system derivations, and physics approximations.",
+      "ar": "40 مسألة متدرجة: معادلات خطية وتربيعية، اشتقاقات النظام، والتقريبات الفيزيائية."
+    }
+  },
+  {
+    "id": 7,
+    "t": "coll",
+    "l": 1,
+    "file": "NSMO_Collection_I",
+    "title": {
+      "en": "NSMO Collection I",
+      "ar": "مجموعة نسمو I"
+    },
+    "desc": {
+      "en": "67 problems closely related to the National Olympiad topics in Saudi Arabia.",
+      "ar": "67 مسألة مرتبطة مباشرة بموضوعات المرحلة الأولى من الأولمبياد الوطني للعلوم والرياضيات في المملكة."
+    }
+  }
+]
