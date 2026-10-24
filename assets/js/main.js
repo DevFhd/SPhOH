@@ -25,15 +25,15 @@ var LEVELS={
 };
 
 var TEAM=[
-  {name:'Fahad Alhajji',role:{en:'CEO, Problem Writer, Developer',ar:'الرئيس التنفيذي، كاتب مسائل، مطور'}},
-  {name:'Ridha Alkhamis',role:{en:'Lead Problem Writer',ar:'رئيس كتابة المسائل'}},
-  {name:'Mohammed Linga',role:{en:'Problem Writer, Developer',ar:'كاتب مسائل، مطور'}},
-  {name:'Hassan Alabdullah',role:{en:'Problem Writer, Developer',ar:'كاتب مسائل، مطور'}},
-  {name:'Amjed Qadi',role:{en:'Problem Writer',ar:'كاتب مسائل'}},
-  {name:'Hassan Al Radhwan',role:{en:'Developer',ar:'مطور'}},
-  {name:'Mohammed Alturaiki',role:{en:'Developer',ar:'مطور'}},
-  {name:'Hussain Alkhamis',role:{en:'Problem Writer',ar:'كاتب مسائل'}},
-  {name:'Abdulhadi Alakhdhari',role:{en:'Problem Writer',ar:'كاتب مسائل'}}
+  {name:'Fahad Alhajji',role:{en:'Founder & CEO',ar:'المؤسس والرئيس التنفيذي'}},
+  {name:'Mohammed Linga',role:{en:'Co-Founder & CTO',ar:'شريك مؤسس والرئيس التقني'}},
+  {name:'Ridha Alkhamis',role:{en:'Lead Problem Writer',ar:'كاتب الأسئلة الرئيسي'}},
+  {name:'Mohammed Alturaiki',role:{en:'Lead Developer',ar:'المطور الرئيسي'}},
+  {name:'Amjed Qadi',role:{en:'Problem Writer',ar:'كاتب أسئلة'}},
+  {name:'Hussain Alkhamis',role:{en:'Problem Writer',ar:'كاتب أسئلة'}},
+  {name:'Abdulhadi Alakhdhari',role:{en:'Problem Writer',ar:'كاتب أسئلة'}},
+  {name:'Hassan Alabdullah',role:{en:'Problem Writer',ar:'كاتب أسئلة'}},
+  {name:'Hassan Al Radhwan',role:{en:'LaTeX Developer',ar:'مطور LaTeX'}}
 ];
 
 var FAQS=[
@@ -217,7 +217,7 @@ var UI={
     nav_home:'الرئيسية',
     nav_files:'مجموعات المسائل',
     nav_preview:'تصفح المنهج',
-    nav_about:'من نحن والفريق',
+    nav_about:'من نحن',
     nav_contact:'تواصل معنا',
 
     theme_dark:'داكن',
