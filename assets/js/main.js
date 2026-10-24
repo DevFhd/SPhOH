@@ -31,7 +31,7 @@ var TEAM=[
   {name:'Hassan Alabdullah',role:{en:'Problem Writer, Developer',ar:'كاتب مسائل، مطور'}},
   {name:'Amjed Qadi',role:{en:'Problem Writer',ar:'كاتب مسائل'}},
   {name:'Hassan Al Radhwan',role:{en:'Developer',ar:'مطور'}},
-  {name:'Mohammed Ali',role:{en:'Developer',ar:'مطور'}},
+  {name:'Mohammed Alturaiki',role:{en:'Developer',ar:'مطور'}},
   {name:'Hussain Alkhamis',role:{en:'Problem Writer',ar:'كاتب مسائل'}},
   {name:'Abdulhadi Alakhdhari',role:{en:'Problem Writer',ar:'كاتب مسائل'}}
 ];
