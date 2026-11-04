@@ -2436,6 +2436,42 @@
 
   let simAnimFrame = null;
 
+  function getTrajectoryGeometry(angle, velocity, gravity) {
+  const rad = (angle * Math.PI) / 180;
+
+  const range = (velocity ** 2 * Math.sin(2 * rad)) / gravity;
+  const height = (velocity ** 2 * Math.sin(rad) ** 2) / (2 * gravity);
+
+  const startX = 28;
+  const groundY = 232;
+
+  const availableWidth = 384;
+  const availableHeight = 190;
+
+  // Use the same scale for both axes to preserve physical proportions.
+  const scale = Math.min(
+    availableWidth / range,
+    availableHeight / height
+  );
+
+  const endX = startX + range * scale;
+  const peakX = (startX + endX) / 2;
+  const peakY = groundY - height * scale;
+  const controlY = groundY - 2 * height * scale;
+
+  return {
+    range,
+    height,
+    flightTime: (2 * velocity * Math.sin(rad)) / gravity,
+    startX,
+    endX,
+    groundY,
+    peakX,
+    peakY,
+    controlY
+  };
+}
+
   function updateSimulatorView() {
     const sketchBox = DOM.qs('.sketch');
     if (!sketchBox) return;
@@ -2449,46 +2485,30 @@
     }
 
     const { angle, velocity, gravity } = Store.getState().simulator;
-    const rad = (angle * Math.PI) / 180;
+const trajectory = getTrajectoryGeometry(angle, velocity, gravity);
 
-    const realRange = (velocity * velocity * Math.sin(2 * rad)) / gravity;
-    const realHeight = Math.pow(velocity * Math.sin(rad), 2) / (2 * gravity);
-    const flightTime = (2 * velocity * Math.sin(rad)) / gravity;
+const {
+  range: realRange,
+  height: realHeight,
+  flightTime
+} = trajectory;
 
-    const startX = 40;
-    const groundY = 220;
-    const scaleX = Math.min(360, Math.max(95, realRange * 4.4));
-    const endX = Math.min(408, startX + scaleX);
-    const peakX = (startX + endX) / 2;
-    const peakY = Math.max(28, groundY - Math.min(182, Math.max(24, realHeight * 4.6)));
-    const controlY = 2 * peakY - groundY;
+const {
+  startX,
+  endX,
+  groundY,
+  peakX,
+  controlY
+} = trajectory;
 
-    const dPath = `M${startX} ${groundY} Q${peakX.toFixed(1)} ${controlY.toFixed(1)} ${endX.toFixed(1)} ${groundY}`;
+const dPath = `M${startX} ${groundY} Q${peakX} ${controlY} ${endX} ${groundY}`;
 
-    const paths = DOM.qsa('svg path', sketchBox);
-    paths.forEach((p) => {
-      const dAttr = p.getAttribute('d') || '';
-      if (dAttr.startsWith('M40 220 Q')) {
-        if (dAttr.endsWith('Z')) {
-          p.setAttribute('d', `${dPath} Z`);
-        } else {
-          p.setAttribute('d', dPath);
-          p.id = 'simTrajectoryPath';
-        }
-      }
-    });
+const mainPath = DOM.qs('#simTrajectoryPath', sketchBox);
+const glowPath = DOM.qs('#simTrajectoryGlow', sketchBox);
 
-    const lines = DOM.qsa('svg line', sketchBox);
-    if (lines.length >= 6) {
-      lines[2]?.setAttribute('x2', peakX.toFixed(1));
-      lines[2]?.setAttribute('y1', peakY.toFixed(1));
-      lines[2]?.setAttribute('y2', peakY.toFixed(1));
-
-      lines[3]?.setAttribute('x1', peakX.toFixed(1));
-      lines[3]?.setAttribute('x2', peakX.toFixed(1));
-      lines[3]?.setAttribute('y2', peakY.toFixed(1));
-    }
-
+if (mainPath) mainPath.setAttribute('d', dPath);
+if (glowPath) glowPath.setAttribute('d', dPath);
+    
     const capEl = DOM.qs('.cap', sketchBox);
     if (capEl) {
       capEl.innerHTML = `
@@ -2543,22 +2563,19 @@
       svg.appendChild(particle);
     }
 
-    const { angle, velocity, gravity } = Store.getState().simulator;
-    const rad = (angle * Math.PI) / 180;
-    const realRange = (velocity * velocity * Math.sin(2 * rad)) / gravity;
-    const realHeight = Math.pow(velocity * Math.sin(rad), 2) / (2 * gravity);
+const { angle, velocity, gravity } = Store.getState().simulator;
 
-    const startX = 40;
-    const groundY = 220;
-    const scaleX = Math.min(360, Math.max(95, realRange * 4.4));
-    const endX = Math.min(408, startX + scaleX);
-    const peakX = (startX + endX) / 2;
-    const peakY = Math.max(28, groundY - Math.min(182, Math.max(24, realHeight * 4.6)));
-    const controlY = 2 * peakY - groundY;
+const trajectory = getTrajectoryGeometry(angle, velocity, gravity);
 
-    const duration = 1050;
+const {
+  startX,
+  endX,
+  groundY,
+  peakX,
+  controlY
+} = trajectory;
     const startTime = performance.now();
-
+    const duration = trajectory.flightTime * 1000;
     function step(now) {
       const t = Math.min(1, (now - startTime) / duration);
       const oneMinusT = 1 - t;
