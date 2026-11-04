@@ -2502,6 +2502,50 @@ const {
 } = trajectory;
 
 const dPath = `M${startX} ${groundY} Q${peakX} ${controlY} ${endX} ${groundY}`;
+const svg = DOM.qs('svg', sketchBox);
+
+if (svg && !DOM.qs('#simAxes', svg)) {
+  const axes = document.createElementNS(
+    'http://www.w3.org/2000/svg',
+    'g'
+  );
+
+  axes.setAttribute('id', 'simAxes');
+  axes.setAttribute('fill', 'none');
+  axes.setAttribute('stroke', 'currentColor');
+  axes.setAttribute('stroke-width', '1.5');
+  axes.setAttribute('opacity', '0.65');
+
+  axes.innerHTML = `
+    <!-- X axis -->
+    <line x1="28" y1="232" x2="420" y2="232" />
+
+    <!-- Y axis -->
+    <line x1="28" y1="232" x2="28" y2="30" />
+
+    <!-- X-axis label -->
+    <text x="420" y="250"
+      fill="currentColor"
+      stroke="none"
+      text-anchor="end"
+      font-size="11">x (m)</text>
+
+    <!-- Y-axis label -->
+    <text x="15" y="30"
+      fill="currentColor"
+      stroke="none"
+      text-anchor="middle"
+      font-size="11">y (m)</text>
+
+    <!-- Origin -->
+    <text x="20" y="247"
+      fill="currentColor"
+      stroke="none"
+      font-size="10">0</text>
+  `;
+
+  svg.insertBefore(axes, svg.firstChild);
+}
 
 const mainPath = DOM.qs('#simTrajectoryPath', sketchBox);
 const glowPath = DOM.qs('#simTrajectoryGlow', sketchBox);
