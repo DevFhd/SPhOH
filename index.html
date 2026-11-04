@@ -29,6 +29,11 @@
   <link rel="manifest" href="assets/icons/site.webmanifest">
   <meta name="theme-color" content="#0e1512">
 
+  <!-- LaTeX Rendering -->
+  <script src="assets/js/config/mathjax.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script defer src="assets/js/services/math.service.js"></script>
+
   <!-- Modular Application Scripts -->
   <script defer src="assets/js/config/settings.js"></script>
   <script defer src="assets/js/config/catalog.js"></script>
@@ -80,47 +85,57 @@
             </div>
           </div>
 
-          <div class="sketch" aria-hidden="true">
-            <div class="sketch" aria-hidden="true">
-  <svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="trajectoryGradient" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.45"/>
-        <stop offset="50%" stop-color="var(--accent)"/>
-        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.45"/>
-      </linearGradient>
+          <div class="sketch">
+            <svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="simSvgTitle simSvgDesc">
+              <defs>
+                <linearGradient id="trajectoryGradient" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.45"/>
+                  <stop offset="50%" stop-color="var(--accent)"/>
+                  <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.45"/>
+                </linearGradient>
+                <filter id="trajectoryGlow" x="-20%" y="-30%" width="140%" height="160%">
+                  <feGaussianBlur stdDeviation="5"/>
+                </filter>
+                <marker id="simVectorArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                  <path d="M0 0 10 5 0 10z"/>
+                </marker>
+              </defs>
+              <title id="simSvgTitle">Projectile motion simulator</title>
+              <desc id="simSvgDesc">A live projectile path that changes with launch angle, velocity, and gravity.</desc>
+              <path class="sim-grid-lines" d="M44 48H404 M44 91H404 M44 134H404 M44 177H404 M44 48V220 M134 48V220 M224 48V220 M314 48V220 M404 48V220"/>
+              <path class="sim-ground-line" d="M32 220H416"/>
+              <path id="simHeightGuide" class="sim-guide-line"/>
+              <path id="simRangeGuide" class="sim-guide-line"/>
+              <path id="simLaunchVector" class="sim-launch-vector" marker-end="url(#simVectorArrow)"/>
+              <path
+                id="simTrajectoryGlow"
+                d="M44 220 Q224 100 404 220"
+                fill="none"
+                stroke="var(--accent)"
+                stroke-width="9"
+                stroke-linecap="round"
+                opacity="0.35"
+                filter="url(#trajectoryGlow)"
+              />
 
-      <filter id="trajectoryGlow" x="-20%" y="-30%" width="140%" height="160%">
-        <feGaussianBlur stdDeviation="5"/>
-      </filter>
-    </defs>
-
-    <!-- Soft trajectory glow -->
-    <path
-      id="simTrajectoryGlow"
-      d="M28 232 Q220 100 412 232"
-      fill="none"
-      stroke="var(--accent)"
-      stroke-width="9"
-      stroke-linecap="round"
-      opacity="0.35"
-      filter="url(#trajectoryGlow)"
-    />
-
-    <!-- Main trajectory -->
-    <path
-      id="simTrajectoryPath"
-      d="M28 232 Q220 100 412 232"
-      fill="none"
-      stroke="url(#trajectoryGradient)"
-      stroke-width="3"
-      stroke-linecap="round"
-    />
-  </svg>
-</div>
+              <!-- Main trajectory -->
+              <path
+                id="simTrajectoryPath"
+                d="M44 220 Q224 100 404 220"
+                fill="none"
+                stroke="url(#trajectoryGradient)"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <circle class="sim-origin-point" cx="44" cy="220" r="4"/>
+              <circle id="simLandingPoint" class="sim-landing-point" cx="404" cy="220" r="4"/>
+              <text id="simAngleLabel" class="sim-svg-label">θ = 53°</text>
+              <text id="simHeightLabel" class="sim-svg-label">H</text>
+              <text id="simRangeLabel" class="sim-svg-label sim-range-label">R</text>
+            </svg>
             <div class="cap">
-              <span>R = v₀² sin 2θ / g</span>
-              <span>H = v₀² sin²θ / 2g</span>
+              <span>$R = \frac{v_0^2 \sin 2\theta}{g}$</span>
+              <span>$H = \frac{v_0^2 \sin^2\theta}{2g}$</span>
             </div>
           </div>
         </div>
