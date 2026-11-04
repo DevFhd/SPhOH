@@ -81,23 +81,43 @@
           </div>
 
           <div class="sketch" aria-hidden="true">
-            <svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="trajectoryGlow" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.35"/>
-      <stop offset="50%" stop-color="var(--accent)" stop-opacity="1"/>
-      <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.35"/>
-    </linearGradient>
-  </defs>
+            <div class="sketch" aria-hidden="true">
+  <svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="trajectoryGradient" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.45"/>
+        <stop offset="50%" stop-color="var(--accent)"/>
+        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.45"/>
+      </linearGradient>
 
-  <path
-    d="M25 220 C105 220 125 45 220 45 S335 220 415 220"
-    stroke="url(#trajectoryGlow)"
-    stroke-width="3"
-    fill="none"
-    stroke-linecap="round"
-  />
-</svg>
+      <filter id="trajectoryGlow" x="-20%" y="-30%" width="140%" height="160%">
+        <feGaussianBlur stdDeviation="5"/>
+      </filter>
+    </defs>
+
+    <!-- Soft trajectory glow -->
+    <path
+      id="simTrajectoryGlow"
+      d="M28 232 Q220 100 412 232"
+      fill="none"
+      stroke="var(--accent)"
+      stroke-width="9"
+      stroke-linecap="round"
+      opacity="0.35"
+      filter="url(#trajectoryGlow)"
+    />
+
+    <!-- Main trajectory -->
+    <path
+      id="simTrajectoryPath"
+      d="M28 232 Q220 100 412 232"
+      fill="none"
+      stroke="url(#trajectoryGradient)"
+      stroke-width="3"
+      stroke-linecap="round"
+    />
+  </svg>
+</div>
             <div class="cap">
               <span>R = v₀² sin 2θ / g</span>
               <span>H = v₀² sin²θ / 2g</span>
