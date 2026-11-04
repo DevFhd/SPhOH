@@ -67,6 +67,7 @@
     AboutPage.render();
     AdminPage.render();
     Effects?.observeRevealElements();
+    SPhOH.MathTypeset?.typeset(document.body);
   }
 
   function bindGlobalEvents() {
