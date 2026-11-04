@@ -1,0 +1,271 @@
+/**
+ * @file assets/css/pages/files.css
+ * @description تنسيقات صفحة المكتبة مع لوحة الإنجاز وشريط الفلترة المعماري وعرض القائمة المدمجة.
+ */
+.translation-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-inline-start: 4px solid var(--accent);
+  border-radius: var(--radius-md);
+  color: var(--fg);
+  box-shadow: var(--shadow-sm);
+}
+
+.translation-notice .notice-icon {
+  flex: none;
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.translation-notice p {
+  margin: 0;
+  font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+/* لوحة تتبع التقدم الشخصي وفلاتر الحالة */
+.student-progress-banner {
+  margin-top: 20px;
+  padding: 18px 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.progress-banner-top {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.progress-title-label {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--fg);
+}
+
+.progress-stats-pill {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.progress-bar-track {
+  width: 100%;
+  height: 8px;
+  background: var(--band);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: var(--radius-pill);
+  transition: width 0.35s var(--ease-spring);
+}
+
+.progress-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.status-tabs-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.status-tab-btn {
+  border: 1px solid var(--line);
+  background: var(--band);
+  color: var(--muted);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.status-tab-btn:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+
+.status-tab-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.view-sort-cluster {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.view-mode-toggle {
+  display: inline-flex;
+  background: var(--band);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  gap: 3px;
+}
+
+.view-mode-btn {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 5px 10px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.view-mode-btn.active {
+  background: var(--surface);
+  color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+/* شريط فلاتر المواضيع والبحث */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-chip {
+  border: 1px solid var(--line);
+  background: var(--band);
+  color: var(--muted);
+  border-radius: 10px;
+  padding: 6px 14px;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.filter-chip:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+
+.filter-chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.filter-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-end;
+  min-width: 240px;
+}
+
+.count {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin-block: 12px 24px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.topic-group {
+  margin-bottom: 48px;
+}
+
+.topic-title {
+  font-size: 1.35rem;
+  margin-bottom: 18px;
+  padding: 10px 16px;
+  background: var(--band);
+  border: 1px solid var(--line);
+  border-inline-start: 4px solid var(--accent);
+  border-radius: 12px;
+  color: var(--fg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* وضع العرض المدمج (Compact List View) */
+.grid.grid-list-mode {
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 820px) {
+  .grid.grid-list-mode .card {
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+
+  .grid.grid-list-mode .card-accent-bar {
+    width: 5px;
+    height: auto;
+    flex: none;
+  }
+
+  .grid.grid-list-mode .card-actions-group {
+    margin-top: 0;
+    border-top: 0;
+    border-inline-start: 1px solid var(--line);
+    justify-content: center;
+    min-width: 340px;
+  }
+}

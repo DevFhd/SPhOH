@@ -1,0 +1,45 @@
+/**
+ * @file assets/css/layout/grid.css
+ * @description الحاويات، ترويسات الصفحات الهندسية (Architectural Dot-Matrix Headers)، وتخطيطات الشبكة.
+ */
+.wrap {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+section.block {
+  padding-block: 60px;
+  scroll-margin-top: 96px;
+}
+
+section.page-header {
+  position: relative;
+  padding-block: 44px 36px;
+  border-bottom: 1px solid var(--line);
+  background-color: var(--band);
+  background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+section.band {
+  background: var(--band);
+  border-block: 1px solid var(--line);
+}
+
+.section-head-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.grid {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+}

@@ -1,0 +1,93 @@
+/**
+ * @file assets/css/pages/contact.css
+ * @description تنسيقات صفحة التواصل والمجتمع (النموذج، تيليجرام، والبريد الإلكتروني).
+ */
+.contact-cards {
+  display: grid;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.feedback-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.feedback-card .card-info {
+  max-width: 580px;
+}
+
+.feedback-card h3 {
+  margin: 0 0 6px;
+  font-size: 1.12rem;
+  color: var(--fg);
+}
+
+.feedback-card p {
+  margin: 0;
+  font-size: 0.94rem;
+  color: var(--muted);
+}
+
+.card-btn-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.telegram-card {
+  border-color: color-mix(in srgb, var(--telegram) 35%, var(--line));
+}
+
+.telegram-card-lead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 580px;
+}
+
+.telegram-card .telegram-icon {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: rgba(34, 158, 217, 0.12);
+  color: var(--telegram);
+}
+
+.telegram-card .telegram-icon svg {
+  width: 25px;
+  height: 25px;
+  display: block;
+}
+
+.telegram-btn {
+  background: var(--telegram);
+  color: #ffffff;
+}
+
+.telegram-btn:hover {
+  background: var(--telegram-hover);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .feedback-card {
+    padding: 20px;
+  }
+  .card-btn-group,
+  .feedback-card .btn {
+    width: 100%;
+  }
+}

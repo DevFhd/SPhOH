@@ -1,0 +1,24 @@
+/**
+ * @file assets/css/components/toast.css
+ * @description تنسيقات الإشعارات المنبثقة (Toast Notifications).
+ */
+.toast {
+  position: fixed;
+  inset-inline: 16px;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  z-index: 100;
+  margin-inline: auto;
+  width: fit-content;
+  max-width: 100%;
+  background: var(--fg);
+  color: var(--bg);
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  font-size: 0.92rem;
+  font-weight: 500;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+}
+
+.toast[hidden] {
+  display: none;
+}

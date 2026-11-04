@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="SPhOH - Saudi Physics Olympiad Hub: A training resource and problem repository for advanced physics competitions and international olympiads.">
+  <title>SPhOH — Saudi Physics Olympiad Hub</title>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-018KWMJE3F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-018KWMJE3F');
+  </script>
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Icons & Manifest -->
+  <link rel="icon" type="image/png" href="assets/icons/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="shortcut icon" href="assets/icons/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="assets/icons/site.webmanifest">
+  <meta name="theme-color" content="#0e1512">
+
+  <!-- Modular Application Scripts -->
+  <script defer src="assets/js/config/settings.js"></script>
+  <script defer src="assets/js/config/catalog.js"></script>
+  <script defer src="assets/js/i18n/locales.js"></script>
+  <script defer src="assets/js/core/dom.js"></script>
+  <script defer src="assets/js/core/storage.js"></script>
+  <script defer src="assets/js/services/state.service.js"></script>
+  <script defer src="assets/js/services/i18n.service.js"></script>
+  <script defer src="assets/js/services/theme.service.js"></script>
+  <script defer src="assets/js/services/download.service.js"></script>
+  <script defer src="assets/js/services/curriculum.service.js"></script>
+  <script defer src="assets/js/components/toast.component.js"></script>
+  <script defer src="assets/js/services/progress.service.js"></script>
+  <script defer src="assets/js/services/effects.service.js"></script>
+  <script defer src="assets/js/components/layout.component.js"></script>
+  <script defer src="assets/js/components/card.component.js"></script>
+  <script defer src="assets/js/pages/home.page.js"></script>
+  <script defer src="assets/js/pages/files.page.js"></script>
+  <script defer src="assets/js/pages/preview.page.js"></script>
+  <script defer src="assets/js/pages/about.page.js"></script>
+  <script defer src="assets/js/pages/contact.page.js"></script>
+  <script defer src="assets/js/pages/admin.page.js"></script>
+  <script defer src="assets/js/app.js"></script>
+</head>
+
+<body class="site" data-page="home">
+
+  <!-- Shared Navbar (Mounted by layout.component.js) -->
+  <header class="nav"></header>
+
+  <main>
+    <!-- HERO -->
+    <section class="block hero" id="home">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow" data-i18n="hero_eyebrow"></div>
+            <h1 class="display mt-md" data-i18n="hero_title"></h1>
+            <p class="lead mt-lg" data-i18n="hero_desc"></p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="files.html">
+                <span data-i18n="hero_cta"></span>
+                <svg class="arrow" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+              <a class="btn btn-ghost" href="about.html" data-i18n="hero_secondary"></a>
+            </div>
+          </div>
+
+          <div class="sketch" aria-hidden="true">
+            <svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M20 0 L0 0 0 20" fill="none" stroke="var(--line)" stroke-width="0.5" opacity="0.6"/>
+                </pattern>
+                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0 1 L10 5 L0 9 z" fill="var(--muted)"/>
+                </marker>
+                <marker id="vec-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0 2 L10 5 L0 8 z" fill="var(--kin-fg)"/>
+                </marker>
+                <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.15"/>
+                  <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+
+              <rect width="100%" height="100%" fill="url(#grid)" rx="8"/>
+              <line x1="20" y1="220" x2="420" y2="220" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <line x1="40" y1="240" x2="40" y2="20" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <text x="415" y="240" fill="var(--muted)" font-family="var(--font-mono)" font-size="12">x</text>
+              <text x="20" y="30" fill="var(--muted)" font-family="var(--font-mono)" font-size="12">y</text>
+
+              <path d="M40 220 Q220 -100 400 220 Z" fill="url(#fade)"/>
+              <path d="M40 220 Q220 -100 400 220" stroke="var(--accent)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+              <line x1="40" y1="60" x2="220" y2="60" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 4"/>
+              <line x1="220" y1="220" x2="220" y2="60" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 4"/>
+
+              <path d="M40 235 L400 235" stroke="var(--muted)" stroke-width="1"/>
+              <line x1="40" y1="230" x2="40" y2="240" stroke="var(--muted)" stroke-width="1"/>
+              <line x1="400" y1="230" x2="400" y2="240" stroke="var(--muted)" stroke-width="1"/>
+
+              <text x="220" y="250" fill="var(--fg)" font-family="var(--font-mono)" font-size="13" text-anchor="middle">R</text>
+              <text x="20" y="65" fill="var(--fg)" font-family="var(--font-mono)" font-size="13">H</text>
+
+              <path d="M75 220 A35 35 0 0 0 58 188" stroke="var(--fg)" stroke-width="1.5" fill="none"/>
+              <text x="82" y="210" fill="var(--fg)" font-family="var(--font-mono)" font-size="14">θ</text>
+
+              <line x1="40" y1="220" x2="100" y2="220" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <line x1="100" y1="220" x2="100" y2="120" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <line x1="40" y1="220" x2="100" y2="113.3" stroke="var(--kin-fg)" stroke-width="2.5" marker-end="url(#vec-arrow)"/>
+
+              <text x="105" y="105" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="14" font-weight="bold">v₀</text>
+
+              <circle cx="130" cy="100" r="4" fill="var(--accent)"/>
+              <line x1="130" y1="100" x2="184" y2="52" stroke="var(--kin-fg)" stroke-width="2" marker-end="url(#vec-arrow)"/>
+              <text x="190" y="48" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="12">v₁</text>
+
+              <circle cx="220" cy="60" r="4" fill="var(--accent)"/>
+              <line x1="220" y1="60" x2="274" y2="60" stroke="var(--kin-fg)" stroke-width="2" marker-end="url(#vec-arrow)"/>
+              <text x="280" y="70" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="12">v₀cosθ</text>
+
+              <circle cx="310" cy="100" r="4" fill="var(--accent)"/>
+              <line x1="310" y1="100" x2="364" y2="148" stroke="var(--kin-fg)" stroke-width="2" marker-end="url(#vec-arrow)"/>
+              <text x="370" y="165" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="12">v₂</text>
+
+              <circle cx="40" cy="220" r="4" fill="var(--accent)"/>
+              <circle cx="400" cy="220" r="4" fill="var(--accent)"/>
+            </svg>
+
+            <div class="cap">
+              <span>R = v₀² sin 2θ / g</span>
+              <span>H = v₀² sin²θ / 2g</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="statSets">10</div>
+            <div class="stat-label" data-i18n="stat_sets"></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statTopics">4</div>
+            <div class="stat-label" data-i18n="stat_topics"></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">AR / EN</div>
+            <div class="stat-label" data-i18n="stat_bilingual"></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">100%</div>
+            <div class="stat-label" data-i18n="stat_free"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- METHODOLOGY PILLARS -->
+    <section class="block band">
+      <div class="wrap">
+        <div class="eyebrow" data-i18n="pillars_eyebrow"></div>
+        <h2 class="h2 mt-xs" data-i18n="pillars_title"></h2>
+
+        <div class="pillars-cards">
+          <div class="pillar-card">
+            <i>I</i>
+            <b data-i18n="p1_t"></b>
+            <span data-i18n="p1_d"></span>
+          </div>
+          <div class="pillar-card">
+            <i>II</i>
+            <b data-i18n="p2_t"></b>
+            <span data-i18n="p2_d"></span>
+          </div>
+          <div class="pillar-card">
+            <i>III</i>
+            <b data-i18n="p3_t"></b>
+            <span data-i18n="p3_d"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED PROBLEM SETS -->
+    <section class="block">
+      <div class="wrap">
+        <div class="section-head-row">
+          <div>
+            <div class="eyebrow" data-i18n="featured_eyebrow"></div>
+            <h2 class="h2 mt-xs" data-i18n="featured_title"></h2>
+          </div>
+          <a class="btn btn-ghost btn-sm" href="files.html" data-i18n="featured_all"></a>
+        </div>
+        <div class="grid" id="featuredContainer"></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="block band" id="faq">
+      <div class="wrap">
+        <div class="eyebrow" data-i18n="faq_eyebrow"></div>
+        <h2 class="h2 mt-xs" data-i18n="faq_title"></h2>
+        <div class="faq-list" id="faqContainer"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared Footer (Mounted by layout.component.js) -->
+  <footer class="foot"></footer>
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>

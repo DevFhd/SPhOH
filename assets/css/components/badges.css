@@ -1,0 +1,97 @@
+/**
+ * @file assets/css/components/badges.css
+ * @description تنسيقات الأوسمة (Tags)، مؤشرات الصعوبة (Pips)، وشارات عدد التحميلات بتصميم أكاديمي متزن.
+ */
+.tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 7px;
+  padding: 3px 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.5;
+  border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+}
+
+.tag[data-topic] {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.tag[data-topic="kin"] { background: var(--kin-bg); color: var(--kin-fg); }
+.tag[data-topic="mech"] { background: var(--mech-bg); color: var(--mech-fg); }
+.tag[data-topic="math"] { background: var(--math-bg); color: var(--math-fg); }
+.tag[data-topic="elec"] { background: var(--elec-bg); color: var(--elec-fg); }
+.tag[data-topic="therm"] { background: var(--therm-bg); color: var(--therm-fg); }
+.tag[data-topic="opt"] { background: var(--opt-bg); color: var(--opt-fg); }
+.tag[data-topic="coll"] { background: var(--coll-bg); color: var(--coll-fg); }
+
+.tag.lvl {
+  background: var(--band);
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.tag.lvl[data-lvl="3"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.pips {
+  display: inline-flex;
+  gap: 3px;
+  direction: ltr;
+}
+
+.pips b {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.25;
+}
+
+.pips b.on {
+  opacity: 1;
+}
+
+.download-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-inline-start: auto;
+  font: 500 12px/1 var(--font-mono);
+  color: var(--muted);
+  background: var(--band);
+  border: 1px solid var(--line);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.download-count.is-bumped {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+
+.topic-count-badge {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--muted);
+  background: var(--band);
+  border: 1px solid var(--line);
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  font-weight: 500;
+}

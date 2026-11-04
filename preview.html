@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="SPhOH - Saudi Physics Olympiad Hub: A training resource and problem repository for advanced physics competitions and international olympiads.">
+  <title>Curriculum Reader &amp; Preview | SPhOH</title>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-018KWMJE3F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-018KWMJE3F');
+  </script>
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Icons & Manifest -->
+  <link rel="icon" type="image/png" href="assets/icons/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="shortcut icon" href="assets/icons/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="assets/icons/site.webmanifest">
+  <meta name="theme-color" content="#0e1512">
+
+  <!-- Modular Application Scripts -->
+  <script defer src="assets/js/config/settings.js"></script>
+  <script defer src="assets/js/config/catalog.js"></script>
+  <script defer src="assets/js/i18n/locales.js"></script>
+  <script defer src="assets/js/core/dom.js"></script>
+  <script defer src="assets/js/core/storage.js"></script>
+  <script defer src="assets/js/services/state.service.js"></script>
+  <script defer src="assets/js/services/i18n.service.js"></script>
+  <script defer src="assets/js/services/theme.service.js"></script>
+  <script defer src="assets/js/services/download.service.js"></script>
+  <script defer src="assets/js/services/curriculum.service.js"></script>
+  <script defer src="assets/js/components/toast.component.js"></script>
+  <script defer src="assets/js/services/progress.service.js"></script>
+  <script defer src="assets/js/services/effects.service.js"></script>
+  <script defer src="assets/js/components/layout.component.js"></script>
+  <script defer src="assets/js/components/card.component.js"></script>
+  <script defer src="assets/js/pages/home.page.js"></script>
+  <script defer src="assets/js/pages/files.page.js"></script>
+  <script defer src="assets/js/pages/preview.page.js"></script>
+  <script defer src="assets/js/pages/about.page.js"></script>
+  <script defer src="assets/js/pages/contact.page.js"></script>
+  <script defer src="assets/js/pages/admin.page.js"></script>
+  <script defer src="assets/js/app.js"></script>
+</head>
+
+<body class="site" data-page="files">
+
+  <!-- Shared Navbar (Mounted by layout.component.js) -->
+  <header class="nav"></header>
+
+  <main>
+    <section class="preview-section" id="previewSection">
+      <div class="wrap">
+        <div class="preview-topbar">
+          <a href="files.html" class="btn btn-ghost btn-sm" data-nav-page="files" data-i18n="preview_back"></a>
+
+          <div class="preview-nav-cluster">
+            <button type="button" class="btn btn-ghost btn-sm" data-preview-step="-1" data-i18n="preview_prev"></button>
+            <select class="preview-select" id="previewResourceSelect" aria-label="Select curriculum"></select>
+            <button type="button" class="btn btn-ghost btn-sm" data-preview-step="1" data-i18n="preview_next"></button>
+          </div>
+        </div>
+
+        <div class="preview-shell" id="filePreviewDialog">
+          <div class="preview-meta-header">
+            <div class="preview-title-row">
+              <div class="preview-title-block">
+                <div class="tags" id="previewTags"></div>
+                <h1 class="h2" id="previewTitle"></h1>
+                <p class="preview-desc-text" id="previewDesc"></p>
+              </div>
+
+              <div class="preview-actions-right">
+                <button type="button" class="btn btn-ghost btn-sm" id="previewFocusBtn" data-i18n="preview_focus_enter"></button>
+                <button type="button" class="preview-close" id="previewCloseBtn" hidden>×</button>
+              </div>
+            </div>
+
+            <div class="preview-toolbar">
+              <div class="preview-doc-tabs" role="tablist">
+                <button type="button" class="preview-doc-tab active" id="tabProblemBtn" data-preview-tab="problem" data-i18n="preview_tab_problem"></button>
+                <button type="button" class="preview-doc-tab" id="tabSolutionBtn" data-preview-tab="solution" data-i18n="preview_tab_solution"></button>
+              </div>
+
+              <div class="preview-actions-right">
+                <a id="previewDownloadBtn" href="#" download class="btn btn-primary btn-sm" data-download-key=""></a>
+                <span class="download-count" id="previewDownloadBadge" data-count-for="">↓ 0</span>
+                <a id="previewExternalLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm"></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="preview-body" id="previewBody"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared Footer (Mounted by layout.component.js) -->
+  <footer class="foot"></footer>
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>

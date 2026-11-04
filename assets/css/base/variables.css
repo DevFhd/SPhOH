@@ -1,0 +1,180 @@
+/**
+ * @file assets/css/base/variables.css
+ * @description الهوية البصرية الموحدة للمنصة (Royal Academic Sapphire & Warm Slate):
+ * - هوية أكاديمية موحدة تجمع بين الوقار العلمي والوضوح البصري العالي.
+ * - تناغم كامل بين الثيم الفاتح والثيم الداكن بدون أي توهج نيوني مزعج (Zero Neon Glow).
+ */
+:root {
+  /* الثيم الفاتح الافتراضي — Royal Academic Sapphire & Warm Alabaster */
+  --bg: #f6f8fb;
+  --band: #edf1f7;
+  --surface: #ffffff;
+  --surface-solid: #ffffff;
+  --surface-elevated: #f8fafd;
+  --fg: #0c1527;
+  --muted: #4b5c77;
+  --line: #d9e1ee;
+  --line-strong: #b4c4de;
+
+  --accent: #1d4ed8;
+  --accent-2: #1e40af;
+  --accent-ink: #ffffff;
+  --accent-soft: #e8f0fe;
+  --accent-glow: rgba(29, 78, 216, 0.08);
+  --spotlight-color: rgba(29, 78, 216, 0.04);
+  --focus: #1d4ed8;
+
+  /* ألوان أوسمة الأقسام الفيزيائية */
+  --kin-bg: #fef2f2;
+  --kin-fg: #b91c1c;
+  --mech-bg: #eff6ff;
+  --mech-fg: #1d4ed8;
+  --coll-bg: #f0f9ff;
+  --coll-fg: #0369a1;
+  --math-bg: #faf5ff;
+  --math-fg: #6d28d9;
+  --elec-bg: #fffbeb;
+  --elec-fg: #b45309;
+  --therm-bg: #fdf2f8;
+  --therm-fg: #be185d;
+  --opt-bg: #eef2ff;
+  --opt-fg: #4338ca;
+
+  --telegram: #229ed9;
+  --telegram-hover: #168ac1;
+
+  --font-display: 'Bricolage Grotesque', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+
+  --container-max: 1140px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(12, 21, 39, 0.04), 0 4px 12px -2px rgba(12, 21, 39, 0.05);
+  --shadow-md: 0 4px 8px -2px rgba(12, 21, 39, 0.06), 0 14px 32px -6px rgba(12, 21, 39, 0.08);
+  --shadow-lg: 0 24px 64px -10px rgba(12, 21, 39, 0.18);
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* الثيم الداكن المتناغم — Deep Oxford Midnight & Sky Sapphire */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b101b;
+    --band: #101726;
+    --surface: #151f32;
+    --surface-solid: #151f32;
+    --surface-elevated: #1b273d;
+    --fg: #eef2f9;
+    --muted: #93a4be;
+    --line: #23314b;
+    --line-strong: #33476b;
+
+    --accent: #3b82f6;
+    --accent-2: #2563eb;
+    --accent-ink: #ffffff;
+    --accent-soft: rgba(59, 130, 246, 0.15);
+    --accent-glow: rgba(59, 130, 246, 0.1);
+    --spotlight-color: rgba(59, 130, 246, 0.05);
+    --focus: #3b82f6;
+
+    --kin-bg: rgba(239, 68, 68, 0.14);
+    --kin-fg: #fca5a5;
+    --mech-bg: rgba(59, 130, 246, 0.16);
+    --mech-fg: #93c5fd;
+    --coll-bg: rgba(14, 165, 233, 0.16);
+    --coll-fg: #7dd3fc;
+    --math-bg: rgba(168, 85, 247, 0.16);
+    --math-fg: #d8b4fe;
+    --elec-bg: rgba(245, 158, 11, 0.16);
+    --elec-fg: #fcd34d;
+    --therm-bg: rgba(236, 72, 153, 0.16);
+    --therm-fg: #f9a8d4;
+    --opt-bg: rgba(99, 102, 241, 0.16);
+    --opt-fg: #c7d2fe;
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 12px 32px -4px rgba(0, 0, 0, 0.42);
+    --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.65);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0b101b;
+  --band: #101726;
+  --surface: #151f32;
+  --surface-solid: #151f32;
+  --surface-elevated: #1b273d;
+  --fg: #eef2f9;
+  --muted: #93a4be;
+  --line: #23314b;
+  --line-strong: #33476b;
+
+  --accent: #3b82f6;
+  --accent-2: #2563eb;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(59, 130, 246, 0.15);
+  --accent-glow: rgba(59, 130, 246, 0.1);
+  --spotlight-color: rgba(59, 130, 246, 0.05);
+  --focus: #3b82f6;
+
+  --kin-bg: rgba(239, 68, 68, 0.14);
+  --kin-fg: #fca5a5;
+  --mech-bg: rgba(59, 130, 246, 0.16);
+  --mech-fg: #93c5fd;
+  --coll-bg: rgba(14, 165, 233, 0.16);
+  --coll-fg: #7dd3fc;
+  --math-bg: rgba(168, 85, 247, 0.16);
+  --math-fg: #d8b4fe;
+  --elec-bg: rgba(245, 158, 11, 0.16);
+  --elec-fg: #fcd34d;
+  --therm-bg: rgba(236, 72, 153, 0.16);
+  --therm-fg: #f9a8d4;
+  --opt-bg: rgba(99, 102, 241, 0.16);
+  --opt-fg: #c7d2fe;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 12px 32px -4px rgba(0, 0, 0, 0.42);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.65);
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --bg: #f6f8fb;
+  --band: #edf1f7;
+  --surface: #ffffff;
+  --surface-solid: #ffffff;
+  --surface-elevated: #f8fafd;
+  --fg: #0c1527;
+  --muted: #4b5c77;
+  --line: #d9e1ee;
+  --line-strong: #b4c4de;
+
+  --accent: #1d4ed8;
+  --accent-2: #1e40af;
+  --accent-ink: #ffffff;
+  --accent-soft: #e8f0fe;
+  --accent-glow: rgba(29, 78, 216, 0.08);
+  --spotlight-color: rgba(29, 78, 216, 0.04);
+  --focus: #1d4ed8;
+
+  --kin-bg: #fef2f2;
+  --kin-fg: #b91c1c;
+  --mech-bg: #eff6ff;
+  --mech-fg: #1d4ed8;
+  --coll-bg: #f0f9ff;
+  --coll-fg: #0369a1;
+  --math-bg: #faf5ff;
+  --math-fg: #6d28d9;
+  --elec-bg: #fffbeb;
+  --elec-fg: #b45309;
+  --therm-bg: #fdf2f8;
+  --therm-fg: #be185d;
+  --opt-bg: #eef2ff;
+  --opt-fg: #4338ca;
+  color-scheme: light;
+}

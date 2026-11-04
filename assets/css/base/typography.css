@@ -1,0 +1,69 @@
+/**
+ * @file assets/css/base/typography.css
+ * @description تنسيقات العناوين والنصوص ودعم اللغتين العربية (RTL) والإنجليزية (LTR).
+ */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+[dir="rtl"] .eyebrow {
+  letter-spacing: 0;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+h1.display,
+h2.h2,
+h3.h3,
+h1.h2,
+h2.h3 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+h1.display {
+  font-size: clamp(2.1rem, 5vw, 3.6rem);
+  font-weight: 800;
+}
+
+.h2 {
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  font-weight: 700;
+}
+
+.h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+[dir="rtl"] h1.display,
+[dir="rtl"] .h2,
+[dir="rtl"] .h3 {
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+p.lead {
+  color: var(--muted);
+  font-size: 1.075rem;
+  max-width: 65ch;
+  margin: 0;
+}
+
+/* مسافات مساعدة للعناوين */
+.mt-xs { margin-top: 10px; }
+.mt-sm { margin-top: 12px; }
+.mt-md { margin-top: 14px; }
+.mt-lg { margin-top: 18px; }
+.mt-xl { margin-top: 40px; }

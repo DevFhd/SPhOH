@@ -1,0 +1,247 @@
+/**
+ * @file assets/css/components/cards.css
+ * @description تصميم تشريحي جديد للبطاقات (Architectural Bento Cards):
+ * - شريط علوي ملوّن حسب القسم الفيزيائي مع رقم تسلسلي للمنهج (SET #01)
+ * - منطقة محتوى وسطى واضحة
+ * - درج سفلي منفصل للإجراءات والتحميلات (Recessed Action Tray)
+ */
+.card,
+.stat-card,
+.pillar-card,
+.feedback-card,
+.team,
+.sketch {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 0.22s var(--ease-spring),
+    border-color 0.2s ease,
+    box-shadow 0.22s ease;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: var(--radius-lg);
+  padding: 0;
+  min-width: 0;
+}
+
+/* الشريط اللوني العلوي حسب التخصص الفيزيائي */
+.card-accent-bar {
+  height: 4px;
+  width: 100%;
+  background: var(--accent);
+}
+
+.card[data-card-topic="kin"] .card-accent-bar { background: var(--kin-fg); }
+.card[data-card-topic="mech"] .card-accent-bar { background: var(--mech-fg); }
+.card[data-card-topic="math"] .card-accent-bar { background: var(--math-fg); }
+.card[data-card-topic="coll"] .card-accent-bar { background: var(--coll-fg); }
+.card[data-card-topic="elec"] .card-accent-bar { background: var(--elec-fg); }
+.card[data-card-topic="therm"] .card-accent-bar { background: var(--therm-fg); }
+.card[data-card-topic="opt"] .card-accent-bar { background: var(--opt-fg); }
+
+.card-body-main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 22px 18px;
+  flex: 1;
+}
+
+.card-serial-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.card-serial-code {
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  background: var(--band);
+  border: 1px solid var(--line);
+  padding: 2px 8px;
+  border-radius: 6px;
+  direction: ltr;
+}
+
+.card-title-heading {
+  font-size: 1.18rem;
+  line-height: 1.35;
+  color: var(--fg);
+}
+
+.card-desc-text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.65;
+}
+
+.card:hover,
+.pillar-card:hover,
+.stat-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.card.is-completed-card {
+  border-color: var(--accent);
+}
+
+.card.is-bookmarked-card {
+  box-shadow: 0 0 0 1px var(--elec-fg), var(--shadow-sm);
+}
+
+.card-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.card-quick-toggles {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+
+.card-status-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  background: var(--band);
+  color: var(--muted);
+  font-size: 0.88rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all 0.15s ease;
+}
+
+.card-status-btn:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+
+.card-status-btn.is-active-bookmark {
+  background: var(--elec-bg);
+  border-color: var(--elec-fg);
+  color: var(--elec-fg);
+}
+
+.card-status-btn.is-active-done {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.65;
+  flex: 1;
+}
+
+/* الدرج السفلي للإجراءات والتحميلات (Recessed Action Tray) */
+.card-actions-group {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: auto;
+  padding: 14px 20px;
+  background: var(--band);
+  border-top: 1px solid var(--line);
+}
+
+.action-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* بطاقات الإحصائيات المعمارية */
+.stat-card {
+  border-radius: 16px;
+  padding: 20px 22px;
+  border-top: 3px solid var(--accent);
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--fg);
+  line-height: 1.1;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* بطاقات الركائز المنهجية (Bento Pillar Cards) */
+.pillar-card {
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-elevated) 100%);
+}
+
+.pillar b,
+.pillar-card b {
+  font-family: var(--font-display);
+  display: block;
+  font-size: 1.12rem;
+  line-height: 1.3;
+  color: var(--fg);
+}
+
+.pillar span,
+.pillar-card span {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.pillar i,
+.pillar-card i {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  display: grid;
+  place-items: center;
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.empty {
+  padding: 48px 16px;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-lg);
+}

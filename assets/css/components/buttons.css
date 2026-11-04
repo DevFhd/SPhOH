@@ -1,0 +1,90 @@
+/**
+ * @file assets/css/components/buttons.css
+ * @description تنسيقات الأزرار الاحترافية الهادئة مع تأثيرات Hover متزنة بدون توهج مفرط.
+ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.5;
+  transition:
+    transform 0.18s var(--ease-spring),
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btn-primary:hover {
+  background: var(--accent-2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+.btn-ghost {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--fg);
+}
+
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background: var(--kin-bg);
+  border-color: transparent;
+  color: var(--kin-fg);
+}
+
+.btn-danger:hover {
+  border-color: var(--kin-fg);
+}
+
+.btn-sm {
+  padding: 7px 13px;
+  font-size: 0.86rem;
+  border-radius: var(--radius-sm);
+}
+
+[dir="rtl"] .arrow {
+  transform: scaleX(-1);
+}
+
+.btn:hover .arrow {
+  transform: translateX(3px);
+}
+
+[dir="rtl"] .btn:hover .arrow {
+  transform: scaleX(-1) translateX(3px);
+}
+
+.btn.is-unavailable {
+  opacity: 0.48;
+  filter: saturate(0.25);
+  cursor: not-allowed;
+}
+
+.btn.is-unavailable:hover {
+  transform: none;
+  border-color: var(--line);
+  color: var(--muted);
+  background: var(--surface);
+}

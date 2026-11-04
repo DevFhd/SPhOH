@@ -1,0 +1,325 @@
+/**
+ * @file assets/css/pages/home.css
+ * @description تنسيقات الصفحة الرئيسية بتصميم معماري حديث (Editorial Hero & Telemetry Physics Console).
+ */
+.hero {
+  padding-block: 44px 64px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 44px;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1.06fr 0.94fr;
+  }
+}
+
+.hero-grid > * {
+  min-width: 0;
+}
+
+.hero .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+}
+
+.hero-actions {
+  margin-top: 32px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 18px;
+  margin-top: 44px;
+}
+
+/* منصة مختبر الفيزياء التفاعلي (Scientific Instrument Console) */
+.sketch {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  padding: 0;
+  box-shadow: var(--shadow-md);
+}
+
+.sketch svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  padding: 16px 16px 8px;
+  background: var(--band);
+  border-bottom: 1px solid var(--line);
+}
+
+.sketch .cap {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  direction: ltr;
+  padding: 12px 16px 4px;
+}
+
+.sim-metric-pill {
+  background: var(--band);
+  border: 1px solid var(--line);
+  padding: 4px 11px;
+  border-radius: 8px;
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.sim-metric-pill b {
+  color: var(--accent);
+}
+
+.sim-controls-panel {
+  padding: 12px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sim-controls-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sim-lab-badge {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 4px 10px;
+  border-radius: 7px;
+}
+
+.sim-sliders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  gap: 12px;
+  align-items: end;
+}
+
+.sim-slider-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.sim-slider-field strong {
+  color: var(--fg);
+  font-family: var(--font-mono);
+}
+
+.sim-slider-field input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.sim-grav-select {
+  background: var(--band);
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 5px 8px;
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+/* شريط المعادلات الفيزيائية المتحرك */
+.physics-marquee {
+  overflow: hidden;
+  border-block: 1px solid var(--line);
+  background: var(--surface);
+  padding-block: 12px;
+  direction: ltr;
+  user-select: none;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 36px;
+  animation: marqueeScroll 36s linear infinite;
+}
+
+.physics-marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-item {
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  color: var(--muted);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--band);
+  border: 1px solid var(--line);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.pillars-cards {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-top: 28px;
+}
+
+/* مسار التعلم التفاعلي (Guided Study Roadmap) */
+.roadmap-strip {
+  margin-top: 28px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.roadmap-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.roadmap-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.roadmap-step-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  border-inline-start: 4px solid var(--accent);
+  background: var(--band);
+  text-decoration: none;
+  color: var(--fg);
+  transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
+}
+
+.roadmap-step-card:hover {
+  border-color: var(--accent);
+  background: var(--surface);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.roadmap-step-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.roadmap-step-num {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 2px 9px;
+  border-radius: 6px;
+}
+
+.roadmap-step-card strong {
+  font-size: 0.98rem;
+}
+
+.roadmap-step-card span {
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+
+/* الأسئلة الشائعة (FAQ Accordion) */
+.faq-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.faq-item {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+
+.faq-item:hover {
+  border-color: var(--accent);
+}
+
+.faq-question {
+  width: 100%;
+  text-align: inherit;
+  padding: 18px 22px;
+  background: none;
+  border: none;
+  font: inherit;
+  font-weight: 600;
+  font-size: 1.03rem;
+  color: var(--fg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.faq-icon {
+  transition: transform 0.2s ease;
+  font-size: 1.25rem;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.faq-item[open] .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  padding: 0 22px 18px;
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.65;
+}
+
+.faq-answer-text {
+  margin: 0;
+}

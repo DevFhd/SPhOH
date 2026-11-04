@@ -1,0 +1,22 @@
+{
+  "name": "SPhOH — Saudi Physics Olympiad Hub",
+  "short_name": "SPhOH",
+  "description": "A collaborative learning hub for physics Olympiad students in Saudi Arabia and beyond.",
+  "icons": [
+    {
+      "src": "web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#0e1512",
+  "background_color": "#0e1512",
+  "display": "standalone"
+}

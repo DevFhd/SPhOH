@@ -1,0 +1,329 @@
+/**
+ * @file assets/css/pages/preview.css
+ * @description تنسيقات صفحة القارئ المدمج (preview.html)، المرجع الفيزيائي السريع، ومفكرة المسودة.
+ */
+.preview-section {
+  padding-block: 28px 56px;
+}
+
+.preview-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.preview-nav-cluster,
+.preview-nav-Cluster {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.preview-select {
+  background: var(--surface);
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 7px 12px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  max-width: 280px;
+}
+
+.preview-shell {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.preview-shell.is-focus-mode {
+  position: fixed;
+  inset: 12px;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+}
+
+.preview-meta-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.preview-shell.is-focus-mode .preview-meta-header {
+  padding: 12px 20px;
+}
+
+.preview-shell.is-focus-mode .preview-desc-text {
+  display: none;
+}
+
+.preview-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.preview-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 680px;
+}
+
+.preview-desc-text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.preview-empty-msg {
+  padding: 28px;
+}
+
+.preview-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.preview-doc-tabs {
+  display: inline-flex;
+  background: var(--band);
+  padding: 4px;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  gap: 4px;
+}
+
+.preview-doc-tab {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+
+.preview-doc-tab:hover {
+  color: var(--fg);
+}
+
+.preview-doc-tab.active {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.preview-doc-tab.is-disabled-tab {
+  opacity: 0.55;
+}
+
+.preview-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.preview-close {
+  border: 1px solid var(--line);
+  background: var(--band);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--fg);
+  display: grid;
+  place-items: center;
+}
+
+.preview-close:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* أدوات مساعدة الطالب داخل القارئ (المرجع الفيزيائي + مسودة الحل) */
+.reader-helper-drawer {
+  border-bottom: 1px solid var(--line);
+  background: var(--band);
+  padding: 16px 24px;
+}
+
+.reader-helper-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.formula-ref-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.formula-ref-card strong {
+  display: block;
+  font-size: 0.84rem;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.formula-ref-card code {
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  color: var(--fg);
+  direction: ltr;
+  display: block;
+}
+
+.scratchpad-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.scratchpad-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+
+.scratchpad-textarea {
+  width: 100%;
+  min-height: 92px;
+  background: var(--surface);
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 0.92rem;
+  resize: vertical;
+}
+
+.scratchpad-textarea:focus {
+  border-color: var(--accent);
+}
+
+.preview-body {
+  background: var(--band);
+  height: min(76vh, 780px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-shell.is-focus-mode .preview-body {
+  flex: 1;
+  height: auto;
+}
+
+.preview-body iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  flex: 1;
+}
+
+.canvas-reader-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 18px;
+  background: color-mix(in srgb, var(--surface) 88%, var(--band));
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
+.canvas-reader-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reader-icon-btn {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--fg);
+  border-radius: 7px;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reader-icon-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.canvas-pages-scroller {
+  flex: 1;
+  overflow: auto;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.canvas-page-sheet {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
+  max-width: 100%;
+  overflow: hidden;
+  transition: width 0.2s ease;
+}
+
+.canvas-page-sheet img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .preview-meta-header {
+    padding: 16px;
+  }
+  .preview-select {
+    max-width: 100%;
+    width: 100%;
+  }
+}

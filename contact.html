@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="SPhOH - Saudi Physics Olympiad Hub: A training resource and problem repository for advanced physics competitions and international olympiads.">
+  <title>Contact &amp; Community | SPhOH</title>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-018KWMJE3F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-018KWMJE3F');
+  </script>
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Icons & Manifest -->
+  <link rel="icon" type="image/png" href="assets/icons/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="shortcut icon" href="assets/icons/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="assets/icons/site.webmanifest">
+  <meta name="theme-color" content="#0e1512">
+
+  <!-- Modular Application Scripts -->
+  <script defer src="assets/js/config/settings.js"></script>
+  <script defer src="assets/js/config/catalog.js"></script>
+  <script defer src="assets/js/i18n/locales.js"></script>
+  <script defer src="assets/js/core/dom.js"></script>
+  <script defer src="assets/js/core/storage.js"></script>
+  <script defer src="assets/js/services/state.service.js"></script>
+  <script defer src="assets/js/services/i18n.service.js"></script>
+  <script defer src="assets/js/services/theme.service.js"></script>
+  <script defer src="assets/js/services/download.service.js"></script>
+  <script defer src="assets/js/services/curriculum.service.js"></script>
+  <script defer src="assets/js/components/toast.component.js"></script>
+  <script defer src="assets/js/services/progress.service.js"></script>
+  <script defer src="assets/js/services/effects.service.js"></script>
+  <script defer src="assets/js/components/layout.component.js"></script>
+  <script defer src="assets/js/components/card.component.js"></script>
+  <script defer src="assets/js/pages/home.page.js"></script>
+  <script defer src="assets/js/pages/files.page.js"></script>
+  <script defer src="assets/js/pages/preview.page.js"></script>
+  <script defer src="assets/js/pages/about.page.js"></script>
+  <script defer src="assets/js/pages/contact.page.js"></script>
+  <script defer src="assets/js/pages/admin.page.js"></script>
+  <script defer src="assets/js/app.js"></script>
+</head>
+
+<body class="site" data-page="contact">
+
+  <!-- Shared Navbar (Mounted by layout.component.js) -->
+  <header class="nav"></header>
+
+  <main>
+    <section class="page-header">
+      <div class="wrap">
+        <div class="eyebrow" data-i18n="contact_eyebrow"></div>
+        <h1 class="h2 mt-xs" data-i18n="contact_title"></h1>
+        <p class="lead mt-sm" data-i18n="contact_desc"></p>
+      </div>
+    </section>
+
+    <section class="block" id="contact">
+      <div class="wrap">
+        <div class="contact-cards">
+          <!-- Feedback form -->
+          <div class="feedback-card">
+            <div class="card-info">
+              <h3 data-i18n="fb_title"></h3>
+              <p data-i18n="fb_desc"></p>
+            </div>
+
+            <a href="https://forms.gle/5dETrhbTAqVMkgGv7"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn btn-primary btn-sm"
+               data-i18n="fb_btn"></a>
+          </div>
+
+          <!-- Telegram channel -->
+          <div class="feedback-card telegram-card">
+            <div class="telegram-card-lead">
+              <div class="telegram-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M21.7 3.4a1.5 1.5 0 0 0-1.6-.2L2.5 10.1c-1.2.5-1.2 1.2-.2 1.5l4.5 1.4 1.7 5.3c.2.6.1.8.7.8.5 0 .7-.2 1-.5l2.2-2.2 4.6 3.4c.9.5 1.5.2 1.7-.8l3-14.2c.3-1.1-.2-1.6-.9-1.4ZM8 12.7l9.8-6.2c.5-.3.9-.1.5.2l-8.1 7.3-.3 3.1L8 12.7Z"/>
+                </svg>
+              </div>
+              <div class="card-info">
+                <h3 data-i18n="telegram_title"></h3>
+                <p data-i18n="telegram_desc"></p>
+              </div>
+            </div>
+
+            <a href="https://t.me/sphohc"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn telegram-btn btn-sm"
+               data-i18n="telegram_btn"></a>
+          </div>
+
+          <!-- Email Contact -->
+          <div class="feedback-card">
+            <div class="card-info">
+              <h3 data-i18n="email_title"></h3>
+              <p data-i18n="email_desc"></p>
+            </div>
+
+            <div class="card-btn-group">
+              <a href="mailto:sphohc@gmail.com"
+                 class="btn btn-primary btn-sm"
+                 dir="ltr">
+                ✉ sphohc@gmail.com
+              </a>
+              <button type="button" id="copyEmailBtn" class="btn btn-ghost btn-sm" data-i18n="email_copy"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared Footer (Mounted by layout.component.js) -->
+  <footer class="foot"></footer>
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>

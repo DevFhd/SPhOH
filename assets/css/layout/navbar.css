@@ -1,0 +1,265 @@
+/**
+ * @file assets/css/layout/navbar.css
+ * @description شريط التنقل العائم الحديث (Floating Architectural Capsule Navbar).
+ */
+.nav {
+  position: sticky;
+  top: 10px;
+  z-index: 45;
+  padding-inline: 14px;
+  margin-top: 10px;
+}
+
+.nav-row {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  flex-wrap: wrap;
+  padding: 10px 18px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.28rem;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  text-decoration: none;
+  direction: ltr;
+}
+
+.logo-mark-box {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.logo svg {
+  color: currentColor;
+  width: 22px;
+  height: 22px;
+  transition: transform 0.45s var(--ease-spring);
+}
+
+.logo:hover svg {
+  transform: rotate(60deg);
+}
+
+.logo-badge {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--band);
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.links {
+  display: flex;
+  gap: 4px;
+  order: 3;
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--band);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.links::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 860px) {
+  .links {
+    order: 0;
+    width: auto;
+    overflow: visible;
+  }
+}
+
+.links a {
+  padding: 6px 15px;
+  border-radius: 9px;
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+}
+
+.links a:hover {
+  color: var(--fg);
+}
+
+.links a.active {
+  color: var(--fg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cmd-trigger-btn,
+.theme-btn,
+.lang {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--band);
+  cursor: pointer;
+  color: var(--muted);
+  transition: all 0.15s ease;
+}
+
+.cmd-trigger-btn {
+  padding: 6px 11px;
+  gap: 7px;
+  font-size: 0.84rem;
+  color: var(--fg);
+}
+
+.cmd-kbd {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 1px 5px;
+  border-radius: 5px;
+  color: var(--muted);
+}
+
+@media (max-width: 720px) {
+  .cmd-trigger-label {
+    display: none;
+  }
+}
+
+.theme-btn {
+  padding: 6px 11px;
+  font-size: 12.5px;
+  gap: 6px;
+  font-family: var(--font-mono);
+  color: var(--fg);
+}
+
+.cmd-trigger-btn:hover,
+.theme-btn:hover,
+.lang:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+
+.lang {
+  padding: 3px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+}
+
+.lang span {
+  padding: 4px 10px;
+  border-radius: 7px;
+  line-height: 1.2;
+}
+
+.lang span.on {
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+/* شريط المتصفح المحاكي في بيئة المعاينة (Canvas Preview) */
+.sim-browser-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 6px 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  direction: ltr;
+}
+
+.sim-browser-inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sim-dots {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.sim-dots i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  background: var(--line);
+}
+
+.sim-dots i:nth-child(1) { background: #ef4444; }
+.sim-dots i:nth-child(2) { background: #f59e0b; }
+.sim-dots i:nth-child(3) { background: #10b981; }
+
+.sim-url-form {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sim-url-input {
+  flex: 1;
+  background: var(--band);
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  direction: ltr;
+}
+
+.sim-url-btn {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 1px solid transparent;
+  border-radius: 7px;
+  padding: 4px 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}

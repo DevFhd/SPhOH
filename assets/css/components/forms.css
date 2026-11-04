@@ -1,0 +1,51 @@
+/**
+ * @file assets/css/components/forms.css
+ * @description تنسيقات حقول الإدخال، البحث، والقوائم المنسدلة.
+ */
+.search-input,
+.level-select {
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.search-input {
+  min-width: 210px;
+  flex: 1;
+  max-width: 320px;
+}
+
+.search-input:focus,
+.level-select:focus {
+  border-color: var(--accent);
+}
+
+.admin-input,
+.admin-select,
+.admin-textarea {
+  width: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 0.94rem;
+}
+
+.admin-input:focus,
+.admin-select:focus,
+.admin-textarea:focus {
+  border-color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .search-input {
+    max-width: none;
+    width: 100%;
+  }
+}

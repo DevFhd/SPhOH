@@ -1,0 +1,46 @@
+/**
+ * @file assets/css/layout/footer.css
+ * @description تنسيقات تذييل الصفحة (Footer) ورابط تيليجرام السفلي.
+ */
+footer.foot {
+  border-top: 1px solid var(--line);
+  padding-block: 28px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  background: var(--surface);
+}
+
+.foot .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.footer-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.telegram-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.telegram-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .footer-right {
+    justify-content: flex-start;
+  }
+}
