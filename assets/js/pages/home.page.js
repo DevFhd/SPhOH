@@ -9,10 +9,38 @@
   'use strict';
 
   const SPhOH = (global.SPhOH = global.SPhOH || {});
-  const { Catalog, Store, I18n, Downloads, CardComponent, Effects, DOM } = SPhOH;
+  const { Catalog, Store, I18n, Downloads, CardComponent, Effects, DOM, MathTypeset } = SPhOH;
   const { escapeHtml } = DOM;
 
   let simAnimFrame = null;
+
+  function getProjectileGeometry({ angle, velocity, gravity }) {
+    const rad = (angle * Math.PI) / 180;
+    const realRange = (velocity * velocity * Math.sin(2 * rad)) / gravity;
+    const realHeight = Math.pow(velocity * Math.sin(rad), 2) / (2 * gravity);
+    const flightTime = (2 * velocity * Math.sin(rad)) / gravity;
+
+    const startX = 44;
+    const groundY = 220;
+    const rangePixels = 360 * (1 - Math.exp(-realRange / 55));
+    const heightPixels = 172 * (1 - Math.exp(-realHeight / 24));
+    const endX = startX + rangePixels;
+    const peakX = (startX + endX) / 2;
+    const peakY = groundY - heightPixels;
+
+    return {
+      realRange,
+      realHeight,
+      flightTime,
+      rad,
+      startX,
+      groundY,
+      endX,
+      peakX,
+      peakY,
+      controlY: 2 * peakY - groundY
+    };
+  }
 
   function updateSimulatorView() {
     const sketchBox = DOM.qs('.sketch');
@@ -26,82 +54,123 @@
       sketchBox.appendChild(controlsWrap);
     }
 
-    const { angle, velocity, gravity } = Store.getState().simulator;
-    const rad = (angle * Math.PI) / 180;
+    const simulation = Store.getState().simulator;
+    const { angle, velocity, gravity } = simulation;
+    const geometry = getProjectileGeometry(simulation);
+    const {
+      realRange,
+      realHeight,
+      flightTime,
+      rad,
+      startX,
+      groundY,
+      endX,
+      peakX,
+      peakY,
+      controlY
+    } = geometry;
+    const pathData = `M${startX} ${groundY} Q${peakX.toFixed(1)} ${controlY.toFixed(1)} ${endX.toFixed(1)} ${groundY}`;
+    const trajectory = DOM.qs('#simTrajectoryPath', sketchBox);
+    const glow = DOM.qs('#simTrajectoryGlow', sketchBox);
+    if (trajectory) trajectory.setAttribute('d', pathData);
+    if (glow) glow.setAttribute('d', pathData);
 
-    const realRange = (velocity * velocity * Math.sin(2 * rad)) / gravity;
-    const realHeight = Math.pow(velocity * Math.sin(rad), 2) / (2 * gravity);
-    const flightTime = (2 * velocity * Math.sin(rad)) / gravity;
-
-    const startX = 40;
-    const groundY = 220;
-    const scaleX = Math.min(360, Math.max(95, realRange * 4.4));
-    const endX = Math.min(408, startX + scaleX);
-    const peakX = (startX + endX) / 2;
-    const peakY = Math.max(28, groundY - Math.min(182, Math.max(24, realHeight * 4.6)));
-    const controlY = 2 * peakY - groundY;
-
-    const dPath = `M${startX} ${groundY} Q${peakX.toFixed(1)} ${controlY.toFixed(1)} ${endX.toFixed(1)} ${groundY}`;
-
-    const paths = DOM.qsa('svg path', sketchBox);
-    paths.forEach((p) => {
-      const dAttr = p.getAttribute('d') || '';
-      if (dAttr.startsWith('M40 220 Q')) {
-        if (dAttr.endsWith('Z')) {
-          p.setAttribute('d', `${dPath} Z`);
-        } else {
-          p.setAttribute('d', dPath);
-          p.id = 'simTrajectoryPath';
-        }
-      }
-    });
-
-    const lines = DOM.qsa('svg line', sketchBox);
-    if (lines.length >= 6) {
-      lines[2]?.setAttribute('x2', peakX.toFixed(1));
-      lines[2]?.setAttribute('y1', peakY.toFixed(1));
-      lines[2]?.setAttribute('y2', peakY.toFixed(1));
-
-      lines[3]?.setAttribute('x1', peakX.toFixed(1));
-      lines[3]?.setAttribute('x2', peakX.toFixed(1));
-      lines[3]?.setAttribute('y2', peakY.toFixed(1));
+    const heightGuide = DOM.qs('#simHeightGuide', sketchBox);
+    if (heightGuide) {
+      heightGuide.setAttribute('d', `M${peakX.toFixed(1)} ${peakY.toFixed(1)} V${groundY}`);
     }
+
+    const rangeGuide = DOM.qs('#simRangeGuide', sketchBox);
+    if (rangeGuide) {
+      rangeGuide.setAttribute('d', `M${startX} ${groundY + 10} H${endX.toFixed(1)}`);
+    }
+
+    const launchVector = DOM.qs('#simLaunchVector', sketchBox);
+    if (launchVector) {
+      const vectorEndX = startX + 46 * Math.cos(rad);
+      const vectorEndY = groundY - 46 * Math.sin(rad);
+      launchVector.setAttribute('d', `M${startX} ${groundY} L${vectorEndX.toFixed(1)} ${vectorEndY.toFixed(1)}`);
+    }
+
+    const angleLabel = DOM.qs('#simAngleLabel', sketchBox);
+    if (angleLabel) {
+      angleLabel.textContent = `θ = ${angle}°`;
+      angleLabel.setAttribute('x', String(startX + 50 * Math.cos(rad)));
+      angleLabel.setAttribute('y', String(groundY - 50 * Math.sin(rad) - 5));
+    }
+
+    const rangeLabel = DOM.qs('#simRangeLabel', sketchBox);
+    if (rangeLabel) {
+      rangeLabel.setAttribute('x', String((startX + endX) / 2));
+      rangeLabel.setAttribute('y', String(groundY + 27));
+    }
+
+    const heightLabel = DOM.qs('#simHeightLabel', sketchBox);
+    if (heightLabel) {
+      heightLabel.setAttribute('x', String(peakX + 6));
+      heightLabel.setAttribute('y', String((peakY + groundY) / 2));
+    }
+
+    const landingPoint = DOM.qs('#simLandingPoint', sketchBox);
+    if (landingPoint) landingPoint.setAttribute('cx', endX.toFixed(1));
 
     const capEl = DOM.qs('.cap', sketchBox);
     if (capEl) {
       capEl.innerHTML = `
-        <span class="sim-metric-pill"><b>R</b> = ${realRange.toFixed(1)} m</span>
-        <span class="sim-metric-pill"><b>H</b> = ${realHeight.toFixed(1)} m</span>
-        <span class="sim-metric-pill"><b>T</b> = ${flightTime.toFixed(2)} s</span>
+        <span class="sim-metric-pill"><small>${escapeHtml(I18n.t('sim_range_lbl'))}</small><b>R</b><strong>${realRange.toFixed(1)} m</strong></span>
+        <span class="sim-metric-pill"><small>${escapeHtml(I18n.t('sim_height_lbl'))}</small><b>H</b><strong>${realHeight.toFixed(1)} m</strong></span>
+        <span class="sim-metric-pill"><small>${escapeHtml(I18n.t('sim_time_lbl'))}</small><b>T</b><strong>${flightTime.toFixed(2)} s</strong></span>
       `;
     }
 
-    controlsWrap.innerHTML = `
-      <div class="sim-controls-header">
-        <span class="sim-lab-badge">${escapeHtml(I18n.t('sim_badge'))}</span>
-        <button type="button" class="btn btn-primary btn-sm sim-launch-btn" id="simLaunchBtn">
-          ${escapeHtml(I18n.t('sim_launch_btn'))}
-        </button>
-      </div>
-      <div class="sim-sliders-grid">
-        <label class="sim-slider-field">
-          <span>${escapeHtml(I18n.t('sim_angle_lbl'))}: <strong id="simAngleVal">${angle}°</strong></span>
-          <input type="range" id="simAngleInput" min="15" max="75" step="1" value="${angle}">
-        </label>
-        <label class="sim-slider-field">
-          <span>${escapeHtml(I18n.t('sim_vel_lbl'))}: <strong id="simVelVal">${velocity} m/s</strong></span>
-          <input type="range" id="simVelInput" min="12" max="32" step="1" value="${velocity}">
-        </label>
-        <label class="sim-slider-field">
-          <span>${escapeHtml(I18n.t('sim_grav_lbl'))}</span>
-          <select id="simGravSelect" class="sim-grav-select">
-            <option value="9.8" ${gravity === 9.8 ? 'selected' : ''}>${escapeHtml(I18n.t('sim_earth'))}</option>
-            <option value="3.7" ${gravity === 3.7 ? 'selected' : ''}>${escapeHtml(I18n.t('sim_mars'))}</option>
-            <option value="1.6" ${gravity === 1.6 ? 'selected' : ''}>${escapeHtml(I18n.t('sim_moon'))}</option>
-          </select>
-        </label>
-      </div>
-    `;
+    if (!DOM.qs('#simAngleInput', controlsWrap)) {
+      controlsWrap.innerHTML = `
+        <div class="sim-controls-header">
+          <div class="sim-controls-title">
+            <span class="sim-lab-badge"></span>
+            <span class="sim-live-status"><i></i>${escapeHtml(I18n.t('sim_live_lbl'))}</span>
+            <span class="sim-scale-note">${escapeHtml(I18n.t('sim_scale_lbl'))}</span>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm sim-launch-btn" id="simLaunchBtn"></button>
+        </div>
+        <div class="sim-sliders-grid">
+          <label class="sim-slider-field">
+            <span><span class="sim-control-label"></span><output id="simAngleVal"></output></span>
+            <input type="range" id="simAngleInput" min="15" max="75" step="1">
+          </label>
+          <label class="sim-slider-field">
+            <span><span class="sim-control-label"></span><output id="simVelVal"></output></span>
+            <input type="range" id="simVelInput" min="12" max="32" step="1">
+          </label>
+          <label class="sim-slider-field sim-gravity-field">
+            <span class="sim-control-label"></span>
+            <select id="simGravSelect" class="sim-grav-select">
+              <option value="9.8">${escapeHtml(I18n.t('sim_earth'))}</option>
+              <option value="3.7">${escapeHtml(I18n.t('sim_mars'))}</option>
+              <option value="1.6">${escapeHtml(I18n.t('sim_moon'))}</option>
+            </select>
+          </label>
+        </div>
+      `;
+    }
+
+    DOM.qs('.sim-lab-badge', controlsWrap).textContent = I18n.t('sim_badge');
+    DOM.qs('.sim-live-status', controlsWrap).lastChild.textContent = ` ${I18n.t('sim_live_lbl')}`;
+    DOM.qs('.sim-scale-note', controlsWrap).textContent = I18n.t('sim_scale_lbl');
+    DOM.qs('#simLaunchBtn', controlsWrap).textContent = I18n.t('sim_launch_btn');
+    const labels = DOM.qsa('.sim-control-label', controlsWrap);
+    if (labels[0]) labels[0].textContent = I18n.t('sim_angle_lbl');
+    if (labels[1]) labels[1].textContent = I18n.t('sim_vel_lbl');
+    if (labels[2]) labels[2].textContent = I18n.t('sim_grav_lbl');
+
+    const angleInput = DOM.qs('#simAngleInput', controlsWrap);
+    const velocityInput = DOM.qs('#simVelInput', controlsWrap);
+    const gravitySelect = DOM.qs('#simGravSelect', controlsWrap);
+    if (angleInput.value !== String(angle)) angleInput.value = String(angle);
+    if (velocityInput.value !== String(velocity)) velocityInput.value = String(velocity);
+    if (gravitySelect.value !== String(gravity)) gravitySelect.value = String(gravity);
+    DOM.qs('#simAngleVal', controlsWrap).textContent = `${angle}°`;
+    DOM.qs('#simVelVal', controlsWrap).textContent = `${velocity} m/s`;
   }
 
   function launchProjectileAnimation() {
@@ -121,18 +190,8 @@
       svg.appendChild(particle);
     }
 
-    const { angle, velocity, gravity } = Store.getState().simulator;
-    const rad = (angle * Math.PI) / 180;
-    const realRange = (velocity * velocity * Math.sin(2 * rad)) / gravity;
-    const realHeight = Math.pow(velocity * Math.sin(rad), 2) / (2 * gravity);
-
-    const startX = 40;
-    const groundY = 220;
-    const scaleX = Math.min(360, Math.max(95, realRange * 4.4));
-    const endX = Math.min(408, startX + scaleX);
-    const peakX = (startX + endX) / 2;
-    const peakY = Math.max(28, groundY - Math.min(182, Math.max(24, realHeight * 4.6)));
-    const controlY = 2 * peakY - groundY;
+    const geometry = getProjectileGeometry(Store.getState().simulator);
+    const { startX, groundY, endX, peakX, controlY } = geometry;
 
     const duration = 1050;
     const startTime = performance.now();
@@ -164,23 +223,29 @@
     marquee.setAttribute('aria-hidden', 'true');
 
     const items = [
-      '⚛️ IPhO • International Physics Olympiad',
-      '📐 F = dp / dt',
-      '🚀 R = v₀² sin(2θ) / g',
-      '⚡ ∇ × E = −∂B / ∂t',
-      '🌊 P + ½ρv² + ρgh = const',
-      '🏆 APhO • Asian Physics Olympiad',
-      '🔬 L = T − V',
-      '🧲 ∮ B · dl = μ₀ (I + ε₀ dΦ_E/dt)',
-      '🌟 EuPhO & NSMO Selections'
+      { label: '⚛️ IPhO • International Physics Olympiad' },
+      { label: '📐', equation: String.raw`\vec{F} = \frac{d\vec{p}}{dt}` },
+      { label: '🚀', equation: String.raw`R = \frac{v_0^2\sin(2\theta)}{g}` },
+      { label: '⚡', equation: String.raw`\nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}` },
+      { label: '🌊', equation: String.raw`P + \frac{1}{2}\rho v^2 + \rho gh = \mathrm{const}` },
+      { label: '🏆 APhO • Asian Physics Olympiad' },
+      { label: '🔬', equation: String.raw`L = T - V` },
+      { label: '🧲', equation: String.raw`\oint_{\mathcal{C}} \vec{B}\cdot d\vec{\ell} = \mu_0\left(I_{\mathrm{enc}} + \varepsilon_0\frac{d\Phi_E}{dt}\right)` },
+      { label: '🌟 EuPhO & NSMO Selections' }
     ];
 
     const repeated = [...items, ...items]
-      .map((txt) => `<span class="marquee-item">${escapeHtml(txt)}</span>`)
+      .map(({ label, equation }) => {
+        const content = equation
+          ? `${escapeHtml(label)} <span class="marquee-equation">\\(${escapeHtml(equation)}\\)</span>`
+          : escapeHtml(label);
+        return `<span class="marquee-item">${content}</span>`;
+      })
       .join('');
 
     marquee.innerHTML = `<div class="marquee-track">${repeated}</div>`;
     heroSection.insertAdjacentElement('afterend', marquee);
+    MathTypeset?.typeset(marquee);
   }
 
   /**
@@ -260,6 +325,7 @@
     const featured = resources.slice(0, 3);
 
     container.innerHTML = featured.map((item) => CardComponent.renderCard(item, counts)).join('');
+    SPhOH.MathTypeset?.typeset(container);
   }
 
   function renderFAQ() {
