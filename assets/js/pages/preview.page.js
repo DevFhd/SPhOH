@@ -6,31 +6,31 @@
   'use strict';
 
   const SPhOH = (global.SPhOH = global.SPhOH || {});
-  const { Settings, Storage, Store, I18n, CurriculumService, Downloads, CardComponent, Toast, DOM } = SPhOH;
+  const { Settings, Storage, Store, I18n, CurriculumService, Downloads, CardComponent, Toast, DOM, MathTypeset } = SPhOH;
   const { escapeHtml } = DOM;
 
   let activeHelperTool = null; // null | 'formulas' | 'scratchpad'
 
   const TOPIC_FORMULAS = {
     kin: [
-      { label: { ar: 'معادلات الحركة بتسارع ثابت', en: 'Constant Acceleration' }, eq: 'v = v₀ + at  |  Δx = v₀t + ½at²  |  v² = v₀² + 2aΔx' },
-      { label: { ar: 'المقذوفات والمدى الأفقي', en: 'Projectile Motion' }, eq: 'R = (v₀² sin 2θ) / g  |  H = (v₀² sin²θ) / 2g' },
-      { label: { ar: 'التسارع المركزي والنسبي', en: 'Centripetal & Relative' }, eq: 'a_c = v² / r = ω²r  |  v_AB = v_A − v_B' }
+      { label: { ar: 'معادلات الحركة بتسارع ثابت', en: 'Constant Acceleration' }, eq: [String.raw`v = v_0 + at`, String.raw`\Delta x = v_0t + \frac{1}{2}at^2`, String.raw`v^2 = v_0^2 + 2a\Delta x`] },
+      { label: { ar: 'المقذوفات والمدى الأفقي', en: 'Projectile Motion' }, eq: [String.raw`R = \frac{v_0^2\sin(2\theta)}{g}`, String.raw`H = \frac{v_0^2\sin^2\theta}{2g}`] },
+      { label: { ar: 'التسارع المركزي والنسبي', en: 'Centripetal & Relative' }, eq: [String.raw`a_c = \frac{v^2}{r} = \omega^2r`, String.raw`v_{AB} = v_A - v_B`] }
     ],
     mech: [
-      { label: { ar: 'قوانين نيوتن والاحتكاك', en: 'Newton & Friction' }, eq: '∑F = dp/dt = ma  |  f_s ≤ μ_s N  |  f_k = μ_k N' },
-      { label: { ar: 'الشغل والطاقة والزخم', en: 'Work, Energy & Momentum' }, eq: 'W = ∫ F·dr = ΔK  |  p = mv  |  J = ∫ F dt = Δp' },
-      { label: { ar: 'ميكانيكا الموائع والطفو', en: 'Hydrostatics & Buoyancy' }, eq: 'P = P₀ + ρgh  |  F_b = ρ_fluid V_sub g  |  P + ½ρv² + ρgh = C' }
+      { label: { ar: 'قوانين نيوتن والاحتكاك', en: 'Newton & Friction' }, eq: [String.raw`\sum \vec{F} = \frac{d\vec{p}}{dt} = m\vec{a}`, String.raw`f_s \leq \mu_s N`, String.raw`f_k = \mu_k N`] },
+      { label: { ar: 'الشغل والطاقة والزخم', en: 'Work, Energy & Momentum' }, eq: [String.raw`W = \int \vec{F}\cdot d\vec{r} = \Delta K`, String.raw`\vec{p} = m\vec{v}`, String.raw`J = \int F\,dt = \Delta p`] },
+      { label: { ar: 'ميكانيكا الموائع والطفو', en: 'Hydrostatics & Buoyancy' }, eq: [String.raw`P = P_0 + \rho gh`, String.raw`F_b = \rho_{\text{fluid}} V_{\text{sub}}g`, String.raw`P + \frac{1}{2}\rho v^2 + \rho gh = C`] }
     ],
     math: [
-      { label: { ar: 'الضرب القياسي والاتجاهي', en: 'Vector Products' }, eq: 'A · B = |A||B| cos θ  |  |A × B| = |A||B| sin θ' },
-      { label: { ar: 'متطابقات مثلثية أساسية', en: 'Trig Identities' }, eq: 'sin(2θ) = 2 sin θ cos θ  |  cos(2θ) = cos²θ − sin²θ' },
-      { label: { ar: 'تقريبات الزوايا الصغيرة (θ ≪ 1)', en: 'Small Angle Approx.' }, eq: 'sin θ ≈ θ  |  tan θ ≈ θ  |  cos θ ≈ 1 − θ²/2  |  (1+x)ⁿ ≈ 1 + nx' }
+      { label: { ar: 'الضرب القياسي والاتجاهي', en: 'Vector Products' }, eq: [String.raw`\vec{A}\cdot\vec{B} = |\vec{A}||\vec{B}|\cos\theta`, String.raw`|\vec{A}\times\vec{B}| = |\vec{A}||\vec{B}|\sin\theta`] },
+      { label: { ar: 'متطابقات مثلثية أساسية', en: 'Trig Identities' }, eq: [String.raw`\sin(2\theta) = 2\sin\theta\cos\theta`, String.raw`\cos(2\theta) = \cos^2\theta - \sin^2\theta`] },
+      { label: { ar: 'تقريبات الزوايا الصغيرة (θ ≪ 1)', en: 'Small Angle Approx.' }, eq: [String.raw`\sin\theta \approx \theta`, String.raw`\tan\theta \approx \theta`, String.raw`\cos\theta \approx 1 - \frac{\theta^2}{2}`, String.raw`(1+x)^n \approx 1+nx`] }
     ],
     coll: [
-      { label: { ar: 'ثوابت فيزيائية أساسية', en: 'Fundamental Constants' }, eq: 'g ≈ 9.81 m/s²  |  G = 6.674×10⁻¹¹ N·m²/kg²  |  c = 3.0×10⁸ m/s' },
-      { label: { ar: 'تحليل الأبعاد والوحدات', en: 'Dimensional Homogeneity' }, eq: '[Force] = M L T⁻²  |  [Energy] = M L² T⁻²  |  [Pressure] = M L⁻¹ T⁻²' },
-      { label: { ar: 'حفظ الطاقة الميكانيكية', en: 'Conservation Laws' }, eq: 'E_mech = K + U = const  |  ∑τ_ext = dL/dt' }
+      { label: { ar: 'ثوابت فيزيائية أساسية', en: 'Fundamental Constants' }, eq: [String.raw`g \approx 9.81\,\mathrm{m/s^2}`, String.raw`G = 6.674\times 10^{-11}\,\mathrm{N\cdot m^2/kg^2}`, String.raw`c = 3.0\times 10^8\,\mathrm{m/s}`] },
+      { label: { ar: 'تحليل الأبعاد والوحدات', en: 'Dimensional Homogeneity' }, eq: [String.raw`[\text{Force}] = ML T^{-2}`, String.raw`[\text{Energy}] = ML^2T^{-2}`, String.raw`[\text{Pressure}] = ML^{-1}T^{-2}`] },
+      { label: { ar: 'حفظ الطاقة الميكانيكية', en: 'Conservation Laws' }, eq: [String.raw`E_{\text{mech}} = K + U = \text{const}`, String.raw`\sum \tau_{\text{ext}} = \frac{dL}{dt}`] }
     ]
   };
 
@@ -152,13 +152,16 @@
               (f) => `
                 <div class="formula-ref-card">
                   <strong>${escapeHtml(f.label[lang] || f.label.en)}</strong>
-                  <code>${escapeHtml(f.eq)}</code>
+                  <div class="formula-equations">
+                    ${f.eq.map((equation) => `<span class="formula-equation">\\(${escapeHtml(equation)}\\)</span>`).join('')}
+                  </div>
                 </div>
               `
             )
             .join('')}
         </div>
       `;
+      MathTypeset?.typeset(drawer);
     } else if (activeHelperTool === 'scratchpad') {
       const savedNote = getScratchpadText(resource.id);
       drawer.innerHTML = `
@@ -298,6 +301,7 @@
       frame.title = docHeading;
       bodyEl.appendChild(frame);
     }
+    MathTypeset?.typeset(section);
   }
 
   function selectResource(id, type = 'problem') {
