@@ -220,6 +220,7 @@
       })
       .join('');
 
+    SPhOH.MathTypeset?.typeset(container);
     Effects?.observeRevealElements();
   }
 
