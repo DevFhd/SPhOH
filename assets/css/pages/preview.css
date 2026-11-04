@@ -195,12 +195,24 @@
   margin-bottom: 4px;
 }
 
-.formula-ref-card code {
-  font-family: var(--font-mono);
-  font-size: 0.84rem;
-  color: var(--fg);
+.formula-equations {
+  display: grid;
+  gap: 6px;
   direction: ltr;
-  display: block;
+  text-align: left;
+  overflow-x: auto;
+}
+
+.formula-equation {
+  color: var(--fg);
+  font-size: 0.84rem;
+  white-space: nowrap;
+}
+
+.formula-equation mjx-container {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .scratchpad-wrap {
