@@ -82,57 +82,14 @@
 
           <div class="sketch" aria-hidden="true">
             <svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                  <path d="M20 0 L0 0 0 20" fill="none" stroke="var(--line)" stroke-width="0.5" opacity="0.6"/>
-                </pattern>
-                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M0 1 L10 5 L0 9 z" fill="var(--muted)"/>
-                </marker>
-                <marker id="vec-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M0 2 L10 5 L0 8 z" fill="var(--kin-fg)"/>
-                </marker>
-                <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.15"/>
-                  <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-
-              <rect width="100%" height="100%" fill="url(#grid)" rx="8"/>
-              <line x1="20" y1="220" x2="420" y2="220" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arrow)"/>
-              <text x="20" y="30" fill="var(--muted)" font-family="var(--font-mono)" font-size="12">y</text>
-
-              <path d="M40 220 Q220 -100 400 220 Z" fill="url(#fade)"/>
-              <path d="M40 220 Q220 -100 400 220" stroke="var(--accent)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-
-              <line x1="40" y1="60" x2="220" y2="60" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 4"/>
-              <line x1="220" y1="220" x2="220" y2="60" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="4 4"/>
-
-              <path d="M40 235 L400 235" stroke="var(--muted)" stroke-width="1"/>
-              <line x1="40" y1="230" x2="40" y2="240" stroke="var(--muted)" stroke-width="1"/>
-              <line x1="400" y1="230" x2="400" y2="240" stroke="var(--muted)" stroke-width="1"/>
-
-              <text x="220" y="250" fill="var(--fg)" font-family="var(--font-mono)" font-size="13" text-anchor="middle">R</text>
-              <text x="20" y="65" fill="var(--fg)" font-family="var(--font-mono)" font-size="13">H</text>
-
-              <path d="M75 220 A35 35 0 0 0 58 188" stroke="var(--fg)" stroke-width="1.5" fill="none"/>
-              <text x="82" y="210" fill="var(--fg)" font-family="var(--font-mono)" font-size="14">θ</text>
-
-              <line x1="40" y1="220" x2="100" y2="220" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="3 3"/>
-              <line x1="100" y1="220" x2="100" y2="120" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="3 3"/>
-              <line x1="40" y1="220" x2="100" y2="113.3" stroke="var(--kin-fg)" stroke-width="2.5" marker-end="url(#vec-arrow)"/>
-
-              <text x="105" y="105" fill="var(--kin-fg)" font-family="var(--font-mono)" font-size="14" font-weight="bold">v₀</text>
-
-              <circle cx="130" cy="100" r="4" fill="var(--accent)"/>
-
-              <circle cx="220" cy="60" r="4" fill="var(--accent)"/>
-
-              <circle cx="310" cy="100" r="4" fill="var(--accent)"/>
-
-              <circle cx="40" cy="220" r="4" fill="var(--accent)"/>
-              <circle cx="400" cy="220" r="4" fill="var(--accent)"/>
-            </svg>
+  <path
+    d="M40 220 Q220 -100 400 220"
+    stroke="var(--accent)"
+    stroke-width="2.5"
+    fill="none"
+    stroke-linecap="round"
+  />
+</svg>
 
             <div class="cap">
               <span>R = v₀² sin 2θ / g</span>
