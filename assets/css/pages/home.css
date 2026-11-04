@@ -50,52 +50,139 @@
 
 /* منصة مختبر الفيزياء التفاعلي (Scientific Instrument Console) */
 .sketch {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-xl);
-  background: var(--surface);
+  background: linear-gradient(155deg, var(--surface-elevated), var(--surface) 48%);
   padding: 0;
   box-shadow: var(--shadow-md);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.sketch:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line-strong));
+  box-shadow: var(--shadow-lg);
 }
 
 .sketch svg {
   width: 100%;
   height: auto;
   display: block;
-  padding: 16px 16px 8px;
-  background: var(--band);
+  padding: 18px 14px 8px;
+  background: radial-gradient(ellipse at 50% 100%, var(--accent-glow), transparent 68%);
   border-bottom: 1px solid var(--line);
 }
 
+.sim-grid-lines {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1;
+  stroke-dasharray: 2 7;
+  opacity: 0.82;
+}
+
+.sim-ground-line {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+}
+
+.sim-guide-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.4;
+  stroke-dasharray: 4 5;
+  opacity: 0.58;
+}
+
+.sim-launch-vector {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.72;
+}
+
+#simVectorArrow path {
+  fill: var(--fg);
+}
+
+.sim-origin-point,
+.sim-landing-point {
+  fill: var(--accent);
+  stroke: var(--surface);
+  stroke-width: 2;
+}
+
+.sim-svg-label {
+  fill: var(--muted);
+  font: 600 11px var(--font-mono);
+}
+
+.sim-range-label {
+  text-anchor: middle;
+}
+
 .sketch .cap {
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  color: var(--muted);
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  justify-content: stretch;
+  gap: 8px;
   flex-wrap: wrap;
   direction: ltr;
-  padding: 12px 16px 4px;
+  padding: 14px 18px 12px;
 }
 
 .sim-metric-pill {
-  background: var(--band);
+  flex: 1 1 110px;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  column-gap: 8px;
+  background: var(--surface-elevated);
   border: 1px solid var(--line);
-  padding: 4px 11px;
-  border-radius: 8px;
+  padding: 8px 11px;
+  border-radius: 11px;
   color: var(--fg);
   font-weight: 500;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.sim-metric-pill:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-1px);
+}
+
+.sim-metric-pill small {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font: 600 0.63rem var(--font-mono);
+  letter-spacing: 0.045em;
+  margin-bottom: 3px;
 }
 
 .sim-metric-pill b {
   color: var(--accent);
+  font-family: var(--font-mono);
+}
+
+.sim-metric-pill strong {
+  justify-self: end;
+  font: 600 0.83rem var(--font-mono);
+  white-space: nowrap;
 }
 
 .sim-controls-panel {
-  padding: 12px 18px 18px;
+  margin: 0 18px 18px;
+  padding: 14px 14px 12px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  background: var(--band);
+  border: 1px solid var(--line);
+  border-radius: 14px;
 }
 
 .sim-controls-header {
@@ -106,29 +193,66 @@
   flex-wrap: wrap;
 }
 
+.sim-controls-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
 .sim-lab-badge {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   font-weight: 600;
   color: var(--accent);
   background: var(--accent-soft);
-  padding: 4px 10px;
-  border-radius: 7px;
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+.sim-live-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font: 600 0.62rem var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+.sim-live-status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 3px color-mix(in srgb, #22c55e 15%, transparent);
+}
+
+.sim-scale-note {
+  color: var(--muted);
+  font-size: 0.68rem;
 }
 
 .sim-sliders-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
   align-items: end;
 }
 
 .sim-slider-field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  font-size: 0.8rem;
+  gap: 7px;
+  font-size: 0.76rem;
   color: var(--muted);
+}
+
+.sim-slider-field > span {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
 }
 
 .sim-slider-field strong {
@@ -136,20 +260,61 @@
   font-family: var(--font-mono);
 }
 
+.sim-slider-field output {
+  color: var(--fg);
+  font: 600 0.75rem var(--font-mono);
+  white-space: nowrap;
+}
+
 .sim-slider-field input[type="range"] {
   width: 100%;
+  height: 6px;
   accent-color: var(--accent);
   cursor: pointer;
 }
 
 .sim-grav-select {
-  background: var(--band);
+  width: 100%;
+  background: var(--surface);
   color: var(--fg);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 5px 8px;
+  border-radius: 9px;
+  padding: 8px 10px;
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.76rem;
+  cursor: pointer;
+}
+
+.sim-grav-select:focus-visible,
+.sim-slider-field input[type="range"]:focus-visible,
+.sim-launch-btn:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .sim-controls-panel {
+    margin-inline: 12px;
+    padding: 12px;
+  }
+
+  .sim-sliders-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .sim-gravity-field {
+    grid-column: 1 / -1;
+  }
+
+  .sketch .cap {
+    padding-inline: 12px;
+  }
+
+  .sim-metric-pill {
+    flex-basis: 95px;
+    padding-inline: 8px;
+  }
 }
 
 /* شريط المعادلات الفيزيائية المتحرك */
@@ -185,6 +350,10 @@
   border: 1px solid var(--line);
   padding: 4px 12px;
   border-radius: var(--radius-pill);
+}
+
+.marquee-equation mjx-container {
+  margin: 0 !important;
 }
 
 .pillars-cards {
