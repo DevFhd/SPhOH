@@ -33,4 +33,5 @@
 @import url('./pages/preview.css');
 @import url('./pages/about.css');
 @import url('./pages/contact.css');
-@import url('./pages/admin.css');
+
+/* pages/admin.css isn't imported here: only Admin.html links it. */

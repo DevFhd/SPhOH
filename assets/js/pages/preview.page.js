@@ -1,6 +1,7 @@
 /**
  * @file assets/js/pages/preview.page.js
- * @description وحدة قارئ المناهج والحلول المدمج (preview.html) مع عرض الوصف الشامل والمرجع الفيزيائي ومفكرة المسودة.
+ * @description وحدة قارئ المناهج والحلول المدمج (preview.html) مع عرض الوصف الشامل والمرجع الفيزيائي ومفكرة المسودة،
+ * وشريط تحكم العارض المدمج، ودعم الجوال الذكي، ووضع التركيز (Focus Mode) مع العرض الجانبي المقسوم.
  */
 (function (global) {
   'use strict';
@@ -10,6 +11,281 @@
   const { escapeHtml } = DOM;
 
   let activeHelperTool = null; // null | 'formulas' | 'scratchpad'
+  let forceInlinePreview = false; // يسمح للمستخدم على الجوال بتجربة العرض المدمج داخل الصفحة
+
+  /**
+   * عزل إطار PDF مع إبقاء عارض Chrome المدمج يعمل.
+   * لا يوجد في Chrome أي `sandbox` token يسمح بالـplugin، لذا يُختبر الإطار بعد التحميل:
+   * الإطار العامل يعرّض `contentDocument.contentType === 'application/pdf'`،
+   * والمحجوب يعيد `contentDocument === null` — عندها نستبدله بإطار بلا `sandbox` مرة واحدة.
+   * `null` = لم يُختبر بعد، `true` = الـsandbox مدعوم، `false` = تعطيله لهذه الجلسة.
+   */
+  const PDF_FRAME_SANDBOX =
+    'allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms';
+  let pdfSandboxSupported = null;
+
+  // يُخزَّن آخر `src` مُحمَّل في الإطار المعاد استخدامه، فلا يُعاد تحميل الـPDF
+  // عند تبديل وضع التركيز أو تحديث الأدوات الجانبية.
+  let currentFrameSrc = null;
+
+  function markStageLoaded(frame) {
+    const stageEl = frame?.closest('.preview-stage');
+    if (stageEl) stageEl.classList.remove('is-loading');
+  }
+
+  function handlePdfFrameLoad(event) {
+    const frame = event.currentTarget;
+    if (!frame) return;
+
+    const frameSrc = frame.getAttribute('src');
+    if (!frameSrc) return;
+
+    if (frame.dataset.pdfSandbox !== 'pending') {
+      markStageLoaded(frame);
+      return;
+    }
+
+    frame.dataset.pdfSandbox = 'settled';
+
+    let doc = null;
+    try {
+      doc = frame.contentDocument;
+    } catch (_) {
+      doc = null;
+    }
+
+    if (doc && doc.contentType === 'application/pdf') {
+      pdfSandboxSupported = true;
+      markStageLoaded(frame);
+      return;
+    }
+
+    pdfSandboxSupported = false;
+    const replacement = document.createElement('iframe');
+    replacement.id = 'previewPdfFrame';
+    replacement.src = frameSrc;
+    replacement.title = frame.getAttribute('title') || '';
+    replacement.setAttribute('referrerpolicy', 'no-referrer');
+    replacement.addEventListener('load', handlePdfFrameLoad);
+    frame.replaceWith(replacement);
+  }
+
+  /**
+   * يكشف المتصفحات المحمولة أو التي لا تدعم عرض PDF متعدد الصفحات داخل iframe.
+   * @returns {boolean}
+   */
+  function isIosOrMobilePdfLimited() {
+    const nav = global.navigator;
+    if (!nav) return false;
+    if (nav.pdfViewerEnabled === false) return true;
+    const ua = String(nav.userAgent || '');
+    if (/iPad|iPhone|iPod|Android/i.test(ua)) return true;
+    // iPadOS 13+ يقدّم نفسه كـ Macintosh مع دعم لمس متعدد النقاط.
+    return /Macintosh/.test(ua) && Number(nav.maxTouchPoints || 0) > 1;
+  }
+
+  /**
+   * شريط إرشادي علوي يظهر عند تفعيل العرض المدمج على جهاز لا يدعم PDF داخل iframe بشكل كامل.
+   */
+  function renderExternalHint(stageEl, activePath) {
+    const existing = DOM.qs('.preview-external-hint', stageEl);
+    if (!isIosOrMobilePdfLimited()) {
+      if (existing) existing.remove();
+      return;
+    }
+    const hint = existing || document.createElement('div');
+    if (!existing) {
+      hint.className = 'preview-external-hint';
+      stageEl.insertBefore(hint, stageEl.firstChild);
+    }
+    hint.innerHTML = `
+      <span>${escapeHtml(I18n.t('reader_external_hint'))}</span>
+      <a class="btn btn-primary btn-sm"
+         href="${escapeHtml(activePath)}"
+         target="_blank"
+         rel="noopener noreferrer">${escapeHtml(I18n.t('open_new_tab'))}</a>
+    `;
+  }
+
+  /**
+   * إعادة استخدام إطار PDF واحد داخل `.preview-stage`.
+   * يُغيَّر `src` فقط عند تغيّر المورد أو اللغة أو التبويب.
+   * @param {HTMLElement} stageEl
+   * @param {string} src
+   * @param {string} title
+   * @returns {HTMLIFrameElement}
+   */
+  function ensurePdfFrame(stageEl, src, title) {
+    let frame = DOM.qs('#previewPdfFrame', stageEl);
+
+    const mobileCard = DOM.qs('.preview-mobile-stage', stageEl);
+    if (mobileCard) mobileCard.remove();
+
+    if (!frame) {
+      frame = document.createElement('iframe');
+      frame.id = 'previewPdfFrame';
+      frame.setAttribute('referrerpolicy', 'no-referrer');
+      frame.addEventListener('load', handlePdfFrameLoad);
+      if (pdfSandboxSupported !== false) {
+        frame.setAttribute('sandbox', PDF_FRAME_SANDBOX);
+        frame.dataset.pdfSandbox = 'pending';
+      }
+      currentFrameSrc = null;
+    }
+
+    if (frame.title !== title) frame.title = title;
+    if (currentFrameSrc !== src) {
+      currentFrameSrc = src;
+      stageEl.classList.add('is-loading');
+      // يُسنَد المصدر قبل الإدراج حتى لا يسبق تحميل about:blank اختبار الـsandbox.
+      frame.src = src;
+    }
+    if (!frame.isConnected) stageEl.appendChild(frame);
+    return frame;
+  }
+
+  /**
+   * بناء شريط التحكم العلوي ومنطقة العرض داخل `#previewBody` دون المساس بهيكل الصفحة.
+   */
+  function renderPreviewViewport(bodyEl, resource, activePath, resolvedType, docHeading, activeCount) {
+    let viewportBar = DOM.qs('.preview-viewport-bar', bodyEl);
+    let stageEl = DOM.qs('.preview-stage', bodyEl);
+
+    if (!viewportBar || !stageEl) {
+      bodyEl.innerHTML = '';
+      currentFrameSrc = null;
+
+      viewportBar = document.createElement('div');
+      viewportBar.className = 'preview-viewport-bar';
+      bodyEl.appendChild(viewportBar);
+
+      stageEl = document.createElement('div');
+      stageEl.className = 'preview-stage';
+      stageEl.innerHTML = `<div class="preview-loading-pill" aria-hidden="true">${escapeHtml(I18n.t('reader_loading'))}</div>`;
+      bodyEl.appendChild(stageEl);
+    }
+
+    const fileName = String(activePath || '').split('/').pop() || '';
+    const typeLabel =
+      resolvedType === 'solution' ? I18n.t('preview_tab_solution') : I18n.t('preview_tab_problem');
+    const isFocus = Boolean(Store.getState().preview.isFocusMode);
+    const mobileLimited = isIosOrMobilePdfLimited();
+    const showMobileStage = mobileLimited && !forceInlinePreview;
+
+    viewportBar.innerHTML = `
+      <div class="preview-viewport-meta">
+        <span class="preview-viewport-type">${escapeHtml(typeLabel)}</span>
+        <span class="preview-viewport-filename" dir="ltr">${escapeHtml(fileName)}</span>
+      </div>
+      <div class="preview-viewport-actions">
+        ${
+          mobileLimited
+            ? `<button type="button" class="btn btn-ghost btn-sm" data-preview-inline-toggle="1">
+                 ${escapeHtml(I18n.t(forceInlinePreview ? 'reader_mobile_hide_inline' : 'reader_mobile_try_inline'))}
+               </button>`
+            : `<button type="button"
+                       class="btn btn-ghost btn-sm"
+                       data-preview-reload="1"
+                       aria-label="${escapeHtml(I18n.t('reader_reload_aria'))}">
+                 ${escapeHtml(I18n.t('reader_reload_btn'))}
+               </button>`
+        }
+        <button type="button"
+                class="btn btn-ghost btn-sm"
+                data-preview-focus-toggle="1"
+                aria-pressed="${isFocus ? 'true' : 'false'}">
+          ${escapeHtml(isFocus ? I18n.t('preview_focus_exit') : I18n.t('preview_focus_enter'))}
+        </button>
+        <a class="btn btn-ghost btn-sm"
+           href="${escapeHtml(activePath)}"
+           target="_blank"
+           rel="noopener noreferrer">${escapeHtml(I18n.t('open_new_tab'))}</a>
+      </div>
+    `;
+
+    const loadingPill = DOM.qs('.preview-loading-pill', stageEl);
+    if (loadingPill) loadingPill.textContent = I18n.t('reader_loading');
+
+    bodyEl.classList.toggle("is-mobile-card-mode", showMobileStage);
+    if (showMobileStage) {
+      const existingFrame = DOM.qs('#previewPdfFrame', stageEl);
+      if (existingFrame) existingFrame.remove();
+      const existingHint = DOM.qs('.preview-external-hint', stageEl);
+      if (existingHint) existingHint.remove();
+      currentFrameSrc = null;
+      stageEl.classList.remove('is-loading');
+
+      let mobileCard = DOM.qs('.preview-mobile-stage', stageEl);
+      if (!mobileCard) {
+        mobileCard = document.createElement('div');
+        mobileCard.className = 'preview-mobile-stage';
+        stageEl.appendChild(mobileCard);
+      }
+
+      const formatDownloads = I18n.t('downloads_label');
+      const dlCountText =
+        typeof formatDownloads === 'function' ? formatDownloads(activeCount) : `↓ ${activeCount}`;
+      const downloadLabel =
+        resolvedType === 'solution' ? I18n.t('solution_download') : I18n.t('btn_download');
+
+      mobileCard.innerHTML = `
+        <div class="preview-mobile-card">
+          <span class="preview-mobile-eyebrow">${escapeHtml(I18n.t('reader_mobile_badge'))}</span>
+          <h2 class="preview-mobile-title">${escapeHtml(docHeading)}</h2>
+          <div class="tags preview-mobile-tags">${CardComponent.renderTags(resource)}</div>
+          <code class="preview-mobile-file" dir="ltr">${escapeHtml(fileName)}</code>
+          <p class="preview-mobile-lead">${escapeHtml(I18n.t('reader_mobile_lead'))}</p>
+          <div class="preview-mobile-actions">
+            <a class="btn btn-primary preview-mobile-btn"
+               href="${escapeHtml(activePath)}"
+               target="_blank"
+               rel="noopener noreferrer">
+              ${escapeHtml(I18n.t('reader_mobile_open_btn'))}
+            </a>
+            <a class="btn btn-ghost preview-mobile-btn"
+               href="${escapeHtml(activePath)}"
+               download
+               data-download-key="${escapeHtml(activePath)}">
+              ${escapeHtml(downloadLabel)} (${escapeHtml(dlCountText)})
+            </a>
+            <button type="button"
+                    class="btn btn-ghost preview-mobile-btn"
+                    data-preview-inline-toggle="1">
+              ${escapeHtml(I18n.t('reader_mobile_try_inline'))}
+            </button>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    ensurePdfFrame(stageEl, activePath, docHeading);
+    renderExternalHint(stageEl, activePath);
+  }
+
+  function reloadPdfFrame() {
+    const bodyEl = DOM.qs('#previewBody');
+    if (!bodyEl) return;
+    const frame = DOM.qs('#previewPdfFrame', bodyEl);
+    const stageEl = DOM.qs('.preview-stage', bodyEl);
+    if (!frame || !currentFrameSrc) return;
+    if (stageEl) stageEl.classList.add('is-loading');
+    frame.src = currentFrameSrc;
+  }
+
+  function toggleInlinePreview() {
+    forceInlinePreview = !forceInlinePreview;
+    render();
+  }
+
+  function syncPreviewUrl() {
+    if (!DOM.qs('#previewSection')) return;
+    const { preview } = Store.getState();
+    const nextUrl = `preview.html?id=${encodeURIComponent(preview.id)}&type=${encodeURIComponent(preview.type)}`;
+    try {
+      global.history.replaceState({}, '', nextUrl);
+    } catch (_) {}
+  }
 
   const TOPIC_FORMULAS = {
     kin: [
@@ -54,9 +330,12 @@
       const params = new URLSearchParams(global.location.search);
       const idParam = params.get('id');
       const typeParam = params.get('type');
+      const numericId = Number(idParam);
 
       Store.setState((s) => {
-        if (idParam) s.preview.id = Number(idParam);
+        if (idParam && Number.isFinite(numericId) && numericId > 0) {
+          s.preview.id = numericId;
+        }
         if (typeParam === 'solution' || typeParam === 'problem') {
           s.preview.type = typeParam;
         }
@@ -64,38 +343,47 @@
     } catch (_) {}
   }
 
-  function renderCanvasSheetViewer(bodyEl, activePath, docHeading) {
-    const { lang, preview } = Store.getState();
-    const pageInfo = global.__SPHOH_CANVAS_PAGES__?.[activePath] || {};
-    const images = pageInfo.images || [];
-    const totalPages = pageInfo.total || images.length;
+  function renderNotFoundState() {
+    const tagsEl = DOM.qs('#previewTags');
+    if (tagsEl) tagsEl.innerHTML = '';
 
-    bodyEl.innerHTML = `
-      <div class="canvas-reader-bar">
-        <span>📄 ${escapeHtml(activePath)} (${lang === 'ar' ? 'إجمالي الصفحات: ' : 'Total pages: '}${totalPages})</span>
-        <div class="canvas-reader-controls">
-          <button type="button" class="reader-icon-btn" data-zoom-dir="-" aria-label="Zoom out">−</button>
-          <span id="readerZoomLabel">${preview.zoom}%</span>
-          <button type="button" class="reader-icon-btn" data-zoom-dir="+" aria-label="Zoom in">+</button>
-        </div>
-      </div>
-      <div class="canvas-pages-scroller" id="canvasPagesScroller"></div>
-    `;
+    const titleEl = DOM.qs('#previewTitle');
+    if (titleEl) titleEl.textContent = I18n.t('preview_not_found');
 
-    const scroller = DOM.qs('#canvasPagesScroller', bodyEl);
-    const sheetWidth = Math.round(740 * (preview.zoom / 100));
+    const descEl = DOM.qs('#previewDesc');
+    if (descEl) descEl.textContent = I18n.t('preview_not_found_desc');
 
-    images.forEach((src, idx) => {
-      const wrap = document.createElement('div');
-      wrap.className = 'canvas-page-sheet';
-      wrap.style.width = `${sheetWidth}px`;
-
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = `${docHeading} - Page ${idx + 1}`;
-      wrap.appendChild(img);
-      scroller.appendChild(wrap);
+    [
+      '#previewDownloadBtn',
+      '#previewDownloadBadge',
+      '#previewExternalLink',
+      '#previewFocusBtn',
+      '#readerFormulasBtn',
+      '#readerScratchpadBtn',
+      '#readerHelperDrawer'
+    ].forEach((selector) => {
+      const el = DOM.qs(selector);
+      if (el) el.style.display = 'none';
     });
+
+    const shell = DOM.qs('#filePreviewDialog');
+    if (shell) {
+      shell.classList.remove('is-focus-mode', 'has-helper-open');
+    }
+    document.body.classList.remove('has-focus-mode');
+
+    const bodyEl = DOM.qs('#previewBody');
+    currentFrameSrc = null;
+    if (bodyEl) {
+      bodyEl.removeAttribute('role');
+      bodyEl.removeAttribute('aria-labelledby');
+      bodyEl.innerHTML = `
+        <div class="preview-empty-msg">
+          <p class="preview-desc-text">${escapeHtml(I18n.t('preview_not_found_desc'))}</p>
+          <a class="btn btn-ghost btn-sm" href="files.html">${escapeHtml(I18n.t('preview_back'))}</a>
+        </div>
+      `;
+    }
   }
 
   function renderReaderHelperTools(resource) {
@@ -105,7 +393,6 @@
     if (!shell || !bodyEl || !titleRowActions) return;
 
     const { lang } = Store.getState();
-    const isAr = lang === 'ar';
 
     let formulasBtn = DOM.qs('#readerFormulasBtn', titleRowActions);
     if (!formulasBtn) {
@@ -115,8 +402,10 @@
       formulasBtn.className = 'btn btn-ghost btn-sm';
       titleRowActions.prepend(formulasBtn);
     }
-    formulasBtn.textContent = isAr ? '📐 القوانين والثوابت' : '📐 Formula Sheet';
+    formulasBtn.style.display = '';
+    formulasBtn.textContent = I18n.t('reader_formulas_btn');
     formulasBtn.classList.toggle('active', activeHelperTool === 'formulas');
+    formulasBtn.setAttribute('aria-pressed', String(activeHelperTool === 'formulas'));
 
     let scratchBtn = DOM.qs('#readerScratchpadBtn', titleRowActions);
     if (!scratchBtn) {
@@ -126,8 +415,10 @@
       scratchBtn.className = 'btn btn-ghost btn-sm';
       titleRowActions.insertBefore(scratchBtn, formulasBtn.nextSibling);
     }
-    scratchBtn.textContent = isAr ? '📝 مسودة الحل' : '📝 Scratchpad';
+    scratchBtn.style.display = '';
+    scratchBtn.textContent = I18n.t('reader_scratchpad_btn');
     scratchBtn.classList.toggle('active', activeHelperTool === 'scratchpad');
+    scratchBtn.setAttribute('aria-pressed', String(activeHelperTool === 'scratchpad'));
 
     let drawer = DOM.qs('#readerHelperDrawer', shell);
     if (!drawer) {
@@ -137,15 +428,27 @@
       shell.insertBefore(drawer, bodyEl);
     }
 
+    shell.classList.toggle('has-helper-open', Boolean(activeHelperTool));
+
     if (!activeHelperTool) {
       drawer.hidden = true;
       return;
     }
 
     drawer.hidden = false;
+    const closeBtnHtml = `
+      <button type="button" class="btn btn-ghost btn-sm reader-helper-close" data-close-helper="1">
+        ${escapeHtml(I18n.t('reader_helper_close'))}
+      </button>
+    `;
+
     if (activeHelperTool === 'formulas') {
       const list = TOPIC_FORMULAS[resource.t] || TOPIC_FORMULAS.coll;
       drawer.innerHTML = `
+        <div class="reader-helper-head">
+          <strong>${escapeHtml(I18n.t('reader_formulas_btn'))}</strong>
+          ${closeBtnHtml}
+        </div>
         <div class="reader-helper-grid">
           ${list
             .map(
@@ -164,19 +467,20 @@
       drawer.innerHTML = `
         <div class="scratchpad-wrap">
           <div class="scratchpad-head">
-            <span>📝 ${isAr ? 'ملاحظاتك ومسودة حلك لهذا المنهج (تُحفظ تلقائياً في متصفحك):' : 'Your personal scratchpad for this set (auto-saved in browser):'}</span>
+            <span>📝 ${escapeHtml(I18n.t('reader_scratchpad_lead'))}</span>
+            ${closeBtnHtml}
           </div>
           <textarea id="readerScratchpadInput"
                     class="scratchpad-textarea"
                     data-scratchpad-id="${escapeHtml(resource.id)}"
-                    placeholder="${isAr ? 'اكتب خطوات الحل، المعادلات، أو رقم المسألة التي توقفت عندها...' : 'Write down equations, final answers, or problem numbers...'}">${escapeHtml(savedNote)}</textarea>
+                    placeholder="${escapeHtml(I18n.t('reader_scratchpad_ph'))}">${escapeHtml(savedNote)}</textarea>
         </div>
       `;
     }
   }
 
   function toggleHelperTool(toolName) {
-    activeHelperTool = activeHelperTool === toolName ? null : toolName;
+    activeHelperTool = !toolName || activeHelperTool === toolName ? null : toolName;
     const { preview } = Store.getState();
     const resource = CurriculumService.findById(preview.id);
     if (resource) renderReaderHelperTools(resource);
@@ -184,49 +488,41 @@
 
   function render() {
     const section = DOM.qs('#previewSection');
-    const { resources, topics, lang, preview } = Store.getState();
-    if (!section || resources.length === 0) return;
+    if (!section) {
+      document.body.classList.remove('has-focus-mode');
+      return;
+    }
 
+    const { lang, preview } = Store.getState();
     const resource = CurriculumService.findById(preview.id);
-    if (!resource) return;
-    preview.id = resource.id;
+
+    if (!resource) {
+      renderNotFoundState();
+      return;
+    }
 
     const pdfPath = CurriculumService.getProblemPdfPath(resource, lang);
     const solPath = CurriculumService.getSolutionPdfPath(resource, lang);
+    const resolvedType = preview.type === 'solution' && !solPath ? 'problem' : preview.type;
 
-    if (preview.type === 'solution' && !solPath) {
-      preview.type = 'problem';
+    // لا تُعدَّل الحالة مباشرة داخل render(): كل تغيير يمر عبر setState.
+    if (Number(preview.id) !== Number(resource.id) || preview.type !== resolvedType) {
+      Store.setState((s) => {
+        s.preview.id = Number(resource.id);
+        s.preview.type = resolvedType;
+      });
     }
 
-    const activePath = preview.type === 'solution' ? solPath : pdfPath;
+    const activePath = resolvedType === 'solution' ? solPath : pdfPath;
     const activeCount = activePath ? Downloads.getCount(activePath) : 0;
-
-    const selectEl = DOM.qs('#previewResourceSelect');
-    if (selectEl) {
-      selectEl.innerHTML = resources
-        .map((item) => {
-          const topicLabel = topics[item.t]?.[lang] || item.t;
-          const itemTitle = item.title?.[lang] || item.file;
-          return `<option value="${escapeHtml(item.id)}">${escapeHtml(`${itemTitle} (${topicLabel})`)}</option>`;
-        })
-        .join('');
-      selectEl.value = String(resource.id);
-
-      if (!selectEl.dataset.bound) {
-        selectEl.dataset.bound = 'true';
-        selectEl.addEventListener('change', (e) => {
-          selectResource(Number(e.target.value), 'problem');
-        });
-      }
-    }
 
     const tagsEl = DOM.qs('#previewTags');
     if (tagsEl) tagsEl.innerHTML = CardComponent.renderTags(resource);
 
     const baseTitle = resource.title?.[lang] || resource.file || '';
     const docHeading =
-      preview.type === 'solution'
-        ? `${baseTitle} — ${lang === 'ar' ? 'الحلول النموذجية' : 'Official Solutions'}`
+      resolvedType === 'solution'
+        ? `${baseTitle} — ${I18n.t('official_solutions')}`
         : baseTitle;
 
     const titleEl = DOM.qs('#previewTitle');
@@ -235,23 +531,34 @@
     const descEl = DOM.qs('#previewDesc');
     if (descEl) descEl.textContent = CurriculumService.getDisplayDescription(resource, lang);
 
-    const tabProb = DOM.qs('#tabProblemBtn');
-    const tabSol = DOM.qs('#tabSolutionBtn');
-    if (tabProb) tabProb.classList.toggle('active', preview.type === 'problem');
-    if (tabSol) {
-      tabSol.classList.toggle('active', preview.type === 'solution');
-      tabSol.classList.toggle('is-disabled-tab', !solPath);
-    }
+    // E3 — تبويبات بمعمارية ARIA كاملة: aria-selected + tabindex متدرّج.
+    [
+      [DOM.qs('#tabProblemBtn'), 'problem'],
+      [DOM.qs('#tabSolutionBtn'), 'solution']
+    ].forEach(([tabEl, tabType]) => {
+      if (!tabEl) return;
+      const selected = resolvedType === tabType;
+      tabEl.classList.toggle('active', selected);
+      tabEl.setAttribute('aria-selected', String(selected));
+      tabEl.setAttribute('tabindex', selected ? '0' : '-1');
+      if (tabType === 'solution') tabEl.classList.toggle('is-disabled-tab', !solPath);
+    });
 
     const shell = DOM.qs('#filePreviewDialog');
     const focusBtn = DOM.qs('#previewFocusBtn');
     const closeBtn = DOM.qs('#previewCloseBtn');
-    if (shell) shell.classList.toggle('is-focus-mode', preview.isFocusMode);
+    const isFocus = Boolean(preview.isFocusMode);
+
+    if (shell) shell.classList.toggle('is-focus-mode', isFocus);
+    document.body.classList.toggle('has-focus-mode', isFocus);
+
     if (focusBtn) {
-      focusBtn.textContent = preview.isFocusMode ? I18n.t('preview_focus_exit') : I18n.t('preview_focus_enter');
+      focusBtn.style.display = '';
+      focusBtn.textContent = isFocus ? I18n.t('preview_focus_exit') : I18n.t('preview_focus_enter');
+      focusBtn.setAttribute('aria-pressed', String(isFocus));
     }
     if (closeBtn) {
-      closeBtn.hidden = !preview.isFocusMode;
+      closeBtn.hidden = !isFocus;
       closeBtn.setAttribute('aria-label', I18n.t('close_preview'));
     }
 
@@ -267,7 +574,7 @@
     if (dlBtn && activePath) {
       dlBtn.href = activePath;
       dlBtn.setAttribute('data-download-key', activePath);
-      dlBtn.textContent = preview.type === 'solution' ? I18n.t('solution_download') : I18n.t('btn_download');
+      dlBtn.textContent = resolvedType === 'solution' ? I18n.t('solution_download') : I18n.t('btn_download');
     }
 
     if (dlBadge && activePath) {
@@ -284,25 +591,27 @@
     const bodyEl = DOM.qs('#previewBody');
     if (!bodyEl) return;
 
+    bodyEl.setAttribute('role', 'tabpanel');
+    bodyEl.setAttribute(
+      'aria-labelledby',
+      resolvedType === 'solution' ? 'tabSolutionBtn' : 'tabProblemBtn'
+    );
+
     if (!activePath) {
+      currentFrameSrc = null;
       bodyEl.innerHTML = `<p class="preview-desc-text preview-empty-msg">${escapeHtml(I18n.t('pdf_toast'))}</p>`;
       return;
     }
 
-    if (global.__SPHOH_CANVAS_PAGES__ && global.__SPHOH_CANVAS_PAGES__[activePath]) {
-      renderCanvasSheetViewer(bodyEl, activePath, docHeading);
-    } else {
-      bodyEl.innerHTML = '';
-      const frame = document.createElement('iframe');
-      frame.src = activePath;
-      frame.title = docHeading;
-      bodyEl.appendChild(frame);
-    }
+    renderPreviewViewport(bodyEl, resource, activePath, resolvedType, docHeading, activeCount);
   }
 
   function selectResource(id, type = 'problem') {
     const resource = CurriculumService.findById(id);
-    if (!resource) return;
+    if (!resource) {
+      Toast.show(I18n.t('preview_not_found'));
+      return;
+    }
 
     if (type === 'solution' && !CurriculumService.getSolutionPdfPath(resource)) {
       Toast.show(I18n.t('solution_toast'));
@@ -314,17 +623,8 @@
       s.preview.type = type === 'solution' ? 'solution' : 'problem';
     });
 
-    const previewView = DOM.qs('[data-page-view="preview"]');
-    if (previewView && SPhOH.App?.switchCanvasView) {
-      SPhOH.App.switchCanvasView('preview');
-      return;
-    }
-
     if (DOM.qs('#previewSection')) {
-      try {
-        const nextUrl = `preview.html?id=${encodeURIComponent(resource.id)}&type=${encodeURIComponent(type)}`;
-        global.history.replaceState({}, '', nextUrl);
-      } catch (_) {}
+      syncPreviewUrl();
       render();
       global.scrollTo({ top: 0, behavior: 'smooth' });
       return;
@@ -336,6 +636,10 @@
   function switchTab(targetType) {
     const { preview } = Store.getState();
     const resource = CurriculumService.findById(preview.id);
+    if (!resource) {
+      Toast.show(I18n.t('preview_not_found'));
+      return;
+    }
     if (targetType === 'solution' && !CurriculumService.getSolutionPdfPath(resource)) {
       Toast.show(I18n.t('solution_toast'));
       return;
@@ -343,7 +647,39 @@
     Store.setState((s) => {
       s.preview.type = targetType;
     });
+    syncPreviewUrl();
     render();
+  }
+
+  /**
+   * E3 — تنقّل لوحة المفاتيح بين تبويبات القارئ (أسهم، Home، End) مع احترام الاتجاه.
+   * @param {KeyboardEvent} event
+   * @param {HTMLElement} tabEl
+   */
+  function handleTabKeydown(event, tabEl) {
+    const key = event.key;
+    if (key !== 'ArrowLeft' && key !== 'ArrowRight' && key !== 'Home' && key !== 'End') return;
+
+    const tabs = [DOM.qs('#tabProblemBtn'), DOM.qs('#tabSolutionBtn')].filter(Boolean);
+    if (!tabs.length) return;
+
+    const current = tabs.indexOf(tabEl);
+    if (current === -1) return;
+
+    event.preventDefault();
+    const isRtl = (document.documentElement.getAttribute('dir') || '') === 'rtl';
+    let next = current;
+
+    if (key === 'Home') next = 0;
+    else if (key === 'End') next = tabs.length - 1;
+    else {
+      const step = key === 'ArrowRight' ? (isRtl ? -1 : 1) : isRtl ? 1 : -1;
+      next = (current + step + tabs.length) % tabs.length;
+    }
+
+    const target = tabs[next];
+    target.focus();
+    switchTab(target.getAttribute('data-preview-tab'));
   }
 
   function stepResource(direction) {
@@ -359,24 +695,24 @@
   }
 
   function toggleFocusMode(forceVal) {
+    const wasFocus = Boolean(Store.getState().preview.isFocusMode);
+    const nextFocus = typeof forceVal === 'boolean' ? forceVal : !wasFocus;
+
     Store.setState((s) => {
-      s.preview.isFocusMode = typeof forceVal === 'boolean' ? forceVal : !s.preview.isFocusMode;
+      s.preview.isFocusMode = nextFocus;
     });
     render();
-  }
 
-  function adjustZoom(dir) {
-    Store.setState((s) => {
-      if (dir === '+' && s.preview.zoom < 140) s.preview.zoom += 15;
-      if (dir === '-' && s.preview.zoom > 70) s.preview.zoom -= 15;
-    });
-    const { zoom } = Store.getState().preview;
-    const zoomLabel = DOM.qs('#readerZoomLabel');
-    if (zoomLabel) zoomLabel.textContent = `${zoom}%`;
-    const width = Math.round(740 * (zoom / 100));
-    DOM.qsa('.canvas-page-sheet').forEach((sheet) => {
-      sheet.style.width = `${width}px`;
-    });
+    if (wasFocus && !nextFocus) {
+      const focusBtn = DOM.qs('#previewFocusBtn');
+      if (focusBtn && typeof focusBtn.focus === 'function') {
+        try {
+          focusBtn.focus({ preventScroll: true });
+        } catch (_) {
+          focusBtn.focus();
+        }
+      }
+    }
   }
 
   SPhOH.PreviewPage = Object.freeze({
@@ -384,10 +720,13 @@
     render,
     selectResource,
     switchTab,
+    handleTabKeydown,
     stepResource,
     toggleFocusMode,
     toggleHelperTool,
+    reloadPdfFrame,
+    toggleInlinePreview,
     saveScratchpadText,
-    adjustZoom
+    syncPreviewUrl
   });
 })(window);

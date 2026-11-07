@@ -4,13 +4,18 @@
  */
 .search-input,
 .level-select {
-  background: var(--bg);
+  background: var(--surface);
   color: var(--fg);
-  border: 1px solid var(--line);
-  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
   padding: 8px 12px;
   font: inherit;
   font-size: 0.9rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search-input::placeholder {
+  color: var(--muted);
 }
 
 .search-input {
@@ -22,30 +27,52 @@
 .search-input:focus,
 .level-select:focus {
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .admin-input,
 .admin-select,
 .admin-textarea {
   width: 100%;
-  background: var(--bg);
+  background: var(--surface);
   color: var(--fg);
-  border: 1px solid var(--line);
-  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
   padding: 10px 14px;
   font: inherit;
   font-size: 0.94rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .admin-input:focus,
 .admin-select:focus,
 .admin-textarea:focus {
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 @media (max-width: 640px) {
   .search-input {
     max-width: none;
     width: 100%;
+  }
+}
+
+/* منع تكبير iOS التلقائي عند لمس أي حقل (يحدث عندما يقل الخط عن 16px) */
+@media (max-width: 768px) {
+  .search-input,
+  .level-select,
+  .admin-input,
+  .admin-select,
+  .admin-textarea,
+  .preview-select,
+  .scratchpad-textarea,
+  .sim-grav-select,
+  .cmd-input {
+    font-size: 16px;
+  }
+
+  .admin-input.admin-pass-input {
+    font-size: 1.15rem;
   }
 }

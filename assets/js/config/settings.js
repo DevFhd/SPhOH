@@ -32,6 +32,7 @@
       DOWNLOAD_COUNTS: 'sphoh-download-counts-v1',
       CUSTOM_RESOURCES: 'sphoh-custom-resources-v1',
       CUSTOM_TOPICS: 'sphoh-custom-topics-v1',
+      NEXT_ID: 'sphoh-next-id-v1',
       ADMIN_UNLOCKED: 'sphoh-admin-unlocked',
       BOOKMARKS: 'sphoh-bookmarks-v1',
       COMPLETED: 'sphoh-completed-v1',

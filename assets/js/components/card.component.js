@@ -44,8 +44,10 @@
     `;
   }
 
-  function renderCard(resource, counts = {}) {
+  function renderCard(resource, counts = {}, options = {}) {
     const lang = I18n.getLang();
+    // `interactive: false` يعرض الشكل نفسه بلا روابط أو إجراءات (معاينة الإدارة).
+    const interactive = options.interactive !== false;
     const pdfPath = CurriculumService.getProblemPdfPath(resource, lang);
     const solutionPath = CurriculumService.getSolutionPdfPath(resource, lang);
 
@@ -66,36 +68,42 @@
 
     const problemActionsHtml = pdfPath
       ? `
-        <a href="${escapeHtml(previewProblemHref)}"
+        ${interactive
+          ? `<a href="${escapeHtml(previewProblemHref)}"
            class="btn btn-primary btn-sm"
            data-open-preview="${escapeHtml(resource.id)}"
            data-preview-type="problem">${escapeHtml(I18n.t('btn_preview'))}</a>
         <a href="${escapeHtml(pdfPath)}"
            download
            class="btn btn-ghost btn-sm"
-           data-download-key="${escapeHtml(pdfPath)}">${escapeHtml(I18n.t('btn_download'))}</a>
+           data-download-key="${escapeHtml(pdfPath)}">${escapeHtml(I18n.t('btn_download'))}</a>`
+          : `<span class="btn btn-primary btn-sm">${escapeHtml(I18n.t('btn_preview'))}</span>
+        <span class="btn btn-ghost btn-sm">${escapeHtml(I18n.t('btn_download'))}</span>`}
         <span class="download-count" data-count-for="${escapeHtml(pdfPath)}">${escapeHtml(formatDownloads(probCount))}</span>
       `
       : `
-        <button type="button" aria-disabled="true" class="btn btn-ghost btn-sm is-unavailable" data-missing-file="problem">${escapeHtml(I18n.t('btn_preview'))}</button>
-        <button type="button" aria-disabled="true" class="btn btn-ghost btn-sm is-unavailable" data-missing-file="problem">${escapeHtml(I18n.t('btn_download'))}</button>
+        <button type="button" aria-disabled="true" class="btn btn-ghost btn-sm is-unavailable"${interactive ? ' data-missing-file="problem"' : ''}>${escapeHtml(I18n.t('btn_preview'))}</button>
+        <button type="button" aria-disabled="true" class="btn btn-ghost btn-sm is-unavailable"${interactive ? ' data-missing-file="problem"' : ''}>${escapeHtml(I18n.t('btn_download'))}</button>
       `;
 
     const solutionActionsHtml = solutionPath
       ? `
-        <a href="${escapeHtml(previewSolHref)}"
+        ${interactive
+          ? `<a href="${escapeHtml(previewSolHref)}"
            class="btn btn-primary btn-sm solution-action"
            data-open-preview="${escapeHtml(resource.id)}"
            data-preview-type="solution">${escapeHtml(I18n.t('solution_preview'))}</a>
         <a href="${escapeHtml(solutionPath)}"
            download
            class="btn btn-ghost btn-sm solution-action"
-           data-download-key="${escapeHtml(solutionPath)}">${escapeHtml(I18n.t('solution_download'))}</a>
+           data-download-key="${escapeHtml(solutionPath)}">${escapeHtml(I18n.t('solution_download'))}</a>`
+          : `<span class="btn btn-primary btn-sm solution-action">${escapeHtml(I18n.t('solution_preview'))}</span>
+        <span class="btn btn-ghost btn-sm solution-action">${escapeHtml(I18n.t('solution_download'))}</span>`}
         <span class="download-count" data-count-for="${escapeHtml(solutionPath)}">${escapeHtml(formatDownloads(solCount))}</span>
       `
       : `
-        <button type="button" aria-disabled="true" class="btn btn-ghost btn-sm is-unavailable solution-action" data-missing-file="solution">${escapeHtml(I18n.t('solution_preview'))}</button>
-        <button type="button" aria-disabled="true" class="btn btn-ghost btn-sm is-unavailable solution-action" data-missing-file="solution">${escapeHtml(I18n.t('solution_download'))}</button>
+        <button type="button" aria-disabled="true" class="btn btn-ghost btn-sm is-unavailable solution-action"${interactive ? ' data-missing-file="solution"' : ''}>${escapeHtml(I18n.t('solution_preview'))}</button>
+        <button type="button" aria-disabled="true" class="btn btn-ghost btn-sm is-unavailable solution-action"${interactive ? ' data-missing-file="solution"' : ''}>${escapeHtml(I18n.t('solution_download'))}</button>
       `;
 
     return `
@@ -106,7 +114,8 @@
             <div class="tags">${renderTags(resource)}</div>
             <div class="card-quick-toggles">
               <span class="card-serial-code">${escapeHtml(serialCode)}</span>
-              <button type="button"
+              ${interactive
+                ? `<button type="button"
                       class="card-status-btn ${saved ? 'is-active-bookmark' : ''}"
                       data-toggle-bookmark="${escapeHtml(resource.id)}"
                       title="${escapeHtml(I18n.t(saved ? 'bookmark_remove' : 'bookmark_add'))}"
@@ -119,7 +128,9 @@
                       title="${escapeHtml(I18n.t(done ? 'complete_remove' : 'complete_add'))}"
                       aria-label="${escapeHtml(I18n.t(done ? 'complete_remove' : 'complete_add'))}">
                 ${done ? '✓' : '○'}
-              </button>
+              </button>`
+                : `<span class="card-status-btn ${saved ? 'is-active-bookmark' : ''}" aria-hidden="true">${saved ? '★' : '☆'}</span>
+              <span class="card-status-btn ${done ? 'is-active-done' : ''}" aria-hidden="true">${done ? '✓' : '○'}</span>`}
             </div>
           </div>
           <h3 class="h3 card-title-heading mt-xs">${escapeHtml(title)}</h3>

@@ -18,6 +18,8 @@
     lang: savedLang === 'en' || savedLang === 'ar' ? savedLang : Settings.DEFAULT_LANG,
     theme: savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : Settings.DEFAULT_THEME,
     resources: Catalog.FALLBACK_RESOURCES.map((item) => ({ ...item })),
+    // مصدر قائمة الموارد الحالية: 'fallback' | 'json' | 'custom'
+    dataSource: 'fallback',
     topics: JSON.parse(JSON.stringify(Catalog.DEFAULT_TOPICS)),
     bookmarks: Array.isArray(savedBookmarks) ? savedBookmarks.map(Number) : [],
     completed: Array.isArray(savedCompleted) ? savedCompleted.map(Number) : [],

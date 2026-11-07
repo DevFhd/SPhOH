@@ -3,6 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+  <!-- Content Security Policy — admin has no analytics, so no Google hosts -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self'; frame-src 'self'; form-action 'self'">
+
+  <!-- Early language & theme init — prevents an AR/light flash before first paint -->
+  <script src="assets/js/early-init.js"></script>
   <meta name="description" content="SPhOH - Saudi Physics Olympiad Hub: A training resource and problem repository for advanced physics competitions and international olympiads.">
   <meta name="robots" content="noindex,nofollow">
   <title>Admin Panel | SPhOH</title>
@@ -10,8 +16,9 @@
   <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pages/admin.css">
 
   <!-- Icons & Manifest -->
   <link rel="icon" type="image/png" href="assets/icons/favicon-96x96.png" sizes="96x96">
@@ -19,7 +26,7 @@
   <link rel="shortcut icon" href="assets/icons/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="assets/icons/site.webmanifest">
-  <meta name="theme-color" content="#0e1512">
+  <meta name="theme-color" content="#f6f3ec">
 
   <!-- Modular Application Scripts -->
   <script defer src="assets/js/config/settings.js"></script>
@@ -51,7 +58,7 @@
   <!-- Shared Navbar (Mounted by layout.component.js) -->
   <header class="nav"></header>
 
-  <main>
+  <main id="main" tabindex="-1">
     <section class="page-header">
       <div class="wrap">
         <div class="eyebrow" data-i18n="admin_eyebrow"></div>
@@ -69,13 +76,14 @@
           <p class="admin-gate-subtitle" data-i18n="admin_gate_desc"></p>
 
           <form class="admin-pass-form" id="adminLoginForm">
+            <label class="admin-pass-label" for="adminPasswordInput" data-i18n="admin_pass_aria"></label>
             <input type="password"
                    class="admin-input admin-pass-input"
                    id="adminPasswordInput"
                    autocomplete="current-password"
                    required
-                   aria-label="Admin Password">
-            <div class="admin-error-msg" id="adminLoginError" hidden data-i18n="admin_wrong_pass"></div>
+                   aria-describedby="adminLoginError">
+            <div class="admin-error-msg" id="adminLoginError" role="alert" hidden></div>
             <button type="submit" class="btn btn-primary" data-i18n="admin_login_btn"></button>
           </form>
         </div>
@@ -83,16 +91,19 @@
         <!-- UNLOCKED ADMIN DASHBOARD -->
         <div id="adminDashboard" hidden>
           <div class="admin-top-actions">
-            <button type="button" class="btn btn-primary" id="openAddCurriculumBtn" data-i18n="admin_add_curriculum_btn"></button>
+            <button type="button" class="btn btn-primary" id="openAddCurriculumBtn"
+                    aria-haspopup="dialog" aria-expanded="false" aria-controls="adminFormModalCard"
+                    data-i18n="admin_add_curriculum_btn"></button>
             <button type="button" class="btn btn-danger btn-sm" id="adminLogoutBtn" data-i18n="admin_logout_btn"></button>
           </div>
 
           <div class="admin-panel-grid">
             <!-- Collapsible Add / Edit Curriculum Drawer -->
-            <div class="admin-card admin-form-drawer" id="adminFormModalCard" hidden>
+            <div class="admin-card admin-form-drawer" id="adminFormModalCard"
+                 role="dialog" aria-labelledby="adminFormHeading" hidden>
               <div class="admin-drawer-head">
                 <h2 class="h3" id="adminFormHeading" data-i18n="admin_form_add_title"></h2>
-                <button type="button" class="preview-close" id="adminCloseFormBtn" aria-label="Close">×</button>
+                <button type="button" class="preview-close" id="adminCloseFormBtn" aria-label="Close" data-i18n-aria-label="close_aria">×</button>
               </div>
 
               <form class="admin-form-grid" id="adminResourceForm">
@@ -110,11 +121,11 @@
                 <div class="admin-new-topic-box" id="adminNewTopicBox" hidden>
                   <div class="admin-field">
                     <label for="adminNewTopicAr" data-i18n="admin_lbl_new_topic_ar"></label>
-                    <input type="text" class="admin-input" id="adminNewTopicAr" placeholder="مثال: الفيزياء الحديثة">
+                    <input type="text" class="admin-input" id="adminNewTopicAr" placeholder="e.g. Modern Physics" data-i18n-placeholder="admin_ph_new_topic_ar">
                   </div>
                   <div class="admin-field">
                     <label for="adminNewTopicEn" data-i18n="admin_lbl_new_topic_en"></label>
-                    <input type="text" class="admin-input" id="adminNewTopicEn" placeholder="e.g. Modern Physics" dir="ltr">
+                    <input type="text" class="admin-input" id="adminNewTopicEn" placeholder="e.g. Modern Physics" data-i18n-placeholder="admin_ph_new_topic_en" dir="ltr">
                   </div>
                   <div class="admin-field">
                     <label for="adminNewTopicKey" data-i18n="admin_lbl_new_topic_key"></label>
@@ -124,12 +135,12 @@
 
                 <div class="admin-field">
                   <label for="adminTitleAr" data-i18n="admin_lbl_title_ar"></label>
-                  <input type="text" class="admin-input" id="adminTitleAr" placeholder="مثال: النسبية الخاصة I" required>
+                  <input type="text" class="admin-input" id="adminTitleAr" placeholder="e.g. Special Relativity I" data-i18n-placeholder="admin_ph_title_ar" required>
                 </div>
 
                 <div class="admin-field">
                   <label for="adminTitleEn" data-i18n="admin_lbl_title_en"></label>
-                  <input type="text" class="admin-input" id="adminTitleEn" placeholder="e.g. Special Relativity I" dir="ltr" required>
+                  <input type="text" class="admin-input" id="adminTitleEn" placeholder="e.g. Special Relativity I" data-i18n-placeholder="admin_ph_title_en" dir="ltr" required>
                 </div>
 
                 <div class="admin-field full">
@@ -137,7 +148,7 @@
                     <label for="adminFileStem" data-i18n="admin_lbl_stem"></label>
                     <label class="btn btn-ghost btn-sm admin-pick-pdf-btn">
                       <span data-i18n="admin_lbl_pick_pdf"></span>
-                      <input type="file" id="adminPdfFilePicker" accept=".pdf" hidden>
+                      <input type="file" id="adminPdfFilePicker" accept=".pdf" class="sr-only">
                     </label>
                   </div>
                   <input type="text" class="admin-input" id="adminFileStem" placeholder="e.g. Relativity_I" dir="ltr" required>
@@ -146,12 +157,12 @@
 
                 <div class="admin-field full">
                   <label for="adminDescAr" data-i18n="admin_lbl_desc_ar"></label>
-                  <textarea class="admin-textarea" id="adminDescAr" rows="2" placeholder="وصف مختصر للمنهج..." required></textarea>
+                  <textarea class="admin-textarea" id="adminDescAr" rows="2" placeholder="Short curriculum description..." data-i18n-placeholder="admin_ph_desc_ar" required></textarea>
                 </div>
 
                 <div class="admin-field full">
                   <label for="adminDescEn" data-i18n="admin_lbl_desc_en"></label>
-                  <textarea class="admin-textarea" id="adminDescEn" rows="2" placeholder="Short curriculum description..." dir="ltr" required></textarea>
+                  <textarea class="admin-textarea" id="adminDescEn" rows="2" placeholder="Short curriculum description..." data-i18n-placeholder="admin_ph_desc_en" dir="ltr" required></textarea>
                 </div>
 
                 <div class="admin-field full">
@@ -183,6 +194,7 @@
             <summary data-i18n="admin_db_tools_summary"></summary>
             <div class="admin-db-tools-body">
               <button type="button" class="btn btn-primary btn-sm" id="adminExportJsonBtn" data-i18n="admin_export_json"></button>
+              <button type="button" class="btn btn-ghost btn-sm" id="adminExportBackupBtn" data-i18n="admin_backup_export_btn"></button>
               <button type="button" class="btn btn-ghost btn-sm" id="adminCopyJsonBtn" data-i18n="admin_copy_json"></button>
               <button type="button" class="btn btn-ghost btn-sm" id="adminResetDefaultBtn" data-i18n="admin_reset_default"></button>
             </div>

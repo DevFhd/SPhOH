@@ -9,15 +9,72 @@
   'use strict';
 
   const SPhOH = (global.SPhOH = global.SPhOH || {});
-  const { Catalog, Store, I18n, Downloads, CardComponent, Effects, DOM } = SPhOH;
+  const { Catalog, Store, I18n, Downloads, CardComponent, Effects, CurriculumService, DOM } = SPhOH;
   const { escapeHtml } = DOM;
 
   let simAnimFrame = null;
+  let simElapsedMs = 0;
+  let simLastTs = 0;
+  let simRunning = false;
+  let simPaused = false;
+  let simGeometry = null;
+  let simMotionQuery = null;
 
-  function updateSimulatorView() {
-    const sketchBox = DOM.qs('.sketch');
-    if (!sketchBox) return;
+  const SIM_ANIMATION_MS = 1050;
 
+  /**
+   * يحترم `prefers-reduced-motion`: تُستبدل الحركة بلقطة ثابتة عند قمة المسار.
+   * @returns {boolean}
+   */
+  function prefersReducedMotion() {
+    if (!simMotionQuery) {
+      try {
+        simMotionQuery =
+          typeof global.matchMedia === 'function'
+            ? global.matchMedia('(prefers-reduced-motion: reduce)')
+            : null;
+      } catch (_) {
+        simMotionQuery = null;
+      }
+    }
+    return Boolean(simMotionQuery && simMotionQuery.matches);
+  }
+
+  /**
+   * حساب هندسة المسار بمقياس موحّد للمحورين للحفاظ على النسب الفيزيائية الحقيقية.
+   * مساحة الرسم: x من 40 إلى 420، وy من 24 (قمة المحور) إلى 220 (خط الأرض).
+   */
+  function getSimulatorGeometry() {
+    const { angle, velocity, gravity } = Store.getState().simulator;
+    const rad = (angle * Math.PI) / 180;
+
+    // حساب فيزيائي موحّد واحد يُستخدم للرسم وللجسيم المتحرك معاً.
+    const range = (velocity * velocity * Math.sin(2 * rad)) / gravity;
+    const height = Math.pow(velocity * Math.sin(rad), 2) / (2 * gravity);
+    const flightTime = (2 * velocity * Math.sin(rad)) / gravity;
+
+    const startX = 40;
+    const groundY = 220;
+    const availableWidth = 380;   // 420 - 40
+    const availableHeight = 190;  // 220 - 30 (هامش 6px أسفل قمة المحور)
+
+    // مقياس واحد للمحورين: النسب المرسومة تطابق النسب الفيزيائية.
+    // حماية من القسمة على صفر عند زاوية/سرعة حدّية.
+    const safeRange = range > 0 && Number.isFinite(range) ? range : 0.001;
+    const safeHeight = height > 0 && Number.isFinite(height) ? height : 0.001;
+    const scale = Math.min(availableWidth / safeRange, availableHeight / safeHeight);
+
+    const endX = startX + range * scale;
+    const peakX = (startX + endX) / 2;
+    const peakY = groundY - height * scale;
+    const controlY = groundY - 2 * height * scale;
+
+    const d = `M${startX} ${groundY} Q${peakX.toFixed(1)} ${controlY.toFixed(1)} ${endX.toFixed(1)} ${groundY}`;
+
+    return { angle, velocity, gravity, range, height, flightTime, startX, groundY, endX, peakX, peakY, controlY, d };
+  }
+
+  function renderSimulatorControls(sketchBox) {
     let controlsWrap = DOM.qs('#simControlsPanel', sketchBox);
     if (!controlsWrap) {
       controlsWrap = document.createElement('div');
@@ -27,70 +84,38 @@
     }
 
     const { angle, velocity, gravity } = Store.getState().simulator;
-    const rad = (angle * Math.PI) / 180;
 
-    const realRange = (velocity * velocity * Math.sin(2 * rad)) / gravity;
-    const realHeight = Math.pow(velocity * Math.sin(rad), 2) / (2 * gravity);
-    const flightTime = (2 * velocity * Math.sin(rad)) / gravity;
-
-    const startX = 40;
-    const groundY = 220;
-    const scaleX = Math.min(360, Math.max(95, realRange * 4.4));
-    const endX = Math.min(408, startX + scaleX);
-    const peakX = (startX + endX) / 2;
-    const peakY = Math.max(28, groundY - Math.min(182, Math.max(24, realHeight * 4.6)));
-    const controlY = 2 * peakY - groundY;
-
-    const dPath = `M${startX} ${groundY} Q${peakX.toFixed(1)} ${controlY.toFixed(1)} ${endX.toFixed(1)} ${groundY}`;
-
-    const paths = DOM.qsa('svg path', sketchBox);
-    paths.forEach((p) => {
-      const dAttr = p.getAttribute('d') || '';
-      if (dAttr.startsWith('M40 220 Q')) {
-        if (dAttr.endsWith('Z')) {
-          p.setAttribute('d', `${dPath} Z`);
-        } else {
-          p.setAttribute('d', dPath);
-          p.id = 'simTrajectoryPath';
-        }
-      }
-    });
-
-    const lines = DOM.qsa('svg line', sketchBox);
-    if (lines.length >= 6) {
-      lines[2]?.setAttribute('x2', peakX.toFixed(1));
-      lines[2]?.setAttribute('y1', peakY.toFixed(1));
-      lines[2]?.setAttribute('y2', peakY.toFixed(1));
-
-      lines[3]?.setAttribute('x1', peakX.toFixed(1));
-      lines[3]?.setAttribute('x2', peakX.toFixed(1));
-      lines[3]?.setAttribute('y2', peakY.toFixed(1));
-    }
-
-    const capEl = DOM.qs('.cap', sketchBox);
-    if (capEl) {
-      capEl.innerHTML = `
-        <span class="sim-metric-pill"><b>R</b> = ${realRange.toFixed(1)} m</span>
-        <span class="sim-metric-pill"><b>H</b> = ${realHeight.toFixed(1)} m</span>
-        <span class="sim-metric-pill"><b>T</b> = ${flightTime.toFixed(2)} s</span>
-      `;
-    }
+    const launchKey = simPaused ? 'sim_resume_btn' : simRunning ? 'sim_pause_btn' : 'sim_launch_btn';
+    const angleText = `${angle}°`;
+    const velocityText = `${velocity} m/s`;
 
     controlsWrap.innerHTML = `
       <div class="sim-controls-header">
-        <span class="sim-lab-badge">${escapeHtml(I18n.t('sim_badge'))}</span>
-        <button type="button" class="btn btn-primary btn-sm sim-launch-btn" id="simLaunchBtn">
-          ${escapeHtml(I18n.t('sim_launch_btn'))}
+        <button type="button"
+                class="btn btn-primary btn-sm sim-launch-btn"
+                id="simLaunchBtn"
+                aria-pressed="${simRunning && !simPaused ? 'true' : 'false'}">
+          ${escapeHtml(I18n.t(launchKey))}
         </button>
       </div>
       <div class="sim-sliders-grid">
-        <label class="sim-slider-field">
-          <span>${escapeHtml(I18n.t('sim_angle_lbl'))}: <strong id="simAngleVal">${angle}°</strong></span>
-          <input type="range" id="simAngleInput" min="15" max="75" step="1" value="${angle}">
+        <label class="sim-slider-field" for="simAngleInput">
+          <span>${escapeHtml(I18n.t('sim_angle_lbl'))}: <output id="simAngleVal" for="simAngleInput">${angleText}</output></span>
+          <input type="range"
+                 id="simAngleInput"
+                 min="15" max="75" step="1"
+                 value="${angle}"
+                 aria-label="${escapeHtml(I18n.t('sim_angle_lbl'))}"
+                 aria-valuetext="${escapeHtml(angleText)}">
         </label>
-        <label class="sim-slider-field">
-          <span>${escapeHtml(I18n.t('sim_vel_lbl'))}: <strong id="simVelVal">${velocity} m/s</strong></span>
-          <input type="range" id="simVelInput" min="12" max="32" step="1" value="${velocity}">
+        <label class="sim-slider-field" for="simVelInput">
+          <span>${escapeHtml(I18n.t('sim_vel_lbl'))}: <output id="simVelVal" for="simVelInput">${velocityText}</output></span>
+          <input type="range"
+                 id="simVelInput"
+                 min="12" max="32" step="1"
+                 value="${velocity}"
+                 aria-label="${escapeHtml(I18n.t('sim_vel_lbl'))}"
+                 aria-valuetext="${escapeHtml(velocityText)}">
         </label>
         <label class="sim-slider-field">
           <span>${escapeHtml(I18n.t('sim_grav_lbl'))}</span>
@@ -102,14 +127,69 @@
         </label>
       </div>
     `;
+
+    return controlsWrap;
   }
 
-  function launchProjectileAnimation() {
-    const svg = DOM.qs('.sketch svg');
-    if (!svg) return;
+  function updateSimulatorView(forceControls = false) {
+    const sketchBox = DOM.qs('.sketch');
+    if (!sketchBox) return;
 
-    cancelAnimationFrame(simAnimFrame);
+    const sim = getSimulatorGeometry();
 
+    const mainPath = DOM.qs('#simTrajectoryPath', sketchBox);
+    const glowPath = DOM.qs('#simTrajectoryGlow', sketchBox);
+    if (mainPath) mainPath.setAttribute('d', sim.d);
+    if (glowPath) glowPath.setAttribute('d', sim.d);
+
+    const guideH = DOM.qs('#simPeakGuideH', sketchBox);
+    if (guideH) {
+      guideH.setAttribute('x1', String(sim.startX));
+      guideH.setAttribute('x2', sim.peakX.toFixed(1));
+      guideH.setAttribute('y1', sim.peakY.toFixed(1));
+      guideH.setAttribute('y2', sim.peakY.toFixed(1));
+    }
+
+    const guideV = DOM.qs('#simPeakGuideV', sketchBox);
+    if (guideV) {
+      guideV.setAttribute('x1', sim.peakX.toFixed(1));
+      guideV.setAttribute('x2', sim.peakX.toFixed(1));
+      guideV.setAttribute('y1', String(sim.groundY));
+      guideV.setAttribute('y2', sim.peakY.toFixed(1));
+    }
+
+    const capEl = DOM.qs('.cap', sketchBox);
+    if (capEl) {
+      capEl.innerHTML = `
+        <span class="sim-metric-pill"><b>R</b> = ${sim.range.toFixed(1)} m</span>
+        <span class="sim-metric-pill"><b>H</b> = ${sim.height.toFixed(1)} m</span>
+        <span class="sim-metric-pill"><b>T</b> = ${sim.flightTime.toFixed(2)} s</span>
+      `;
+    }
+
+    // إعادة بناء اللوحة فقط عند تغيير اللغة/التهيئة، وليس أثناء سحب المؤشر
+    if (forceControls || !DOM.qs('#simControlsPanel', sketchBox)) {
+      renderSimulatorControls(sketchBox);
+    } else {
+      const angleVal = DOM.qs('#simAngleVal', sketchBox);
+      const velVal = DOM.qs('#simVelVal', sketchBox);
+      const angleInput = DOM.qs('#simAngleInput', sketchBox);
+      const velInput = DOM.qs('#simVelInput', sketchBox);
+
+      if (angleVal) angleVal.textContent = `${sim.angle}°`;
+      if (velVal) velVal.textContent = `${sim.velocity} m/s`;
+      if (angleInput) {
+        if (angleInput.value !== String(sim.angle)) angleInput.value = String(sim.angle);
+        angleInput.setAttribute('aria-valuetext', `${sim.angle}°`);
+      }
+      if (velInput) {
+        if (velInput.value !== String(sim.velocity)) velInput.value = String(sim.velocity);
+        velInput.setAttribute('aria-valuetext', `${sim.velocity} m/s`);
+      }
+    }
+  }
+
+  function getOrCreateParticle(svg) {
     let particle = DOM.qs('#simLiveParticle', svg);
     if (!particle) {
       particle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -120,38 +200,120 @@
       particle.setAttribute('stroke-width', '2');
       svg.appendChild(particle);
     }
+    return particle;
+  }
 
-    const { angle, velocity, gravity } = Store.getState().simulator;
-    const rad = (angle * Math.PI) / 180;
-    const realRange = (velocity * velocity * Math.sin(2 * rad)) / gravity;
-    const realHeight = Math.pow(velocity * Math.sin(rad), 2) / (2 * gravity);
+  /** موضع الجسيم على نفس منحنى المسار المرسوم (Bézier التربيعي = قطع مكافئ). */
+  function placeParticle(particle, geom, t) {
+    const oneMinusT = 1 - t;
+    const cx = oneMinusT * oneMinusT * geom.startX + 2 * oneMinusT * t * geom.peakX + t * t * geom.endX;
+    const cy = oneMinusT * oneMinusT * geom.groundY + 2 * oneMinusT * t * geom.controlY + t * t * geom.groundY;
+    particle.setAttribute('cx', cx.toFixed(1));
+    particle.setAttribute('cy', cy.toFixed(1));
+  }
 
-    const startX = 40;
-    const groundY = 220;
-    const scaleX = Math.min(360, Math.max(95, realRange * 4.4));
-    const endX = Math.min(408, startX + scaleX);
-    const peakX = (startX + endX) / 2;
-    const peakY = Math.max(28, groundY - Math.min(182, Math.max(24, realHeight * 4.6)));
-    const controlY = 2 * peakY - groundY;
+  function updateSimulatorButton() {
+    const btn = DOM.qs('#simLaunchBtn');
+    if (!btn) return;
+    const key = simPaused ? 'sim_resume_btn' : simRunning ? 'sim_pause_btn' : 'sim_launch_btn';
+    btn.textContent = I18n.t(key);
+    btn.setAttribute('aria-pressed', String(simRunning && !simPaused));
+  }
 
-    const duration = 1050;
-    const startTime = performance.now();
+  function pauseProjectileAnimation() {
+    if (!simRunning || simPaused) return;
+    cancelAnimationFrame(simAnimFrame);
+    simAnimFrame = null;
+    simPaused = true;
+    Store.setState((s) => {
+      s.simulator.isAnimating = false;
+    });
+    updateSimulatorButton();
+  }
 
-    function step(now) {
-      const t = Math.min(1, (now - startTime) / duration);
-      const oneMinusT = 1 - t;
-      const cx = oneMinusT * oneMinusT * startX + 2 * oneMinusT * t * peakX + t * t * endX;
-      const cy = oneMinusT * oneMinusT * groundY + 2 * oneMinusT * t * controlY + t * t * groundY;
+  function resumeProjectileAnimation() {
+    if (!simRunning || !simPaused) return;
+    simPaused = false;
+    simLastTs = 0;
+    Store.setState((s) => {
+      s.simulator.isAnimating = true;
+    });
+    updateSimulatorButton();
+    simAnimFrame = requestAnimationFrame(simStep);
+  }
 
-      particle.setAttribute('cx', cx.toFixed(1));
-      particle.setAttribute('cy', cy.toFixed(1));
+  function simStep(now) {
+    if (!simRunning || simPaused) return;
+    if (!simLastTs) simLastTs = now;
+    // سقف 64ms يمنع القفزة بعد عودة التبويب من الخلفية.
+    simElapsedMs += Math.min(64, Math.max(0, now - simLastTs));
+    simLastTs = now;
 
-      if (t < 1) {
-        simAnimFrame = requestAnimationFrame(step);
+    const t = Math.min(1, simElapsedMs / SIM_ANIMATION_MS);
+    const particle = DOM.qs('#simLiveParticle');
+    if (particle && simGeometry) placeParticle(particle, simGeometry, t);
+
+    if (t < 1) {
+      simAnimFrame = requestAnimationFrame(simStep);
+      return;
+    }
+
+    simAnimFrame = null;
+    simRunning = false;
+    simPaused = false;
+    Store.setState((s) => {
+      s.simulator.isAnimating = false;
+    });
+    updateSimulatorButton();
+  }
+
+  /**
+   * تشغيل/إيقاف/استئناف محاكي المقذوفات.
+   * @param {boolean} [forceRestart=false] `true` عند سحب المؤشر (بدء من جديد).
+   */
+  function launchProjectileAnimation(forceRestart = false) {
+    const svg = DOM.qs('.sketch svg');
+    if (!svg) return;
+
+    if (!forceRestart) {
+      if (simRunning && !simPaused) {
+        pauseProjectileAnimation();
+        return;
+      }
+      if (simRunning && simPaused) {
+        resumeProjectileAnimation();
+        return;
       }
     }
 
-    simAnimFrame = requestAnimationFrame(step);
+    cancelAnimationFrame(simAnimFrame);
+    simAnimFrame = null;
+
+    simGeometry = getSimulatorGeometry();
+    simElapsedMs = 0;
+    simLastTs = 0;
+    simRunning = false;
+    simPaused = false;
+
+    const particle = getOrCreateParticle(svg);
+
+    if (prefersReducedMotion()) {
+      // بلا حركة: لقطة ثابتة عند قمة المسار.
+      placeParticle(particle, simGeometry, 0.5);
+      Store.setState((s) => {
+        s.simulator.isAnimating = false;
+      });
+      updateSimulatorButton();
+      return;
+    }
+
+    placeParticle(particle, simGeometry, 0);
+    simRunning = true;
+    Store.setState((s) => {
+      s.simulator.isAnimating = true;
+    });
+    updateSimulatorButton();
+    simAnimFrame = requestAnimationFrame(simStep);
   }
 
   function renderPhysicsMarquee() {
@@ -184,6 +346,16 @@
   }
 
   /**
+   * خطوات المسار مرتبطة بمعرّفات موارد قائمة؛ تُحذف الخطوة تلقائياً إن حُذف
+   * موردها من المكتبة بدل أن تبقى رابطاً ميتاً.
+   */
+  const ROADMAP_STEPS = [
+    { id: 4, tag: 'roadmap_step1_tag', title: 'roadmap_step1_title', desc: 'roadmap_step1_desc' },
+    { id: 9, tag: 'roadmap_step2_tag', title: 'roadmap_step2_title', desc: 'roadmap_step2_desc' },
+    { id: 10, tag: 'roadmap_step3_tag', title: 'roadmap_step3_title', desc: 'roadmap_step3_desc' }
+  ];
+
+  /**
    * مسار التعلم التفاعلي (Guided Study Roadmap) المستوحى من المنصات الأكاديمية العالمية
    */
   function renderStudyRoadmap() {
@@ -198,44 +370,34 @@
       pillarsCards.insertAdjacentElement('afterend', roadmapEl);
     }
 
-    const { lang } = Store.getState();
-    const isAr = lang === 'ar';
+    const steps = ROADMAP_STEPS.filter((step) => Boolean(CurriculumService.findById(step.id)));
+    if (steps.length === 0) {
+      roadmapEl.remove();
+      return;
+    }
+
+    const stepsHtml = steps
+      .map(
+        (step) => `
+        <a href="preview.html?id=${step.id}&type=problem" class="roadmap-step-card" data-open-preview="${step.id}" data-preview-type="problem">
+          <div class="roadmap-step-top">
+            <span class="roadmap-step-num">${I18n.t(step.tag)}</span>
+            <span>→</span>
+          </div>
+          <strong>${I18n.t(step.title)}</strong>
+          <span>${I18n.t(step.desc)}</span>
+        </a>`
+      )
+      .join('');
 
     roadmapEl.innerHTML = `
       <div class="roadmap-head">
         <div>
-          <div class="eyebrow">${isAr ? 'خريطة الطريق المقترحة' : 'Guided Learning Path'}</div>
-          <h3 class="h3 mt-xs">${isAr ? 'من أين تبدأ تدريبك في SPhOH؟' : 'Where to start your SPhOH training?'}</h3>
+          <div class="eyebrow">${I18n.t('roadmap_eyebrow')}</div>
+          <h3 class="h3 mt-xs">${I18n.t('roadmap_title')}</h3>
         </div>
       </div>
-      <div class="roadmap-steps">
-        <a href="preview.html?id=4&type=problem" class="roadmap-step-card" data-open-preview="4" data-preview-type="problem">
-          <div class="roadmap-step-top">
-            <span class="roadmap-step-num">${isAr ? 'الخطوة 01 • التأسيس' : 'Step 01 • Foundation'}</span>
-            <span>→</span>
-          </div>
-          <strong>${isAr ? 'تحويل الوحدات وحساب المثلثات والكينماتيكا I' : 'Units, Trigonometry I & Kinematics I'}</strong>
-          <span>${isAr ? 'إتقان الأدوات الرياضية الأساسية وحركة المقذوفات (المستوى الأول).' : 'Master dimensional analysis, vectors, and 1D/2D motion (Level I).'}</span>
-        </a>
-
-        <a href="preview.html?id=9&type=problem" class="roadmap-step-card" data-open-preview="9" data-preview-type="problem">
-          <div class="roadmap-step-top">
-            <span class="roadmap-step-num">${isAr ? 'الخطوة 02 • البناء الفيزيائي' : 'Step 02 • Core Mechanics'}</span>
-            <span>→</span>
-          </div>
-          <strong>${isAr ? 'الكينماتيكا II والديناميكا I وميكانيكا الموائع' : 'Kinematics II, Dynamics I & Fluids I'}</strong>
-          <span>${isAr ? 'مسائل القيود الحركية، الأنظمة المترابطة، والطفو (المستوى الثاني).' : 'Constraint kinematics, coupled systems, and hydrostatics (Level II).'}</span>
-        </a>
-
-        <a href="preview.html?id=10&type=problem" class="roadmap-step-card" data-open-preview="10" data-preview-type="problem">
-          <div class="roadmap-step-top">
-            <span class="roadmap-step-num">${isAr ? 'الخطوة 03 • التنافس الوطني والدولي' : 'Step 03 • Olympiad Readiness'}</span>
-            <span>→</span>
-          </div>
-          <strong>${isAr ? 'مجموعات نسمو (NSMO I & II) ومسائل التحدي' : 'NSMO Collections I & II'}</strong>
-          <span>${isAr ? 'تجميعات شاملة تحاكي اختبارات الفرز والتصفيات الأولمبية.' : 'Comprehensive problem collections mirroring national olympiad selections.'}</span>
-        </a>
-      </div>
+      <div class="roadmap-steps">${stepsHtml}</div>
     `;
   }
 
@@ -297,7 +459,7 @@
   function render() {
     renderStats();
     renderPhysicsMarquee();
-    updateSimulatorView();
+    updateSimulatorView(true);
     renderStudyRoadmap();
     renderFeatured();
     renderFAQ();

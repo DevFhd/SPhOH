@@ -10,26 +10,8 @@
   const { escapeHtml } = DOM;
 
   let revealObserver = null;
-
-  function initSpotlightCards() {
-    if (document.body.dataset.spotlightBound) return;
-    document.body.dataset.spotlightBound = 'true';
-
-    document.addEventListener(
-      'pointermove',
-      (e) => {
-        const cards = DOM.qsa('.card, .pillar-card, .stat-card, .feedback-card, .team, .sketch');
-        cards.forEach((card) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          card.style.setProperty('--mouse-x', `${x}px`);
-          card.style.setProperty('--mouse-y', `${y}px`);
-        });
-      },
-      { passive: true }
-    );
-  }
+  const revealSeen = new WeakSet();
+  let lastScan = { count: -1, first: null, last: null };
 
   function observeRevealElements() {
     const targets = DOM.qsa('.card, .pillar-card, .stat-card, .feedback-card, .faq-item, .pillar, .admin-item');
@@ -38,6 +20,14 @@
       targets.forEach((el) => el.classList.add('is-revealed'));
       return;
     }
+
+    // لا تُعاد نفس المجموعة مرتين متتاليتين (refreshAllViews + render الخاص بالصفحة).
+    const first = targets[0] || null;
+    const last = targets[targets.length - 1] || null;
+    if (targets.length === lastScan.count && first === lastScan.first && last === lastScan.last) {
+      return;
+    }
+    lastScan = { count: targets.length, first, last };
 
     if (!revealObserver) {
       revealObserver = new IntersectionObserver(
@@ -54,11 +44,11 @@
     }
 
     targets.forEach((el, idx) => {
-      if (!el.classList.contains('is-revealed')) {
-        el.style.setProperty('--stagger-idx', String(idx % 6));
-        el.classList.add('reveal-item');
-        revealObserver.observe(el);
-      }
+      if (revealSeen.has(el)) return;
+      revealSeen.add(el);
+      el.style.setProperty('--stagger-idx', String(idx % 6));
+      el.classList.add('reveal-item');
+      revealObserver.observe(el);
     });
   }
 
@@ -84,6 +74,9 @@
     updateScrollUI();
   }
 
+  // E6/E7 — إدارة التركيز للوحة الأوامر: نحفظ العنصر الذي فُتحت منه لنعيد التركيز إليه عند الإغلاق.
+  let paletteOpener = null;
+
   function toggleCommandPalette(forceOpen) {
     const modal = DOM.qs('#cmdPaletteBackdrop');
     if (!modal) return;
@@ -95,7 +88,13 @@
     });
 
     modal.hidden = !nextState;
+
+    // E6 — aria-expanded على زر فتح لوحة الأوامر.
+    const triggerBtn = DOM.qs('#cmdPaletteBtn');
+    if (triggerBtn) triggerBtn.setAttribute('aria-expanded', String(nextState));
+
     if (nextState) {
+      paletteOpener = document.activeElement;
       const input = DOM.qs('#cmdPaletteInput');
       if (input) {
         input.value = '';
@@ -103,6 +102,17 @@
         setTimeout(() => input.focus(), 30);
       }
       renderCommandResults('');
+      return;
+    }
+
+    // إغلاق — إعادة التركيز إلى مصدر الفتح، أو إلى زر الفتح كبديل آمن.
+    const target = paletteOpener && paletteOpener.isConnected ? paletteOpener : triggerBtn;
+    paletteOpener = null;
+    if (!target || typeof target.focus !== 'function') return;
+    try {
+      target.focus({ preventScroll: true });
+    } catch (_) {
+      target.focus();
     }
   }
 
@@ -110,14 +120,11 @@
     const listEl = DOM.qs('#cmdPaletteResults');
     if (!listEl) return;
 
-    const { resources, topics, lang } = Store.getState();
+    const { topics, lang } = Store.getState();
     const q = rawQuery.trim().toLowerCase();
 
-    const matchedResources = resources.filter((item) => {
-      if (!q) return true;
-      const hay = `${item.title?.ar || ''} ${item.title?.en || ''} ${item.desc?.ar || ''} ${item.desc?.en || ''} ${item.file || ''}`.toLowerCase();
-      return hay.includes(q);
-    });
+    // البحث الموحّد نفسه المستخدم في المكتبة واستوديو الإدارة (CurriculumService.searchResources).
+    const matchedResources = CurriculumService.searchResources(rawQuery);
 
     const quickActions = [
       { id: 'act-files', icon: '📚', label: I18n.t('cmd_act_files'), action: 'nav:files' },
@@ -162,7 +169,7 @@
                         class="btn btn-ghost btn-sm cmd-sol-pill"
                         data-open-preview="${escapeHtml(item.id)}"
                         data-preview-type="solution"
-                        data-cmd-close="true">✅ ${lang === 'ar' ? 'الحل' : 'Solution'}</a>`
+                        data-cmd-close="true">✅ ${I18n.t('solution_pill')}</a>`
                   : ''
               }
             </div>
@@ -196,22 +203,17 @@
     }
     if (actionCode === 'toggle:lang') {
       I18n.toggleLang();
-      SPhOH.App?.refreshAllViews();
+      document.dispatchEvent(new Event('sphoh:refresh'));
       return;
     }
     if (actionCode.startsWith('nav:')) {
       const targetPage = actionCode.split(':')[1];
-      if (global.__SPHOH_CANVAS_MODE__ && SPhOH.App?.switchCanvasView) {
-        SPhOH.App.switchCanvasView(targetPage);
-      } else {
-        const map = { home: 'index.html', files: 'files.html', about: 'about.html', contact: 'contact.html' };
-        global.location.href = map[targetPage] || 'index.html';
-      }
+      const map = { home: 'index.html', files: 'files.html', about: 'about.html', contact: 'contact.html' };
+      global.location.href = map[targetPage] || 'index.html';
     }
   }
 
   function init() {
-    initSpotlightCards();
     initScrollTracker();
     observeRevealElements();
   }

@@ -16,9 +16,23 @@
     return Store.getState().completed.includes(Number(id));
   }
 
+  /**
+   * يعكس تبديلاً في مصفوفة معرّفات بعد فشل الكتابة إلى التخزين، حتى لا يظهر
+   * التقدم محفوظاً في الذاكرة بينما يضيع بعد إعادة التحميل.
+   */
+  function revertToggle(list, numId, added) {
+    const idx = list.indexOf(numId);
+    if (added) {
+      if (idx !== -1) list.splice(idx, 1);
+    } else if (idx === -1) {
+      list.push(numId);
+    }
+  }
+
   function toggleBookmark(id) {
     const numId = Number(id);
     let added = false;
+    let stored = true;
 
     Store.setState((s) => {
       const idx = s.bookmarks.indexOf(numId);
@@ -29,18 +43,23 @@
         s.bookmarks.splice(idx, 1);
         added = false;
       }
-      Storage.setJSON(Settings.STORAGE_KEYS.BOOKMARKS, s.bookmarks);
+      stored = Storage.setJSON(Settings.STORAGE_KEYS.BOOKMARKS, s.bookmarks);
     });
 
-    if (Toast) {
-      Toast.show(I18n.t(added ? 'toast_bookmarked' : 'toast_unbookmarked'));
+    if (!stored) {
+      Store.setState((s) => revertToggle(s.bookmarks, numId, added));
     }
-    return added;
+
+    if (Toast) {
+      Toast.show(I18n.t(stored ? (added ? 'toast_bookmarked' : 'toast_unbookmarked') : 'storage_error'));
+    }
+    return stored ? added : false;
   }
 
   function toggleCompleted(id) {
     const numId = Number(id);
     let completedNow = false;
+    let stored = true;
 
     Store.setState((s) => {
       const idx = s.completed.indexOf(numId);
@@ -51,13 +70,17 @@
         s.completed.splice(idx, 1);
         completedNow = false;
       }
-      Storage.setJSON(Settings.STORAGE_KEYS.COMPLETED, s.completed);
+      stored = Storage.setJSON(Settings.STORAGE_KEYS.COMPLETED, s.completed);
     });
 
-    if (Toast) {
-      Toast.show(I18n.t(completedNow ? 'toast_completed' : 'toast_uncompleted'));
+    if (!stored) {
+      Store.setState((s) => revertToggle(s.completed, numId, completedNow));
     }
-    return completedNow;
+
+    if (Toast) {
+      Toast.show(I18n.t(stored ? (completedNow ? 'toast_completed' : 'toast_uncompleted') : 'storage_error'));
+    }
+    return stored ? completedNow : false;
   }
 
   function getProgressSummary() {

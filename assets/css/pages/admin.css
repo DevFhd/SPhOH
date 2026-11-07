@@ -1,33 +1,33 @@
 /**
  * @file assets/css/pages/admin.css
- * @description تنسيقات استوديو إدارة المناهج المتكامل وسهل الاستخدام (SPhOH Content Studio).
+ * @description استوديو إدارة المناهج (SPhOH Content Studio) — نفس البنية بواجهة ورقية هادئة.
  */
 .admin-gate-wrap {
   max-width: 460px;
   margin: 48px auto;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-md);
   padding: 32px 28px;
   box-shadow: var(--shadow-md);
   text-align: center;
 }
 
 .admin-lock-badge {
-  width: 54px;
-  height: 54px;
-  border-radius: 14px;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
   background: var(--accent-soft);
   color: var(--accent);
   display: grid;
   place-items: center;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   margin: 0 auto 16px;
 }
 
 .admin-gate-subtitle {
   color: var(--muted);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   margin: 8px 0 0;
 }
 
@@ -36,6 +36,15 @@
   flex-direction: column;
   gap: 14px;
   margin-top: 22px;
+}
+
+/* E4 — تسمية مرئية لحقل كلمة المرور، مرتبطة به عبر for/id */
+.admin-pass-label {
+  text-align: start;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-block-end: -6px;
 }
 
 .admin-pass-input {
@@ -49,9 +58,9 @@
 .admin-error-msg {
   color: var(--kin-fg);
   background: var(--kin-bg);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
   padding: 8px 12px;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 600;
 }
 
@@ -59,15 +68,15 @@
 .studio-kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 14px;
+  gap: 12px;
   max-width: 1040px;
-  margin: 0 auto 20px;
+  margin: 0 auto 18px;
 }
 
 .studio-kpi-card {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   padding: 16px 18px;
   display: flex;
   flex-direction: column;
@@ -76,14 +85,15 @@
 
 .studio-kpi-val {
   font-family: var(--font-display);
-  font-size: 1.55rem;
-  font-weight: 800;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--accent);
   line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .studio-kpi-lbl {
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   color: var(--muted);
   font-weight: 500;
 }
@@ -95,32 +105,45 @@
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
-  padding: 16px 20px;
+  padding: 14px 18px;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  margin: 0 auto 22px;
+  border-radius: var(--radius-sm);
+  margin: 0 auto 20px;
   max-width: 1040px;
 }
 
 .admin-panel-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 22px;
+  gap: 20px;
   max-width: 1040px;
   margin-inline: auto;
+}
+
+.admin-panel-grid > *,
+.admin-card {
+  min-width: 0;
 }
 
 .admin-card {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-md);
   padding: 24px;
+}
+
+/* مسارات الملفات الطويلة يجب أن تنكسر بدل توسيع الصفحة أفقياً */
+.admin-hint,
+.admin-item-stem,
+.admin-item-title,
+.admin-item-subtitle {
+  overflow-wrap: anywhere;
 }
 
 /* نافذة الإضافة والتعديل المزدوجة مع المعاينة الحية (Split Studio Editor) */
 .admin-form-drawer {
-  border: 2px solid var(--accent);
+  border: 1px solid var(--accent);
   box-shadow: var(--shadow-md);
 }
 
@@ -164,7 +187,7 @@
 }
 
 .admin-field label {
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 600;
   color: var(--fg);
 }
@@ -177,11 +200,11 @@
   flex-wrap: wrap;
 }
 
-/* منطقة سحب وإفلات ملف PDF الذكية (Drag & Drop Zone) */
+/* منطقة سحب وإفلات ملف PDF (Drag & Drop Zone) */
 .studio-dropzone {
-  border: 2px dashed var(--line-strong);
+  border: 1px dashed var(--line-strong);
   background: var(--band);
-  border-radius: 12px;
+  border-radius: var(--radius-xs);
   padding: 14px 16px;
   text-align: center;
   cursor: pointer;
@@ -204,26 +227,26 @@
   align-items: center;
   gap: 10px;
   text-align: start;
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   color: var(--muted);
 }
 
 .studio-dropzone-info strong {
   display: block;
   color: var(--fg);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
 }
 
 .admin-pick-pdf-btn {
   cursor: pointer;
   padding: 6px 12px;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
 }
 
 .admin-form-submit-row {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 8px;
   margin-top: 6px;
 }
 
@@ -234,8 +257,8 @@
 .admin-new-topic-box {
   grid-column: 1 / -1;
   background: var(--accent-soft);
-  border: 1px solid var(--accent);
-  border-radius: var(--radius-md);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: var(--radius-xs);
   padding: 14px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -244,13 +267,13 @@
 
 .admin-hint {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   color: var(--muted);
   direction: ltr;
   text-align: left;
   background: var(--band);
   padding: 10px 12px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
   border: 1px solid var(--line);
   display: grid;
   gap: 4px;
@@ -260,7 +283,7 @@
 .studio-live-preview-pane {
   background: var(--band);
   border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-sm);
   padding: 16px;
   position: sticky;
   top: 84px;
@@ -268,9 +291,11 @@
 
 .studio-preview-badge {
   font-family: var(--font-mono);
-  font-size: 0.76rem;
-  font-weight: 600;
-  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
   margin-bottom: 10px;
   display: flex;
   align-items: center;
@@ -297,14 +322,14 @@
 
 .admin-list {
   display: grid;
-  gap: 12px;
+  gap: 10px;
   margin-top: 16px;
 }
 
 .admin-item {
   background: var(--bg);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   padding: 16px 18px;
   display: flex;
   flex-direction: column;
@@ -329,20 +354,20 @@
 }
 
 .admin-item-title {
-  font-weight: 700;
-  font-size: 1.02rem;
+  font-weight: 600;
+  font-size: 1rem;
   color: var(--fg);
 }
 
 .admin-item-subtitle {
   color: var(--muted);
   font-weight: 400;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
 }
 
 .admin-item-stem {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   color: var(--muted);
   direction: ltr;
   margin-top: 2px;
@@ -358,14 +383,14 @@
 .studio-move-btn {
   width: 30px;
   height: 30px;
-  border-radius: 7px;
+  border-radius: var(--radius-xs);
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--muted);
   cursor: pointer;
   display: grid;
   place-items: center;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
 }
 
 .studio-move-btn:hover {
@@ -384,14 +409,14 @@
 }
 
 .admin-sol-label {
-  font-size: 0.83rem;
+  font-size: 0.82rem;
   color: var(--muted);
   font-weight: 600;
 }
 
 .admin-sol-buttons {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
@@ -402,16 +427,19 @@
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--muted);
-  padding: 5px 11px;
-  border-radius: var(--radius-sm);
-  font-size: 0.81rem;
-  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: var(--radius-xs);
+  font-size: 0.78rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .sol-chip-btn:hover {
-  border-color: var(--accent);
+  border-color: var(--line-strong);
   color: var(--fg);
 }
 
@@ -426,14 +454,14 @@
   margin: 20px auto 0;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   padding: 14px 20px;
 }
 
 .admin-db-tools summary {
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   color: var(--fg);
   user-select: none;
 }
@@ -451,5 +479,34 @@
 @media (max-width: 640px) {
   .admin-form-grid {
     grid-template-columns: 1fr;
+  }
+
+  .admin-gate-wrap {
+    margin: 24px auto;
+    padding: 24px 18px;
+  }
+
+  .admin-form-submit-row {
+    flex-direction: column;
+  }
+
+  .admin-form-submit-row .btn {
+    width: 100%;
+  }
+
+  .studio-live-preview-pane {
+    position: static;
+  }
+
+  .admin-top-actions .btn {
+    flex: 1 1 auto;
+  }
+
+  .admin-item-actions {
+    width: 100%;
+  }
+
+  .admin-item-actions .btn-sm {
+    flex: 1 1 auto;
   }
 }

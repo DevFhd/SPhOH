@@ -229,7 +229,7 @@
       t: 'coll',
       l: 2,
       file: 'NSMO_Collection_II',
-      langs: ['ar'],
+      langs: ['ar', 'en'],
       solution: null,
       title: { en: 'NSMO Collection II', ar: 'مجموعة نسمو II' },
       desc: {

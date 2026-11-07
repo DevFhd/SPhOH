@@ -1,9 +1,10 @@
 /**
  * @file assets/css/components/animations.css
- * @description تأثيرات خلفية هادئة وأنميشنز متزنة بدون توهج مفرط (Low-Glow Academic Polish).
+ * @description طبقة الحركة: شبكة رسم هندسي ثابتة، حركة عند التفاعل فقط، ولا محتوى مخفيًا خلف التمرير.
+ *              Reveal animations are intentionally neutralised: every section is visible without JavaScript or scrolling.
  */
 
-/* 1. خلفية هندسية هادئة جداً (Subtle Blueprint Grid & Soft Ambient Tint) */
+/* 1. خلفية هندسية ثابتة — ورق رسم هندسي (Static Graph Paper) */
 .aurora-bg {
   position: fixed;
   inset: 0;
@@ -13,37 +14,8 @@
   background: var(--bg);
 }
 
+/* الأورب المتحرّكة أُلغيت لصالح خلفية هادئة؛ نُبقي العنصر للتوافق مع البنية. */
 .aurora-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(110px);
-  opacity: 0.06;
-  will-change: transform;
-  animation: auroraFloat 24s ease-in-out infinite alternate;
-}
-
-:root[data-theme="dark"] .aurora-orb {
-  opacity: 0.09;
-}
-
-.aurora-orb.orb-1 {
-  width: 440px;
-  height: 440px;
-  top: -160px;
-  inset-inline-start: -120px;
-  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-}
-
-.aurora-orb.orb-2 {
-  width: 400px;
-  height: 400px;
-  top: 28%;
-  inset-inline-end: -140px;
-  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-  animation-delay: -8s;
-}
-
-.aurora-orb.orb-3 {
   display: none;
 }
 
@@ -51,24 +23,15 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(to right, var(--line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 75% 50% at 50% 20%, #000 15%, transparent 95%);
-  -webkit-mask-image: radial-gradient(ellipse 75% 50% at 50% 20%, #000 15%, transparent 95%);
-  opacity: 0.32;
+    linear-gradient(to right, color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.45) 40%, transparent 78%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.45) 40%, transparent 78%);
+  opacity: 0.8;
 }
 
 /* 2. Keyframe Animations */
-@keyframes auroraFloat {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  100% {
-    transform: translate3d(20px, -18px, 0) scale(1.04);
-  }
-}
-
 @keyframes marqueeScroll {
   0% {
     transform: translate3d(0, 0, 0);
@@ -78,21 +41,27 @@
   }
 }
 
-/* 3. Scroll Reveal Animations */
+@keyframes cmdPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.985) translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* 3. Reveal: لا نُخفي المحتوى. القاعدة محفوظة كي لا تنكسر الوحدات التي تضيف is-revealed. */
 .reveal-item {
-  opacity: 0;
-  transform: translateY(12px);
-  transition:
-    opacity 0.45s var(--ease-spring),
-    transform 0.45s var(--ease-spring),
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-  transition-delay: calc(var(--stagger-idx, 0) * 40ms);
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
 .reveal-item.is-revealed {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 /* 4. شريط تقدم القراءة العلوي (Top Scroll Reading Bar) */
@@ -119,22 +88,26 @@
   bottom: 24px;
   inset-inline-end: 24px;
   z-index: 80;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-strong);
   background: var(--surface);
   color: var(--fg);
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
   display: grid;
   place-items: center;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(12px);
-  transition: all 0.2s var(--ease-spring);
+  transform: translateY(8px);
+  transition:
+    opacity 0.2s var(--ease-out),
+    transform 0.2s var(--ease-out),
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .back-to-top-fab.is-visible {
@@ -154,8 +127,9 @@
   position: fixed;
   inset: 0;
   z-index: 120;
-  background: rgba(14, 21, 18, 0.55);
-  backdrop-filter: blur(4px);
+  background: rgba(10, 14, 19, 0.5);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   display: grid;
   place-items: start center;
   padding: 10vh 16px 24px;
@@ -165,22 +139,11 @@
   width: 100%;
   max-width: 620px;
   background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-xl);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
-  animation: cmdPopIn 0.18s var(--ease-spring);
-}
-
-@keyframes cmdPopIn {
-  from {
-    opacity: 0;
-    transform: scale(0.98) translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+  animation: cmdPopIn 0.18s var(--ease-out);
 }
 
 .cmd-header {
@@ -189,16 +152,18 @@
   gap: 12px;
   padding: 14px 18px;
   border-bottom: 1px solid var(--line);
-  background: var(--band);
+  background: var(--surface-elevated);
 }
 
 .cmd-search-icon {
-  font-size: 1.05rem;
-  opacity: 0.75;
+  flex: none;
+  font-size: 1rem;
+  opacity: 0.65;
 }
 
 .cmd-input {
   flex: 1;
+  min-width: 0;
   background: transparent;
   border: 0;
   color: var(--fg);
@@ -207,33 +172,39 @@
   outline: none;
 }
 
+.cmd-input::placeholder {
+  color: var(--muted);
+}
+
 .cmd-esc-btn {
+  flex: none;
   background: var(--surface);
   border: 1px solid var(--line);
   color: var(--muted);
-  border-radius: 6px;
+  border-radius: var(--radius-xs);
   padding: 3px 8px;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   cursor: pointer;
 }
 
 .cmd-results {
   max-height: 360px;
   overflow-y: auto;
-  padding: 12px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .cmd-group-title {
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--accent);
-  padding: 6px 10px 4px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  padding: 10px 10px 4px;
 }
 
 .cmd-item-row {
@@ -241,7 +212,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 8px 12px;
+  padding: 8px 10px;
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
   transition: background 0.15s, border-color 0.15s;
@@ -289,7 +260,7 @@
   background: transparent;
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
-  padding: 9px 12px;
+  padding: 9px 10px;
   color: var(--fg);
   font: inherit;
   font-size: 0.92rem;
@@ -307,4 +278,50 @@
   padding: 32px 16px;
   text-align: center;
   color: var(--muted);
+}
+
+/* الهواتف — ضبط النوافذ على الشاشة */
+@media (max-width: 640px) {
+  .aurora-grid-overlay {
+    background-size: 28px 28px;
+    opacity: 0.6;
+  }
+
+  .back-to-top-fab {
+    width: 44px;
+    height: 44px;
+    bottom: calc(18px + env(safe-area-inset-bottom));
+    inset-inline-end: calc(16px + env(safe-area-inset-right));
+  }
+
+  .cmd-backdrop {
+    padding: max(12px, env(safe-area-inset-top)) 12px 12px;
+  }
+
+  .cmd-dialog {
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cmd-results {
+    flex: 1;
+    min-height: 0;
+    max-height: none;
+    padding: 8px;
+  }
+
+  .cmd-header {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .cmd-item-row {
+    flex-wrap: wrap;
+  }
+
+  .cmd-input {
+    font-size: 16px;
+  }
 }

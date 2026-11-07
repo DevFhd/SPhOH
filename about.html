@@ -1,141 +1,164 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="description" content="SPhOH - Saudi Physics Olympiad Hub: A training resource and problem repository for advanced physics competitions and international olympiads.">
-  <title>About Us &amp; Team | SPhOH</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
 
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-018KWMJE3F"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-018KWMJE3F');
-  </script>
+    <!-- Content Security Policy — keep in sync across the 5 public pages -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://*.googletagmanager.com; frame-src 'self'; form-action 'self'"
+    />
 
-  <!-- Fonts & Styles -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Early language & theme init — prevents an AR/light flash before first paint -->
+    <script src="assets/js/early-init.js"></script>
+    <meta
+      name="description"
+      content="SPhOH - Saudi Physics Olympiad Hub: A training resource and problem repository for advanced physics competitions and international olympiads."
+    />
+    <title>About Us &amp; Team | SPhOH</title>
 
-  <!-- Icons & Manifest -->
-  <link rel="icon" type="image/png" href="assets/icons/favicon-96x96.png" sizes="96x96">
-  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-  <link rel="shortcut icon" href="assets/icons/favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
-  <link rel="manifest" href="assets/icons/site.webmanifest">
-  <meta name="theme-color" content="#0e1512">
+    <!-- Google Analytics — config lives in assets/js/analytics.js (CSP-safe, no inline code) -->
+    <script src="assets/js/analytics.js"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-018KWMJE3F"
+    ></script>
 
-  <!-- Modular Application Scripts -->
-  <script defer src="assets/js/config/settings.js"></script>
-  <script defer src="assets/js/config/catalog.js"></script>
-  <script defer src="assets/js/i18n/locales.js"></script>
-  <script defer src="assets/js/core/dom.js"></script>
-  <script defer src="assets/js/core/storage.js"></script>
-  <script defer src="assets/js/services/state.service.js"></script>
-  <script defer src="assets/js/services/i18n.service.js"></script>
-  <script defer src="assets/js/services/theme.service.js"></script>
-  <script defer src="assets/js/services/download.service.js"></script>
-  <script defer src="assets/js/services/curriculum.service.js"></script>
-  <script defer src="assets/js/components/toast.component.js"></script>
-  <script defer src="assets/js/services/progress.service.js"></script>
-  <script defer src="assets/js/services/effects.service.js"></script>
-  <script defer src="assets/js/components/layout.component.js"></script>
-  <script defer src="assets/js/components/card.component.js"></script>
-  <script defer src="assets/js/pages/home.page.js"></script>
-  <script defer src="assets/js/pages/files.page.js"></script>
-  <script defer src="assets/js/pages/preview.page.js"></script>
-  <script defer src="assets/js/pages/about.page.js"></script>
-  <script defer src="assets/js/pages/contact.page.js"></script>
-  <script defer src="assets/js/pages/admin.page.js"></script>
-  <script defer src="assets/js/app.js"></script>
-</head>
+    <!-- Fonts & Styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
 
-<body class="site" data-page="about">
+    <!-- Icons & Manifest -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/icons/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
+    <link rel="shortcut icon" href="assets/icons/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/icons/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="assets/icons/site.webmanifest" />
+    <meta name="theme-color" content="#f6f3ec" />
 
-  <!-- Shared Navbar (Mounted by layout.component.js) -->
-  <header class="nav"></header>
+    <!-- Modular Application Scripts -->
+    <script defer src="assets/js/config/settings.js"></script>
+    <script defer src="assets/js/config/catalog.js"></script>
+    <script defer src="assets/js/i18n/locales.js"></script>
+    <script defer src="assets/js/core/dom.js"></script>
+    <script defer src="assets/js/core/storage.js"></script>
+    <script defer src="assets/js/services/state.service.js"></script>
+    <script defer src="assets/js/services/i18n.service.js"></script>
+    <script defer src="assets/js/services/theme.service.js"></script>
+    <script defer src="assets/js/services/download.service.js"></script>
+    <script defer src="assets/js/services/curriculum.service.js"></script>
+    <script defer src="assets/js/components/toast.component.js"></script>
+    <script defer src="assets/js/services/progress.service.js"></script>
+    <script defer src="assets/js/services/effects.service.js"></script>
+    <script defer src="assets/js/components/layout.component.js"></script>
+    <script defer src="assets/js/components/card.component.js"></script>
+    <script defer src="assets/js/pages/home.page.js"></script>
+    <script defer src="assets/js/pages/files.page.js"></script>
+    <script defer src="assets/js/pages/preview.page.js"></script>
+    <script defer src="assets/js/pages/about.page.js"></script>
+    <script defer src="assets/js/pages/contact.page.js"></script>
+    <script defer src="assets/js/app.js"></script>
+  </head>
 
-  <main>
-    <section class="page-header">
-      <div class="wrap">
-        <div class="eyebrow" data-i18n="about_eyebrow"></div>
-        <h1 class="h2 mt-xs" data-i18n="about_title"></h1>
-        <p class="lead mt-sm" data-i18n="about_desc"></p>
-      </div>
-    </section>
+  <body class="site" data-page="about">
+    <!-- Shared Navbar (Mounted by layout.component.js) -->
+    <header class="nav"></header>
 
-    <section class="block" id="about">
-      <div class="wrap">
-        <div class="about-grid">
-          <div>
-            <h2 class="h3" data-i18n="pillars_title"></h2>
-            <div class="pillars">
-              <div class="pillar">
-                <i>I</i>
-                <div>
-                  <b data-i18n="p1_t"></b>
-                  <span data-i18n="p1_d"></span>
-                </div>
-              </div>
-              <div class="pillar">
-                <i>II</i>
-                <div>
-                  <b data-i18n="p2_t"></b>
-                  <span data-i18n="p2_d"></span>
-                </div>
-              </div>
-              <div class="pillar">
-                <i>III</i>
-                <div>
-                  <b data-i18n="p3_t"></b>
-                  <span data-i18n="p3_d"></span>
-                </div>
-              </div>
-            </div>
-
-            <h2 class="h3 mt-xl" data-i18n="levels_guide_title"></h2>
-            <div class="pillars">
-              <div class="pillar">
-                <i>1</i>
-                <div>
-                  <b>Level I / المستوى الأول</b>
-                  <span data-i18n="lvl1_desc"></span>
-                </div>
-              </div>
-              <div class="pillar">
-                <i>2</i>
-                <div>
-                  <b>Level II / المستوى الثاني</b>
-                  <span data-i18n="lvl2_desc"></span>
-                </div>
-              </div>
-              <div class="pillar">
-                <i>3</i>
-                <div>
-                  <b>Challenge / تحدٍّ</b>
-                  <span data-i18n="lvl3_desc"></span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <aside class="team">
-            <h2 class="h3" data-i18n="team_title"></h2>
-            <p data-i18n="team_desc"></p>
-            <div class="team-members" id="teamContainer"></div>
-            <p class="vision" data-i18n="team_vision"></p>
-          </aside>
+    <main id="main" tabindex="-1">
+      <section class="page-header">
+        <div class="wrap">
+          <div class="eyebrow" data-i18n="about_eyebrow"></div>
+          <h1 class="h2 mt-xs" data-i18n="about_title"></h1>
+          <p class="lead mt-sm" data-i18n="about_desc"></p>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
 
-  <!-- Shared Footer (Mounted by layout.component.js) -->
-  <footer class="foot"></footer>
-  <div class="toast" id="toast" role="status" hidden></div>
-</body>
+      <section class="block" id="about">
+        <div class="wrap">
+          <div class="about-grid">
+            <div>
+              <h2 class="h3" data-i18n="pillars_title"></h2>
+              <div class="pillars">
+                <div class="pillar">
+                  <i>I</i>
+                  <div>
+                    <b data-i18n="p1_t"></b>
+                    <span data-i18n="p1_d"></span>
+                  </div>
+                </div>
+                <div class="pillar">
+                  <i>II</i>
+                  <div>
+                    <b data-i18n="p2_t"></b>
+                    <span data-i18n="p2_d"></span>
+                  </div>
+                </div>
+                <div class="pillar">
+                  <i>III</i>
+                  <div>
+                    <b data-i18n="p3_t"></b>
+                    <span data-i18n="p3_d"></span>
+                  </div>
+                </div>
+              </div>
+              <br />
+              <h2 class="h3 mt-xl" data-i18n="levels_guide_title"></h2>
+              <div class="pillars">
+                <div class="pillar">
+                  <i>1</i>
+                  <div>
+                    <b data-i18n="level_1_name"></b>
+                    <span data-i18n="lvl1_desc"></span>
+                  </div>
+                </div>
+                <div class="pillar">
+                  <i>2</i>
+                  <div>
+                    <b data-i18n="level_2_name"></b>
+                    <span data-i18n="lvl2_desc"></span>
+                  </div>
+                </div>
+                <div class="pillar">
+                  <i>3</i>
+                  <div>
+                    <b data-i18n="level_3_name"></b>
+                    <span data-i18n="lvl3_desc"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <aside class="team">
+              <h2 class="h3" data-i18n="team_title"></h2>
+              <p data-i18n="team_desc"></p>
+              <div class="team-members" id="teamContainer"></div>
+              <p class="vision" data-i18n="team_vision"></p>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Shared Footer (Mounted by layout.component.js) -->
+    <footer class="foot"></footer>
+    <div class="toast" id="toast" role="status" hidden></div>
+  </body>
 </html>

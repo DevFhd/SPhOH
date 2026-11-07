@@ -1,180 +1,137 @@
 /**
  * @file assets/css/base/variables.css
- * @description الهوية البصرية الموحدة للمنصة (Royal Academic Sapphire & Warm Slate):
- * - هوية أكاديمية موحدة تجمع بين الوقار العلمي والوضوح البصري العالي.
- * - تناغم كامل بين الثيم الفاتح والثيم الداكن بدون أي توهج نيوني مزعج (Zero Neon Glow).
+ * @description الهوية البصرية الموحدة: "دفتر الفيزياء" — ورق دافئ، حبر كحلي، ولمسات قياس نحاسية.
+ * - ثيم فاتح افتراضي: Warm Paper & Sapphire Ink.
+ * - ثيم داكن: Deep Ink & Instrument Blue.
+ * - كل القيم الدلالية تعيش هنا فقط؛ لا ألوان صلبة داخل ملفات المكوّنات.
+ *
+ * لوحة الألوان معرّفة مرتين فقط: `:root` للفاتح و`:root[data-theme="dark"]` للداكن.
+ * الوضع التلقائي (auto) يُحسم في JS عبر matchMedia ويُكتب كـ data-theme صريح قبل الرسم،
+ * لذا لا نكرر اللوحة في استعلام وسائط — أي تعديل هنا يجب أن يبقى متطابقاً مع early-init.js وTheme.
  */
 :root {
-  /* الثيم الفاتح الافتراضي — Royal Academic Sapphire & Warm Alabaster */
-  --bg: #f6f8fb;
-  --band: #edf1f7;
-  --surface: #ffffff;
-  --surface-solid: #ffffff;
-  --surface-elevated: #f8fafd;
-  --fg: #0c1527;
-  --muted: #4b5c77;
-  --line: #d9e1ee;
-  --line-strong: #b4c4de;
+  color-scheme: light;
 
-  --accent: #1d4ed8;
-  --accent-2: #1e40af;
+  /* الأسطح والنصوص — الثيم الفاتح (ورق دافئ) */
+  --bg: #f6f3ec;
+  --band: #eee9df;
+  --surface: #fffdf9;
+  --surface-solid: #fffdf9;
+  --surface-elevated: #faf6ee;
+  --fg: #101419;
+  --muted: #59616d;
+  --line: #ddd6c8;
+  --line-strong: #c2b9a7;
+
+  /* اللون الأساسي — حبر كحلي أكاديمي */
+  --accent: #1b4a8b;
+  --accent-2: #123a70;
   --accent-ink: #ffffff;
-  --accent-soft: #e8f0fe;
-  --accent-glow: rgba(29, 78, 216, 0.08);
-  --spotlight-color: rgba(29, 78, 216, 0.04);
-  --focus: #1d4ed8;
+  --accent-soft: #e7edf7;
+  --accent-glow: rgba(27, 74, 139, 0.1);
+  --focus: #1b4a8b;
 
-  /* ألوان أوسمة الأقسام الفيزيائية */
-  --kin-bg: #fef2f2;
-  --kin-fg: #b91c1c;
-  --mech-bg: #eff6ff;
-  --mech-fg: #1d4ed8;
-  --coll-bg: #f0f9ff;
-  --coll-fg: #0369a1;
-  --math-bg: #faf5ff;
-  --math-fg: #6d28d9;
-  --elec-bg: #fffbeb;
-  --elec-fg: #b45309;
-  --therm-bg: #fdf2f8;
-  --therm-fg: #be185d;
-  --opt-bg: #eef2ff;
-  --opt-fg: #4338ca;
+  /* لمسة القياس الثانوية (تُستخدم باقتصاد) */
+  --copper: #a3592a;
+  --copper-soft: #f4e7da;
 
-  --telegram: #229ed9;
-  --telegram-hover: #168ac1;
+  /* ألوان دلالية للحذف/الخطأ — لا ترتبط بموضوع الكينماتيكا (E9) */
+  --danger-bg: #f8ebe8;
+  --danger-fg: #a33a2a;
 
-  --font-display: 'Bricolage Grotesque', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  /* ألوان أوسمة الأقسام الفيزيائية — درجات أكاديمية مهدّأة */
+  --kin-bg: #f8ebe8;
+  --kin-fg: #a33a2a;
+  --mech-bg: #e8eef7;
+  --mech-fg: #1b4a8b;
+  --coll-bg: #e4eff0;
+  --coll-fg: #0e646d;
+  --math-bg: #e8f0e7;
+  --math-fg: #2d6537;
+  --elec-bg: #f7efdb;
+  --elec-fg: #83560f;
+  --therm-bg: #f7e8eb;
+  --therm-fg: #973a50;
+  --opt-bg: #e9ecf1;
+  --opt-fg: #3c4f68;
+
+  --telegram: #0f6f9e;
+  --telegram-hover: #0b5a82;
+
+  /* الطباعة */
+  --font-display: 'Alexandria', 'IBM Plex Sans Arabic', system-ui, sans-serif;
   --font-body: 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
 
-  --container-max: 1140px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
+  /* الشبكة والمسافات — إيقاع 4/8 */
+  --container-max: 1160px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
   --radius-pill: 999px;
 
-  --shadow-sm: 0 1px 2px rgba(12, 21, 39, 0.04), 0 4px 12px -2px rgba(12, 21, 39, 0.05);
-  --shadow-md: 0 4px 8px -2px rgba(12, 21, 39, 0.06), 0 14px 32px -6px rgba(12, 21, 39, 0.08);
-  --shadow-lg: 0 24px 64px -10px rgba(12, 21, 39, 0.18);
+  --shadow-sm: 0 1px 2px rgba(16, 20, 25, 0.05);
+  --shadow-md: 0 10px 30px -12px rgba(16, 20, 25, 0.18);
+  --shadow-lg: 0 30px 70px -20px rgba(16, 20, 25, 0.28);
   --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.2, 0.7, 0.3, 1);
 }
 
-/* الثيم الداكن المتناغم — Deep Oxford Midnight & Sky Sapphire */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0b101b;
-    --band: #101726;
-    --surface: #151f32;
-    --surface-solid: #151f32;
-    --surface-elevated: #1b273d;
-    --fg: #eef2f9;
-    --muted: #93a4be;
-    --line: #23314b;
-    --line-strong: #33476b;
-
-    --accent: #3b82f6;
-    --accent-2: #2563eb;
-    --accent-ink: #ffffff;
-    --accent-soft: rgba(59, 130, 246, 0.15);
-    --accent-glow: rgba(59, 130, 246, 0.1);
-    --spotlight-color: rgba(59, 130, 246, 0.05);
-    --focus: #3b82f6;
-
-    --kin-bg: rgba(239, 68, 68, 0.14);
-    --kin-fg: #fca5a5;
-    --mech-bg: rgba(59, 130, 246, 0.16);
-    --mech-fg: #93c5fd;
-    --coll-bg: rgba(14, 165, 233, 0.16);
-    --coll-fg: #7dd3fc;
-    --math-bg: rgba(168, 85, 247, 0.16);
-    --math-fg: #d8b4fe;
-    --elec-bg: rgba(245, 158, 11, 0.16);
-    --elec-fg: #fcd34d;
-    --therm-bg: rgba(236, 72, 153, 0.16);
-    --therm-fg: #f9a8d4;
-    --opt-bg: rgba(99, 102, 241, 0.16);
-    --opt-fg: #c7d2fe;
-
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
-    --shadow-md: 0 12px 32px -4px rgba(0, 0, 0, 0.42);
-    --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.65);
-    color-scheme: dark;
-  }
-}
-
+/* الثيم الداكن — حبر عميق وأزرق أداة فاتح */
 :root[data-theme="dark"] {
-  --bg: #0b101b;
-  --band: #101726;
-  --surface: #151f32;
-  --surface-solid: #151f32;
-  --surface-elevated: #1b273d;
-  --fg: #eef2f9;
-  --muted: #93a4be;
-  --line: #23314b;
-  --line-strong: #33476b;
-
-  --accent: #3b82f6;
-  --accent-2: #2563eb;
-  --accent-ink: #ffffff;
-  --accent-soft: rgba(59, 130, 246, 0.15);
-  --accent-glow: rgba(59, 130, 246, 0.1);
-  --spotlight-color: rgba(59, 130, 246, 0.05);
-  --focus: #3b82f6;
-
-  --kin-bg: rgba(239, 68, 68, 0.14);
-  --kin-fg: #fca5a5;
-  --mech-bg: rgba(59, 130, 246, 0.16);
-  --mech-fg: #93c5fd;
-  --coll-bg: rgba(14, 165, 233, 0.16);
-  --coll-fg: #7dd3fc;
-  --math-bg: rgba(168, 85, 247, 0.16);
-  --math-fg: #d8b4fe;
-  --elec-bg: rgba(245, 158, 11, 0.16);
-  --elec-fg: #fcd34d;
-  --therm-bg: rgba(236, 72, 153, 0.16);
-  --therm-fg: #f9a8d4;
-  --opt-bg: rgba(99, 102, 241, 0.16);
-  --opt-fg: #c7d2fe;
-
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 12px 32px -4px rgba(0, 0, 0, 0.42);
-  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.65);
   color-scheme: dark;
-}
 
-:root[data-theme="light"] {
-  --bg: #f6f8fb;
-  --band: #edf1f7;
-  --surface: #ffffff;
-  --surface-solid: #ffffff;
-  --surface-elevated: #f8fafd;
-  --fg: #0c1527;
-  --muted: #4b5c77;
-  --line: #d9e1ee;
-  --line-strong: #b4c4de;
+  --bg: #0d1116;
+  --band: #121820;
+  --surface: #161d26;
+  --surface-solid: #161d26;
+  --surface-elevated: #1b232e;
+  --fg: #eef0f3;
+  --muted: #98a2b0;
+  --line: #26303b;
+  --line-strong: #3a4756;
 
-  --accent: #1d4ed8;
-  --accent-2: #1e40af;
-  --accent-ink: #ffffff;
-  --accent-soft: #e8f0fe;
-  --accent-glow: rgba(29, 78, 216, 0.08);
-  --spotlight-color: rgba(29, 78, 216, 0.04);
-  --focus: #1d4ed8;
+  --accent: #7fb0e8;
+  --accent-2: #9cc4f0;
+  --accent-ink: #0b1018;
+  --accent-soft: rgba(127, 176, 232, 0.14);
+  --accent-glow: rgba(127, 176, 232, 0.12);
+  --focus: #9cc4f0;
 
-  --kin-bg: #fef2f2;
-  --kin-fg: #b91c1c;
-  --mech-bg: #eff6ff;
-  --mech-fg: #1d4ed8;
-  --coll-bg: #f0f9ff;
-  --coll-fg: #0369a1;
-  --math-bg: #faf5ff;
-  --math-fg: #6d28d9;
-  --elec-bg: #fffbeb;
-  --elec-fg: #b45309;
-  --therm-bg: #fdf2f8;
-  --therm-fg: #be185d;
-  --opt-bg: #eef2ff;
-  --opt-fg: #4338ca;
-  color-scheme: light;
+  --copper: #d29a6c;
+  --copper-soft: rgba(210, 154, 108, 0.14);
+
+  --danger-bg: rgba(230, 163, 150, 0.14);
+  --danger-fg: #e6a396;
+
+  --kin-bg: rgba(230, 163, 150, 0.14);
+  --kin-fg: #e6a396;
+  --mech-bg: rgba(157, 185, 232, 0.15);
+  --mech-fg: #9db9e8;
+  --coll-bg: rgba(138, 199, 207, 0.14);
+  --coll-fg: #8ac7cf;
+  --math-bg: rgba(156, 207, 162, 0.14);
+  --math-fg: #9ccfa2;
+  --elec-bg: rgba(217, 184, 120, 0.15);
+  --elec-fg: #d9b878;
+  --therm-bg: rgba(229, 163, 179, 0.14);
+  --therm-fg: #e5a3b3;
+  --opt-bg: rgba(159, 176, 205, 0.14);
+  --opt-fg: #9fb0cd;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 14px 36px -12px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 30px 70px -18px rgba(0, 0, 0, 0.75);
 }

@@ -1,6 +1,6 @@
 /**
  * @file assets/css/layout/grid.css
- * @description الحاويات، ترويسات الصفحات الهندسية (Architectural Dot-Matrix Headers)، وتخطيطات الشبكة.
+ * @description الحاويات، ترويسات الصفحات (Graph-Paper Headers)، وتخطيطات الشبكة.
  */
 .wrap {
   max-width: var(--container-max);
@@ -9,17 +9,23 @@
 }
 
 section.block {
-  padding-block: 60px;
+  padding-block: 64px;
   scroll-margin-top: 96px;
 }
 
 section.page-header {
   position: relative;
-  padding-block: 44px 36px;
+  padding-block: 52px 40px;
   border-bottom: 1px solid var(--line);
   background-color: var(--band);
-  background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+section.page-header .eyebrow {
+  margin-bottom: 12px;
 }
 
 section.band {
@@ -35,11 +41,39 @@ section.band {
   flex-wrap: wrap;
   margin-bottom: 28px;
   padding-bottom: 16px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.section-head-row .h2 {
+  max-width: 26ch;
 }
 
 .grid {
   display: grid;
-  gap: 22px;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+}
+
+/* هواتف — تقليل الحشو ومواءمة القفزات مع ارتفاع الشريط العلوي */
+@media (max-width: 640px) {
+  .wrap {
+    padding-inline: 16px;
+  }
+
+  section.block {
+    padding-block: 44px;
+  }
+
+  section.block,
+  section.page-header {
+    scroll-margin-top: 128px;
+  }
+
+  section.page-header {
+    padding-block: 32px 26px;
+  }
+
+  .grid {
+    gap: 14px;
+  }
 }

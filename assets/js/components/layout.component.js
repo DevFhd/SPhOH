@@ -49,10 +49,12 @@
     ];
 
     const linksHtml = navItems
-      .map(
-        (item) =>
-          `<a href="${item.href}" class="${activePage === item.page ? 'active' : ''}" data-nav-page="${item.page}" data-i18n="${item.i18n}"></a>`
-      )
+      .map((item) => {
+        const isActive = activePage === item.page;
+        return `<a href="${item.href}" class="${isActive ? 'active' : ''}"${
+          isActive ? ' aria-current="page"' : ''
+        } data-nav-page="${item.page}" data-i18n="${item.i18n}"></a>`;
+      })
       .join('');
 
     return `
@@ -66,23 +68,25 @@
           <span class="logo-badge">OLYMPIAD</span>
         </a>
 
-        <nav class="links" aria-label="Main Navigation">
+        <nav class="links" aria-label="Main Navigation" data-i18n-aria-label="nav_main_aria">
           ${linksHtml}
         </nav>
 
         <div class="nav-controls">
-          <button class="cmd-trigger-btn" id="cmdPaletteBtn" type="button" aria-label="Quick Search (Ctrl+K)">
+          <button class="cmd-trigger-btn" id="cmdPaletteBtn" type="button"
+                  aria-label="Quick Search (Ctrl+K)" data-i18n-aria-label="cmd_trigger_aria"
+                  aria-haspopup="dialog" aria-expanded="false" aria-controls="cmdPaletteBackdrop">
             <span>🔍</span>
             <span class="cmd-trigger-label" data-i18n="nav_cmd_k"></span>
             <kbd class="cmd-kbd">⌘K</kbd>
           </button>
 
-          <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle Theme">
+          <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle Theme" data-i18n-aria-label="theme_toggle_aria">
             <span id="themeIcon">🌙</span>
-            <span id="themeText">داكن</span>
+            <span id="themeText" data-i18n="theme_dark"></span>
           </button>
 
-          <button class="lang" id="langBtn" type="button" aria-label="Switch language / تبديل اللغة">
+          <button class="lang" id="langBtn" type="button" aria-label="Switch language" data-i18n-aria-label="lang_toggle_aria">
             <span data-l="ar">AR</span>
             <span data-l="en">EN</span>
           </button>
@@ -107,7 +111,8 @@
              href="${Settings.LINKS.TELEGRAM}"
              target="_blank"
              rel="noopener noreferrer"
-             aria-label="Join the SPhOH Telegram channel">
+             aria-label="Join the SPhOH Telegram channel"
+             data-i18n-aria-label="telegram_link_aria">
             ${TELEGRAM_SVG}
             <span data-i18n="telegram_footer"></span>
           </a>
@@ -119,14 +124,15 @@
   function renderCommandPaletteModal() {
     return `
       <div class="cmd-backdrop" id="cmdPaletteBackdrop" hidden>
-        <div class="cmd-dialog" role="dialog" aria-modal="true" aria-label="Command Palette">
+        <div class="cmd-dialog" role="dialog" aria-modal="true" aria-label="Command Palette" data-i18n-aria-label="cmd_dialog_aria">
           <div class="cmd-header">
             <span class="cmd-search-icon" aria-hidden="true">🔍</span>
             <input type="search"
                    id="cmdPaletteInput"
                    class="cmd-input"
                    autocomplete="off"
-                   placeholder="Search curricula, topics, or actions...">
+                   placeholder="Search curricula, topics, or actions..."
+                   data-i18n-placeholder="cmd_placeholder">
             <button type="button" class="cmd-esc-btn" id="cmdPaletteCloseBtn" data-i18n="cmd_hint_esc">ESC</button>
           </div>
           <div class="cmd-results" id="cmdPaletteResults"></div>
@@ -151,7 +157,19 @@
       document.body.prepend(aurora);
     }
 
+    // E1 — رابط التخطي: أول عنصر قابل للتركيز، ظاهر عند :focus-visible فقط،
+    // ينقل التركيز إلى <main id="main" tabindex="-1"> في كل صفحة.
     const headerEl = DOM.qs('header.nav');
+    if (!DOM.qs('.skip-link')) {
+      const skip = document.createElement('a');
+      skip.className = 'skip-link';
+      skip.href = '#main';
+      skip.setAttribute('data-i18n', 'skip_to_content');
+      skip.textContent = 'Skip to main content';
+      if (headerEl) headerEl.parentNode.insertBefore(skip, headerEl);
+      else document.body.prepend(skip);
+    }
+
     if (headerEl) {
       headerEl.innerHTML = renderNavbar(activePage);
     }
@@ -173,6 +191,7 @@
       topBtn.type = 'button';
       topBtn.className = 'back-to-top-fab';
       topBtn.setAttribute('aria-label', 'Back to top');
+      topBtn.setAttribute('data-i18n-aria-label', 'back_to_top_aria');
       topBtn.textContent = '↑';
       document.body.appendChild(topBtn);
     }

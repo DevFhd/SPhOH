@@ -42,6 +42,29 @@
   }
 
   /**
+   * تأخير تنفيذ دالة حتى تتوقف الاستدعاءات المتكررة (بحث فوري بلا إرهاق للرسم).
+   * المستدعون: `app.js` لحقلي البحث في المكتبة واستوديو الإدارة، ويُصدَّر ضمن `SPhOH.DOM`.
+   * @param {Function} fn
+   * @param {number} [wait=120] بالميلي ثانية
+   * @returns {Function & { cancel: () => void }}
+   */
+  function debounce(fn, wait = 120) {
+    let timer = null;
+    const debounced = function (...args) {
+      if (timer !== null) clearTimeout(timer);
+      timer = setTimeout(() => {
+        timer = null;
+        fn.apply(this, args);
+      }, wait);
+    };
+    debounced.cancel = () => {
+      if (timer !== null) clearTimeout(timer);
+      timer = null;
+    };
+    return debounced;
+  }
+
+  /**
    * نسخ نص إلى الحافظة مع بديل متوافق لجميع المتصفحات
    * @param {string} text
    * @returns {Promise<boolean>}
@@ -97,6 +120,7 @@
     qs,
     qsa,
     escapeHtml,
+    debounce,
     copyToClipboard,
     downloadTextFile
   });

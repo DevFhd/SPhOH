@@ -6,7 +6,7 @@ footer.foot {
   border-top: 1px solid var(--line);
   padding-block: 28px;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   background: var(--surface);
 }
 
@@ -16,6 +16,23 @@ footer.foot {
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.footer-brand-cluster {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.footer-dot {
+  opacity: 0.45;
+}
+
+.footer-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
 }
 
 .footer-right {
@@ -37,9 +54,20 @@ footer.foot {
 
 .telegram-link:hover {
   text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 @media (max-width: 640px) {
+  footer.foot {
+    padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  }
+
+  .foot .wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
   .footer-right {
     justify-content: flex-start;
   }

@@ -65,6 +65,20 @@
       }
     });
 
+    [
+      ['data-i18n-placeholder', 'placeholder'],
+      ['data-i18n-aria-label', 'aria-label'],
+      ['data-i18n-title', 'title'],
+      ['data-i18n-alt', 'alt']
+    ].forEach(([dataAttr, targetAttr]) => {
+      DOM.qsa(`[${dataAttr}]`).forEach((el) => {
+        const value = t(el.getAttribute(dataAttr), lang);
+        if (typeof value === 'string') {
+          el.setAttribute(targetAttr, value);
+        }
+      });
+    });
+
     DOM.qsa('#langBtn [data-l]').forEach((span) => {
       span.classList.toggle('on', span.getAttribute('data-l') === lang);
     });

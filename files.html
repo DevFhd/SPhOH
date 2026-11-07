@@ -3,22 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+  <!-- Content Security Policy — keep in sync across the 5 public pages -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://*.googletagmanager.com; frame-src 'self'; form-action 'self'">
+
+  <!-- Early language & theme init — prevents an AR/light flash before first paint -->
+  <script src="assets/js/early-init.js"></script>
   <meta name="description" content="SPhOH - Saudi Physics Olympiad Hub: A training resource and problem repository for advanced physics competitions and international olympiads.">
   <title>Problem Sets &amp; Solutions | SPhOH</title>
 
-  <!-- Google Analytics -->
+  <!-- Google Analytics — config lives in assets/js/analytics.js (CSP-safe, no inline code) -->
+  <script src="assets/js/analytics.js"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-018KWMJE3F"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-018KWMJE3F');
-  </script>
 
   <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="assets/css/style.css">
 
   <!-- Icons & Manifest -->
@@ -27,7 +28,7 @@
   <link rel="shortcut icon" href="assets/icons/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="assets/icons/site.webmanifest">
-  <meta name="theme-color" content="#0e1512">
+  <meta name="theme-color" content="#f6f3ec">
 
   <!-- Modular Application Scripts -->
   <script defer src="assets/js/config/settings.js"></script>
@@ -50,7 +51,6 @@
   <script defer src="assets/js/pages/preview.page.js"></script>
   <script defer src="assets/js/pages/about.page.js"></script>
   <script defer src="assets/js/pages/contact.page.js"></script>
-  <script defer src="assets/js/pages/admin.page.js"></script>
   <script defer src="assets/js/app.js"></script>
 </head>
 
@@ -59,7 +59,7 @@
   <!-- Shared Navbar (Mounted by layout.component.js) -->
   <header class="nav"></header>
 
-  <main>
+  <main id="main" tabindex="-1">
     <section class="page-header">
       <div class="wrap">
         <div class="eyebrow" data-i18n="files_eyebrow"></div>
@@ -72,10 +72,10 @@
         </div>
 
         <div class="filter-bar">
-          <div class="filter-chips" id="topicFilters" role="group" aria-label="Filter by topic"></div>
+          <div class="filter-chips" id="topicFilters" role="group" aria-label="Filter by topic" data-i18n-aria-label="filter_topic_aria"></div>
           <div class="filter-inputs">
-            <select class="level-select" id="levelFilter" aria-label="Filter by difficulty level"></select>
-            <input type="search" class="search-input" id="searchInput" aria-label="Search problem sets">
+            <select class="level-select" id="levelFilter" aria-label="Filter by difficulty level" data-i18n-aria-label="filter_level_aria"></select>
+            <input type="search" class="search-input" id="searchInput" aria-label="Search problem sets" data-i18n-aria-label="search_sets_aria">
           </div>
         </div>
       </div>

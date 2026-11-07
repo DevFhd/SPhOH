@@ -1,21 +1,22 @@
 /**
  * @file assets/css/pages/home.css
- * @description تنسيقات الصفحة الرئيسية بتصميم معماري حديث (Editorial Hero & Telemetry Physics Console).
+ * @description الصفحة الرئيسية: واجهة افتتاحية تحريرية، لوحة محاكاة، شريط معادلات، وأسئلة شائعة.
  */
 .hero {
-  padding-block: 44px 64px;
+  padding-block: 72px 80px;
 }
 
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 44px;
+  gap: 48px;
   align-items: center;
 }
 
 @media (min-width: 900px) {
   .hero-grid {
-    grid-template-columns: 1.06fr 0.94fr;
+    grid-template-columns: 1.04fr 0.96fr;
+    gap: 56px;
   }
 }
 
@@ -26,32 +27,78 @@
 .hero .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: var(--accent-soft);
+  gap: 12px;
+  background: none;
   color: var(--accent);
-  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-  padding: 5px 14px;
-  border-radius: var(--radius-pill);
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  margin-bottom: 18px;
+}
+
+.hero h1.display {
+  max-width: 16ch;
+}
+
+[dir="rtl"] .hero h1.display {
+  max-width: 18ch;
+}
+
+.hero p.lead {
+  margin-top: 20px;
 }
 
 .hero-actions {
-  margin-top: 32px;
+  margin-top: 30px;
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
+/* شريط الإحصاءات التحريري (Editorial Stat Band) */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 18px;
-  margin-top: 44px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.stats-grid .stat-card {
+  background: transparent;
+  border: 0;
+  border-inline-start: 1px solid var(--line);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 4px 24px;
+}
+
+.stats-grid .stat-card:first-child {
+  border-inline-start: 0;
+  padding-inline-start: 0;
+}
+
+.stats-grid .stat-card:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--line);
+}
+
+.stats-grid .stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.stats-grid .stat-label {
+  font-size: 0.82rem;
+  margin-top: 4px;
 }
 
 /* منصة مختبر الفيزياء التفاعلي (Scientific Instrument Console) */
 .sketch {
   border: 1px solid var(--line-strong);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-md);
   background: var(--surface);
   padding: 0;
   box-shadow: var(--shadow-md);
@@ -61,14 +108,19 @@
   width: 100%;
   height: auto;
   display: block;
-  padding: 16px 16px 8px;
-  background: var(--band);
+  padding: 18px 18px 8px;
+  background-color: var(--surface-elevated);
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--line) 45%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--line) 45%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
   border-bottom: 1px solid var(--line);
 }
 
 .sketch .cap {
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
   color: var(--muted);
   display: flex;
   justify-content: center;
@@ -76,13 +128,14 @@
   flex-wrap: wrap;
   direction: ltr;
   padding: 12px 16px 4px;
+  text-transform: uppercase;
 }
 
 .sim-metric-pill {
-  background: var(--band);
+  background: transparent;
   border: 1px solid var(--line);
-  padding: 4px 11px;
-  border-radius: 8px;
+  padding: 3px 9px;
+  border-radius: var(--radius-xs);
   color: var(--fg);
   font-weight: 500;
 }
@@ -92,7 +145,7 @@
 }
 
 .sim-controls-panel {
-  padding: 12px 18px 18px;
+  padding: 14px 18px 18px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -101,25 +154,15 @@
 .sim-controls-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 10px;
   flex-wrap: wrap;
-}
-
-.sim-lab-badge {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--accent);
-  background: var(--accent-soft);
-  padding: 4px 10px;
-  border-radius: 7px;
 }
 
 .sim-sliders-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
-  gap: 12px;
+  gap: 14px;
   align-items: end;
 }
 
@@ -127,13 +170,15 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--muted);
 }
 
-.sim-slider-field strong {
+.sim-slider-field strong,
+.sim-slider-field output {
   color: var(--fg);
   font-family: var(--font-mono);
+  font-weight: 500;
 }
 
 .sim-slider-field input[type="range"] {
@@ -143,10 +188,10 @@
 }
 
 .sim-grav-select {
-  background: var(--band);
+  background: var(--surface);
   color: var(--fg);
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
   padding: 5px 8px;
   font: inherit;
   font-size: 0.8rem;
@@ -156,8 +201,8 @@
 .physics-marquee {
   overflow: hidden;
   border-block: 1px solid var(--line);
-  background: var(--surface);
-  padding-block: 12px;
+  background: var(--band);
+  padding-block: 10px;
   direction: ltr;
   user-select: none;
 }
@@ -165,8 +210,8 @@
 .marquee-track {
   display: flex;
   width: max-content;
-  gap: 36px;
-  animation: marqueeScroll 36s linear infinite;
+  gap: 40px;
+  animation: marqueeScroll 48s linear infinite;
 }
 
 .physics-marquee:hover .marquee-track {
@@ -175,21 +220,21 @@
 
 .marquee-item {
   font-family: var(--font-mono);
-  font-size: 0.84rem;
+  font-size: 0.8rem;
   color: var(--muted);
   white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--band);
-  border: 1px solid var(--line);
-  padding: 4px 12px;
-  border-radius: var(--radius-pill);
+  background: transparent;
+  border: 0;
+  padding: 2px 0;
+  border-radius: 0;
 }
 
 .pillars-cards {
   display: grid;
-  gap: 20px;
+  gap: 16px;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   margin-top: 28px;
 }
@@ -199,7 +244,7 @@
   margin-top: 28px;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   padding: 22px 24px;
   box-shadow: var(--shadow-sm);
 }
@@ -216,7 +261,7 @@
 .roadmap-steps {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 14px;
+  gap: 12px;
 }
 
 .roadmap-step-card {
@@ -224,17 +269,21 @@
   flex-direction: column;
   gap: 8px;
   padding: 16px 18px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   border: 1px solid var(--line);
-  border-inline-start: 4px solid var(--accent);
-  background: var(--band);
+  border-inline-start: 3px solid var(--accent);
+  background: var(--surface-elevated);
   text-decoration: none;
   color: var(--fg);
-  transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 .roadmap-step-card:hover {
-  border-color: var(--accent);
+  border-color: var(--line-strong);
   background: var(--surface);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
@@ -249,51 +298,57 @@
 
 .roadmap-step-num {
   font-family: var(--font-mono);
-  font-size: 0.76rem;
-  font-weight: 700;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
   color: var(--accent);
-  background: var(--accent-soft);
-  padding: 2px 9px;
-  border-radius: 6px;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
 }
 
 .roadmap-step-card strong {
-  font-size: 0.98rem;
+  font-size: 0.96rem;
+  font-weight: 600;
 }
 
 .roadmap-step-card span {
   font-size: 0.86rem;
   color: var(--muted);
+  line-height: 1.7;
 }
 
 /* الأسئلة الشائعة (FAQ Accordion) */
 .faq-list {
   display: grid;
-  gap: 14px;
+  gap: 0;
   margin-top: 28px;
+  border-top: 1px solid var(--line);
 }
 
 .faq-item {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 14px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
   overflow: hidden;
-  transition: border-color 0.15s;
+  transition: background 0.15s;
 }
 
 .faq-item:hover {
-  border-color: var(--accent);
+  border-color: var(--line);
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
 }
 
 .faq-question {
   width: 100%;
   text-align: inherit;
-  padding: 18px 22px;
+  padding: 18px 4px;
   background: none;
   border: none;
   font: inherit;
   font-weight: 600;
-  font-size: 1.03rem;
+  font-size: 1.02rem;
   color: var(--fg);
   display: flex;
   justify-content: space-between;
@@ -304,9 +359,10 @@
 
 .faq-icon {
   transition: transform 0.2s ease;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   color: var(--accent);
   line-height: 1;
+  flex: none;
 }
 
 .faq-item[open] .faq-icon {
@@ -314,12 +370,95 @@
 }
 
 .faq-answer {
-  padding: 0 22px 18px;
+  padding: 0 4px 20px;
   color: var(--muted);
   font-size: 0.96rem;
-  line-height: 1.65;
+  line-height: 1.75;
+  max-width: 72ch;
 }
 
 .faq-answer-text {
   margin: 0;
+}
+
+/* الصفحة الرئيسية على الهواتف */
+@media (max-width: 760px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-top: 0;
+    border-top: 0;
+    margin-top: 36px;
+  }
+
+  .stats-grid .stat-card {
+    padding: 16px 18px;
+    border-inline-start: 1px solid var(--line);
+    border-top: 1px solid var(--line);
+  }
+
+  .stats-grid .stat-card:nth-child(odd) {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+  }
+
+  .stats-grid .stat-card:nth-child(-n+2) {
+    border-top: 0;
+  }
+
+  .stats-grid .stat-value {
+    font-size: 1.65rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding-block: 36px 48px;
+  }
+
+  .hero-grid {
+    gap: 32px;
+  }
+
+  .hero h1.display {
+    max-width: none;
+  }
+
+  .hero-actions {
+    margin-top: 24px;
+  }
+
+  .hero-actions .btn {
+    flex: 1 1 100%;
+  }
+
+  .sketch .cap {
+    padding: 10px 12px 2px;
+    font-size: 10.5px;
+    gap: 6px;
+  }
+
+  .sim-controls-panel {
+    padding: 10px 14px 14px;
+  }
+
+  .sim-grav-select {
+    font-size: 16px;
+  }
+
+  .pillars-cards {
+    gap: 14px;
+  }
+
+  .roadmap-strip {
+    padding: 18px;
+  }
+
+  .faq-question {
+    padding: 16px 2px;
+    font-size: 0.97rem;
+  }
+
+  .faq-answer {
+    padding: 0 2px 18px;
+  }
 }

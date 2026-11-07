@@ -3,22 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+  <!-- Content Security Policy — keep in sync across the 5 public pages -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://*.googletagmanager.com; frame-src 'self'; form-action 'self'">
+
+  <!-- Early language & theme init — prevents an AR/light flash before first paint -->
+  <script src="assets/js/early-init.js"></script>
   <meta name="description" content="SPhOH - Saudi Physics Olympiad Hub: A training resource and problem repository for advanced physics competitions and international olympiads.">
   <title>Curriculum Reader &amp; Preview | SPhOH</title>
 
-  <!-- Google Analytics -->
+  <!-- Google Analytics — config lives in assets/js/analytics.js (CSP-safe, no inline code) -->
+  <script src="assets/js/analytics.js"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-018KWMJE3F"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-018KWMJE3F');
-  </script>
 
   <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="assets/css/style.css">
 
   <!-- Icons & Manifest -->
@@ -27,7 +28,7 @@
   <link rel="shortcut icon" href="assets/icons/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="assets/icons/site.webmanifest">
-  <meta name="theme-color" content="#0e1512">
+  <meta name="theme-color" content="#f6f3ec">
 
   <!-- Modular Application Scripts -->
   <script defer src="assets/js/config/settings.js"></script>
@@ -50,7 +51,6 @@
   <script defer src="assets/js/pages/preview.page.js"></script>
   <script defer src="assets/js/pages/about.page.js"></script>
   <script defer src="assets/js/pages/contact.page.js"></script>
-  <script defer src="assets/js/pages/admin.page.js"></script>
   <script defer src="assets/js/app.js"></script>
 </head>
 
@@ -59,7 +59,7 @@
   <!-- Shared Navbar (Mounted by layout.component.js) -->
   <header class="nav"></header>
 
-  <main>
+  <main id="main" tabindex="-1">
     <section class="preview-section" id="previewSection">
       <div class="wrap">
         <div class="preview-topbar">
@@ -67,7 +67,6 @@
 
           <div class="preview-nav-cluster">
             <button type="button" class="btn btn-ghost btn-sm" data-preview-step="-1" data-i18n="preview_prev"></button>
-            <select class="preview-select" id="previewResourceSelect" aria-label="Select curriculum"></select>
             <button type="button" class="btn btn-ghost btn-sm" data-preview-step="1" data-i18n="preview_next"></button>
           </div>
         </div>
@@ -82,15 +81,31 @@
               </div>
 
               <div class="preview-actions-right">
-                <button type="button" class="btn btn-ghost btn-sm" id="previewFocusBtn" data-i18n="preview_focus_enter"></button>
+                <button type="button" class="btn btn-ghost btn-sm" id="previewFocusBtn" aria-pressed="false" data-i18n="preview_focus_enter"></button>
                 <button type="button" class="preview-close" id="previewCloseBtn" hidden>×</button>
               </div>
             </div>
 
             <div class="preview-toolbar">
-              <div class="preview-doc-tabs" role="tablist">
-                <button type="button" class="preview-doc-tab active" id="tabProblemBtn" data-preview-tab="problem" data-i18n="preview_tab_problem"></button>
-                <button type="button" class="preview-doc-tab" id="tabSolutionBtn" data-preview-tab="solution" data-i18n="preview_tab_solution"></button>
+              <div class="preview-doc-tabs" role="tablist" aria-label="Document type" data-i18n-aria-label="preview_tabs_aria">
+                <button type="button"
+                        class="preview-doc-tab active"
+                        id="tabProblemBtn"
+                        role="tab"
+                        aria-selected="true"
+                        aria-controls="previewBody"
+                        tabindex="0"
+                        data-preview-tab="problem"
+                        data-i18n="preview_tab_problem"></button>
+                <button type="button"
+                        class="preview-doc-tab"
+                        id="tabSolutionBtn"
+                        role="tab"
+                        aria-selected="false"
+                        aria-controls="previewBody"
+                        tabindex="-1"
+                        data-preview-tab="solution"
+                        data-i18n="preview_tab_solution"></button>
               </div>
 
               <div class="preview-actions-right">

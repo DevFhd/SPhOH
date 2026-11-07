@@ -1,15 +1,17 @@
 /**
  * @file assets/js/pages/files.page.js
  * @description وحدة صفحة المكتبة (files.html):
- * - لوحة تتبع تقدم الطالب الشخصي (Training Progress Tracker)
+ * - شريط فلاتر الحالة السريع (الكل، المفضلة، المكتملة، قيد الدراسة)
  * - زر التدريب العشوائي بضغطة واحدة (🎲 Random Practice Picker)
- * - فلاتر الحالة، الترتيب المتقدم، والتبديل بين عرض البطاقات وعرض القائمة
+ * - الترتيب المتقدم، والتبديل بين عرض البطاقات وعرض القائمة
  */
 (function (global) {
   'use strict';
 
   const SPhOH = (global.SPhOH = global.SPhOH || {});
-  const { Settings, Catalog, Storage, Store, I18n, CurriculumService, Downloads, Progress, CardComponent, PreviewPage, Effects, DOM } = SPhOH;
+  // ملاحظة: لا نُفكّك `PreviewPage` هنا لأن preview.page.js يُحمَّل بعد files.page.js،
+  // فالقيمة عند التحميل تكون `undefined`؛ تُقرأ من `SPhOH.PreviewPage` وقت النقر الفعلي.
+  const { Settings, Catalog, Storage, Store, I18n, CurriculumService, Downloads, Progress, CardComponent, Effects, DOM } = SPhOH;
   const { escapeHtml } = DOM;
 
   function renderProgressDashboard() {
@@ -24,13 +26,8 @@
       filterBar.parentNode.insertBefore(progressBox, filterBar);
     }
 
-    const { filters, lang } = Store.getState();
+    const { filters } = Store.getState();
     const summary = Progress.getProgressSummary();
-    const statsFn = I18n.t('progress_stats');
-    const statsLabel =
-      typeof statsFn === 'function'
-        ? statsFn(summary.doneCount, summary.total, summary.percentage)
-        : `${summary.doneCount}/${summary.total}`;
 
     const statusTabs = [
       { key: 'all', label: I18n.t('status_all') },
@@ -40,23 +37,14 @@
     ];
 
     progressBox.innerHTML = `
-      <div class="progress-banner-top">
-        <div class="progress-info">
-          <span class="progress-title-label">🎯 ${escapeHtml(I18n.t('progress_title'))}</span>
-          <span class="progress-stats-pill">${escapeHtml(statsLabel)}</span>
-        </div>
-        <div class="progress-bar-track" role="progressbar" aria-valuenow="${summary.percentage}" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar-fill" style="width: ${summary.percentage}%"></div>
-        </div>
-      </div>
-
       <div class="progress-controls-row">
-        <div class="status-tabs-group" role="tablist">
+        <div class="status-tabs-group" role="group">
           ${statusTabs
             .map(
               (tab) => `
                 <button type="button"
                         class="status-tab-btn ${filters.status === tab.key ? 'active' : ''}"
+                        aria-pressed="${filters.status === tab.key ? 'true' : 'false'}"
                         data-status-filter="${escapeHtml(tab.key)}">
                   ${escapeHtml(tab.label)}
                 </button>
@@ -67,10 +55,10 @@
 
         <div class="view-sort-cluster">
           <button type="button" class="btn btn-ghost btn-sm" id="randomPracticeBtn">
-            🎲 ${lang === 'ar' ? 'تدريب عشوائي' : 'Random Set'}
+            ${I18n.t('random_set_btn')}
           </button>
 
-          <select id="sortFilterSelect" class="level-select sort-select" aria-label="Sort problem sets">
+          <select id="sortFilterSelect" class="level-select sort-select" aria-label="${I18n.t('sort_aria')}">
             <option value="default" ${filters.sortBy === 'default' ? 'selected' : ''}>${escapeHtml(I18n.t('sort_default'))}</option>
             <option value="lvl_asc" ${filters.sortBy === 'lvl_asc' ? 'selected' : ''}>${escapeHtml(I18n.t('sort_lvl_asc'))}</option>
             <option value="lvl_desc" ${filters.sortBy === 'lvl_desc' ? 'selected' : ''}>${escapeHtml(I18n.t('sort_lvl_desc'))}</option>
@@ -78,14 +66,16 @@
             <option value="title" ${filters.sortBy === 'title' ? 'selected' : ''}>${escapeHtml(I18n.t('sort_title'))}</option>
           </select>
 
-          <div class="view-mode-toggle" role="group" aria-label="View Mode">
+          <div class="view-mode-toggle" role="group" aria-label="${I18n.t('view_mode_aria')}">
             <button type="button"
                     class="view-mode-btn ${filters.viewMode === 'grid' ? 'active' : ''}"
+                    aria-pressed="${filters.viewMode === 'grid' ? 'true' : 'false'}"
                     data-view-mode="grid">
               ${escapeHtml(I18n.t('view_grid'))}
             </button>
             <button type="button"
                     class="view-mode-btn ${filters.viewMode === 'list' ? 'active' : ''}"
+                    aria-pressed="${filters.viewMode === 'list' ? 'true' : 'false'}"
                     data-view-mode="list">
               ${escapeHtml(I18n.t('view_list'))}
             </button>
@@ -105,9 +95,17 @@
     const uncompleted = resources.filter((r) => !completed.includes(Number(r.id)));
     const pool = uncompleted.length > 0 ? uncompleted : resources;
     const chosen = pool[Math.floor(Math.random() * pool.length)];
-    if (chosen && PreviewPage) {
-      PreviewPage.selectResource(chosen.id, 'problem');
+    if (!chosen) return;
+
+    // يُقرأ السجل وقت النقر (وليس تفكيكاً مبكراً) لضمان وجوده بعد تحميل preview.page.js.
+    const previewApi = SPhOH.PreviewPage;
+    if (previewApi && typeof previewApi.selectResource === 'function') {
+      previewApi.selectResource(chosen.id, 'problem');
+      return;
     }
+
+    // بديل مباشر: التوجيه إلى صفحة القارئ إذا لم تكن الوحدة متاحة.
+    global.location.href = `preview.html?id=${encodeURIComponent(chosen.id)}&type=problem`;
   }
 
   function renderFilters() {
@@ -134,6 +132,7 @@
           return `
             <button type="button"
                     class="filter-chip${isActive ? ' active' : ''}"
+                    aria-pressed="${isActive ? 'true' : 'false'}"
                     data-filter-topic="${escapeHtml(topicKey)}">
               ${escapeHtml(label)}
             </button>
@@ -146,7 +145,7 @@
       const currentLevel = filters.level;
       const optionsHtml = [
         `<option value="all">${escapeHtml(I18n.t('level_all'))}</option>`,
-        ...[1, 2, 3].map(
+        ...CurriculumService.getLevelOrder().map(
           (lvl) => `<option value="${lvl}">${escapeHtml(Catalog.LEVELS[lvl]?.[lang] || `Level ${lvl}`)}</option>`
         )
       ].join('');
@@ -170,8 +169,6 @@
     const { topics, filters, lang } = Store.getState();
     const filteredList = CurriculumService.getFilteredResources();
     const counts = Downloads.getAllCounts();
-
-    container.classList.toggle('is-list-view', filters.viewMode === 'list');
 
     const countEl = DOM.qs('#count');
     if (countEl) {
@@ -210,10 +207,10 @@
 
         return `
           <div class="topic-group">
-            <h3 class="topic-title">
+            <h2 class="topic-title">
               <span>${escapeHtml(topicTitle)}</span>
               <span class="topic-count-badge">${items.length}</span>
-            </h3>
+            </h2>
             <div class="grid ${filters.viewMode === 'list' ? 'grid-list-mode' : ''}">${cardsHtml}</div>
           </div>
         `;
@@ -270,22 +267,7 @@
     renderGrid();
   }
 
-  function bindInputs() {
-    const levelSelect = DOM.qs('#levelFilter');
-    if (levelSelect && !levelSelect.dataset.bound) {
-      levelSelect.dataset.bound = 'true';
-      levelSelect.addEventListener('change', (e) => setLevelFilter(e.target.value));
-    }
-
-    const searchInput = DOM.qs('#searchInput');
-    if (searchInput && !searchInput.dataset.bound) {
-      searchInput.dataset.bound = 'true';
-      searchInput.addEventListener('input', (e) => setSearchQuery(e.target.value));
-    }
-  }
-
   function render() {
-    bindInputs();
     renderFilters();
     renderGrid();
   }

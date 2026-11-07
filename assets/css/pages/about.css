@@ -1,17 +1,18 @@
 /**
  * @file assets/css/pages/about.css
- * @description تنسيقات صفحة من نحن، دليل المستويات، وقائمة أعضاء الفريق.
+ * @description صفحة من نحن، دليل المستويات، وقائمة أعضاء الفريق.
  */
 .about-grid {
   display: grid;
-  gap: 40px;
+  gap: 48px;
   grid-template-columns: 1fr;
-  margin-top: 24px;
+  margin-top: 28px;
 }
 
 @media (min-width: 860px) {
   .about-grid {
     grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
   }
 }
 
@@ -21,32 +22,53 @@
 
 .pillars {
   display: grid;
-  gap: 18px;
-  margin-top: 28px;
+  gap: 0;
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
 }
 
 .pillar {
   display: flex;
   gap: 16px;
+  padding-block: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.pillar i {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-xs);
+  font-size: 12px;
+}
+
+.pillar b {
+  font-size: 1.02rem;
+}
+
+.pillar span {
+  font-size: 0.92rem;
+  line-height: 1.75;
 }
 
 .team {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius-xl);
-  padding: 28px;
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
 }
 
 .team p {
   margin: 12px 0 0;
   color: var(--muted);
+  line-height: 1.75;
 }
 
 .team-members {
   display: grid;
-  gap: 12px;
-  margin-top: 20px;
-  padding-top: 16px;
+  gap: 0;
+  margin-top: 18px;
+  padding-top: 6px;
   border-top: 1px solid var(--line);
 }
 
@@ -54,9 +76,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   gap: 12px;
-  padding-block: 4px;
+  padding-block: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.member-item:last-child {
+  border-bottom: 0;
 }
 
 .member-name {
@@ -66,25 +93,27 @@
 
 .member-role {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.74rem;
   color: var(--accent);
   background: var(--accent-soft);
-  padding: 3px 10px;
-  border-radius: 6px;
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
   white-space: nowrap;
 }
 
 [dir="rtl"] .member-role {
   font-family: var(--font-body);
   font-weight: 500;
+  font-size: 0.8rem;
 }
 
 .vision {
   margin-top: 20px;
-  padding-top: 20px;
+  padding-top: 18px;
   border-top: 1px solid var(--line);
   color: var(--fg);
   font-weight: 500;
+  line-height: 1.8;
 }
 
 @media (max-width: 640px) {

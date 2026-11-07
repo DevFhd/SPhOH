@@ -1,0 +1,8 @@
+# Local knowledge-graph outputs (graphify)
+graphify-out/
+graphify-out.rar
+
+# Local logs and OS noise
+*.log
+.DS_Store
+Thumbs.db
